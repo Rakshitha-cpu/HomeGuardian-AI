@@ -1,503 +1,637 @@
 const PDFDocument = require("pdfkit");
 
-function generatePropertyPDF(report, res) {
-  const doc = new PDFDocument({
-    size: "A4",
-    margin: 45,
-  });
-
-  // Tell browser this is a PDF
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader(
-    "Content-Disposition",
-    'attachment; filename="HomeGuardian-AI-Report.pdf"'
-  );
-
-  // Pipe PDF directly to browser
-  doc.pipe(res);
-
-  // =====================================================
-  // TITLE
-  // =====================================================
-
-  doc
-    .fontSize(24)
-    .font("Helvetica-Bold")
-    .text("HomeGuardian AI", {
-      align: "center",
-    });
-
-  doc
-    .moveDown(0.3)
-    .fontSize(14)
-    .font("Helvetica")
-    .text("AI-Powered Home Intelligence Report", {
-      align: "center",
-    });
-
-  doc.moveDown(1);
-
-  // =====================================================
-  // PROPERTY INFORMATION
-  // =====================================================
-
-  doc
-    .fontSize(16)
-    .font("Helvetica-Bold")
-    .text("Property Information");
-
-  doc.moveDown(0.4);
-
-  doc
-    .fontSize(11)
-    .font("Helvetica")
-    .text(
-      `Address: ${
-        report.property?.address || "Not provided"
-      }`
-    );
-
-  doc.text(
-    `Generated: ${
-      report.generatedAt
-        ? new Date(report.generatedAt).toLocaleString("en-IN")
-        : new Date().toLocaleString("en-IN")
-    }`
-  );
-
-  doc.text("Currency: INR");
-
-  doc.moveDown(1);
-
-  // =====================================================
-  // HOME HEALTH SCORE
-  // =====================================================
-
-  doc
-    .fontSize(16)
-    .font("Helvetica-Bold")
-    .text("Home Health Score");
-
-  doc.moveDown(0.4);
-
-  doc
-    .fontSize(22)
-    .font("Helvetica-Bold")
-    .text(
-      `${report.homeHealthScore ?? "N/A"} / 100`
-    );
-
-  doc.moveDown(1);
-
-  // =====================================================
-  // SYSTEM SCORES
-  // =====================================================
-
-  doc
-    .fontSize(16)
-    .font("Helvetica-Bold")
-    .text("System Health");
-
-  doc.moveDown(0.4);
-
-  const systemScores =
-    report.systemScores || {};
-
-  Object.entries(systemScores).forEach(
-    ([system, score]) => {
-      doc
-        .fontSize(11)
-        .font("Helvetica")
-        .text(
-          `${system.toUpperCase()}: ${score}/100`
-        );
-    }
-  );
-
-  doc.moveDown(1);
-
-  // =====================================================
-  // VISION INSPECTION
-  // =====================================================
-
-  doc
-    .fontSize(16)
-    .font("Helvetica-Bold")
-    .text("Vision Inspection");
-
-  doc.moveDown(0.4);
-
-  const defects =
-    report.visionInspection?.defects || [];
-
-  if (defects.length === 0) {
-    doc
-      .fontSize(11)
-      .font("Helvetica")
-      .text("No defects detected.");
-  } else {
-    defects.forEach((defect, index) => {
-      doc
-        .fontSize(11)
-        .font("Helvetica-Bold")
-        .text(
-          `${index + 1}. ${defect.label || "Unknown defect"}`
-        );
-
-      doc
-        .fontSize(10)
-        .font("Helvetica")
-        .text(
-          `System: ${defect.system || "N/A"}`
-        );
-
-      doc.text(
-        `Severity: ${defect.severity || "N/A"}`
-      );
-
-      doc.moveDown(0.3);
-    });
-  }
-
-  doc.moveDown(0.8);
-
-  // =====================================================
-  // STRUCTURAL RISKS
-  // =====================================================
-
-  doc
-    .fontSize(16)
-    .font("Helvetica-Bold")
-    .text("Structural Risk");
-
-  doc.moveDown(0.4);
-
-  const risks =
-    report.structuralRisk?.risks || [];
-
-  if (risks.length === 0) {
-    doc
-      .fontSize(11)
-      .font("Helvetica")
-      .text("No structural risks reported.");
-  } else {
-    risks.forEach((risk, index) => {
-      doc
-        .fontSize(11)
-        .font("Helvetica-Bold")
-        .text(
-          `${index + 1}. ${risk.label || "Risk"}`
-        );
-
-      doc
-        .fontSize(10)
-        .font("Helvetica")
-        .text(
-          `System: ${risk.system || "N/A"}`
-        );
-
-      if (risk.probability !== undefined) {
-        doc.text(
-          `Probability: ${Math.round(
-            risk.probability * 100
-          )}%`
-        );
-      }
-
-      doc.moveDown(0.3);
-    });
-  }
-
-  doc.moveDown(0.8);
-
-  // =====================================================
-  // COST FORECAST
-  // =====================================================
-
-  doc
-    .fontSize(16)
-    .font("Helvetica-Bold")
-    .text("Cost Forecast");
-
-  doc.moveDown(0.4);
-
-  const costItems =
-    report.costForecast?.items || [];
-
-  costItems.forEach((item, index) => {
-    doc
-      .fontSize(10)
-      .font("Helvetica-Bold")
-      .text(
-        `${index + 1}. ${item.label || "Repair"}`
-      );
-
-    doc
-      .fontSize(10)
-      .font("Helvetica")
-      .text(
-        `Estimated Cost: ${
-          item.costFormatted ||
-          formatINR(item.cost)
-        }`
-      );
-
-    doc.moveDown(0.2);
-  });
-
-  doc.moveDown(0.5);
-
-  doc
-    .fontSize(12)
-    .font("Helvetica-Bold")
-    .text(
-      `5-Year Estimated Cost: ${
-        report.costForecast
-          ?.totalFiveYearFormatted ||
-        formatINR(
-          report.costForecast?.totalFiveYear
-        )
-      }`
-    );
-
-  doc.moveDown(1);
-
-  // =====================================================
-  // MAINTENANCE PLAN
-  // =====================================================
-
-  doc
-    .fontSize(16)
-    .font("Helvetica-Bold")
-    .text("Maintenance Plan");
-
-  doc.moveDown(0.4);
-
-  const maintenance =
-    report.maintenancePlan || [];
-
-  maintenance.forEach((item) => {
-    doc
-      .fontSize(10)
-      .font("Helvetica-Bold")
-      .text(
-        `${item.month || "Timeline"}`
-      );
-
-    doc
-      .fontSize(10)
-      .font("Helvetica")
-      .text(
-        `Task: ${item.task || "N/A"}`
-      );
-
-    doc.text(
-      `Estimated Cost: ${
-        item.estCost
-          ? formatINR(item.estCost)
-          : "N/A"
-      }`
-    );
-
-    doc.moveDown(0.3);
-  });
-
-  doc.moveDown(0.8);
-
-  // =====================================================
-  // NEGOTIATION
-  // =====================================================
-
-  doc
-    .fontSize(16)
-    .font("Helvetica-Bold")
-    .text("Negotiation Intelligence");
-
-  doc.moveDown(0.4);
-
-  const negotiation =
-    report.negotiationBrief;
-
-  if (negotiation) {
-    doc
-      .fontSize(11)
-      .font("Helvetica")
-      .text(
-        `Potential Negotiation Leverage: ${
-          negotiation.totalLeverageFormatted ||
-          formatINR(
-            negotiation.totalLeverage
-          )
-        }`
-      );
-
-    doc.moveDown(0.4);
-
-    const leverage =
-      negotiation.leveragePoints || [];
-
-    leverage.forEach((item) => {
-      doc
-        .fontSize(10)
-        .text(
-          `• ${item.point}: ${
-            item.suggestedCreditFormatted ||
-            formatINR(item.suggestedCredit)
-          }`
-        );
-    });
-  }
-
-  doc.moveDown(1);
-
-  // =====================================================
-  // VENDORS
-  // =====================================================
-
-  doc
-    .fontSize(16)
-    .font("Helvetica-Bold")
-    .text("Vendor Matches");
-
-  doc.moveDown(0.4);
-
-  const vendors =
-    report.vendorMatches || [];
-
-  vendors.forEach((vendor) => {
-    doc
-      .fontSize(10)
-      .font("Helvetica-Bold")
-      .text(vendor.name || "Vendor");
-
-    doc
-      .fontSize(10)
-      .font("Helvetica")
-      .text(
-        `Specialty: ${
-          vendor.specialty || "N/A"
-        }`
-      );
-
-    doc.text(
-      `Rating: ${
-        vendor.rating || "N/A"
-      }`
-    );
-
-    doc.text(
-      `Estimated Quote: ${
-        vendor.quoteFormatted ||
-        formatINR(vendor.quote)
-      }`
-    );
-
-    doc.moveDown(0.3);
-  });
-
-  // =====================================================
-  // REPAIR PRIORITY
-  // =====================================================
-
-  doc.addPage();
-
-  doc
-    .fontSize(18)
-    .font("Helvetica-Bold")
-    .text("Repair Priority");
-
-  doc.moveDown(0.5);
-
-  const priorities =
-    report.repairPriority || [];
-
-  priorities.forEach((item, index) => {
-    doc
-      .fontSize(11)
-      .font("Helvetica-Bold")
-      .text(
-        `${index + 1}. ${
-          item.label || "Repair"
-        }`
-      );
-
-    doc
-      .fontSize(10)
-      .font("Helvetica")
-      .text(
-        `Priority: ${
-          item.priority || "N/A"
-        }`
-      );
-
-    doc.text(
-      `Cost: ${
-        item.costFormatted ||
-        formatINR(item.cost)
-      }`
-    );
-
-    doc.moveDown(0.3);
-  });
-
-  // =====================================================
-  // DISCLAIMER
-  // =====================================================
-
-  doc.moveDown(1);
-
-  doc
-    .fontSize(9)
-    .font("Helvetica")
-    .text(
-      "Disclaimer: HomeGuardian AI provides AI-assisted property insights and cost estimates for informational purposes. Structural, electrical, plumbing, and other safety-critical findings should be verified by qualified professionals."
-    );
-
-  // =====================================================
-  // FOOTER
-  // =====================================================
-
-  doc
-    .fontSize(9)
-    .text(
-      "Generated by HomeGuardian AI",
-      45,
-      780,
-      {
-        align: "center",
-        width: 500,
-      }
-    );
-
-  // Finish PDF
-  doc.end();
+// ============================================================
+// CURRENCY — INDIAN RUPEES
+// ============================================================
+
+function formatINR(value) {
+  const amount = Number(value) || 0;
+
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(amount);
 }
 
+// ============================================================
+// SAFE VALUE
+// ============================================================
 
-// =====================================================
-// INR FORMATTER
-// =====================================================
-
-function formatINR(amount) {
+function safe(value, fallback = "Not available") {
   if (
-    amount === undefined ||
-    amount === null ||
-    isNaN(amount)
+    value === undefined ||
+    value === null ||
+    value === ""
   ) {
-    return "₹0";
+    return fallback;
   }
 
-  return new Intl.NumberFormat(
-    "en-IN",
-    {
-      style: "currency",
-      currency: "INR",
-      maximumFractionDigits: 0,
-    }
-  ).format(amount);
+  return String(value);
 }
 
+// ============================================================
+// DRAW SECTION TITLE
+// ============================================================
+
+function sectionTitle(doc, title) {
+  doc
+    .moveDown(0.8)
+    .fontSize(16)
+    .fillColor("#6D4AFF")
+    .font("Helvetica-Bold")
+    .text(title);
+
+  doc
+    .moveTo(50, doc.y + 5)
+    .lineTo(545, doc.y + 5)
+    .strokeColor("#DDDDDD")
+    .stroke();
+
+  doc.moveDown(0.5);
+}
+
+// ============================================================
+// DRAW KEY / VALUE
+// ============================================================
+
+function keyValue(doc, label, value) {
+  doc
+    .font("Helvetica-Bold")
+    .fontSize(10)
+    .fillColor("#333333")
+    .text(`${label}: `, {
+      continued: true,
+    });
+
+  doc
+    .font("Helvetica")
+    .fillColor("#555555")
+    .text(safe(value));
+
+  doc.moveDown(0.2);
+}
+
+// ============================================================
+// DRAW SCORE
+// ============================================================
+
+function drawScore(doc, score) {
+  const numericScore = Math.max(
+    0,
+    Math.min(100, Number(score) || 0)
+  );
+
+  doc
+    .roundedRect(50, doc.y, 495, 70, 8)
+    .fillColor("#F5F3FF")
+    .fill();
+
+  const startY = doc.y;
+
+  doc
+    .font("Helvetica-Bold")
+    .fontSize(11)
+    .fillColor("#666666")
+    .text("HOME HEALTH SCORE", 70, startY + 14);
+
+  doc
+    .font("Helvetica-Bold")
+    .fontSize(30)
+    .fillColor("#6D4AFF")
+    .text(`${numericScore}/100`, 70, startY + 30);
+
+  doc.moveDown(4);
+}
+
+// ============================================================
+// DRAW SYSTEM SCORE
+// ============================================================
+
+function drawSystemScore(doc, name, score) {
+  const numericScore = Math.max(
+    0,
+    Math.min(100, Number(score) || 0)
+  );
+
+  doc
+    .font("Helvetica")
+    .fontSize(10)
+    .fillColor("#333333")
+    .text(name, 60, doc.y);
+
+  doc.text(`${numericScore}/100`, 470, doc.y - 12);
+
+  doc
+    .roundedRect(60, doc.y + 2, 400, 8, 4)
+    .fillColor("#E5E7EB")
+    .fill();
+
+  doc
+    .roundedRect(
+      60,
+      doc.y + 2,
+      400 * (numericScore / 100),
+      8,
+      4
+    )
+    .fillColor("#6D4AFF")
+    .fill();
+
+  doc.moveDown(1.2);
+}
+
+// ============================================================
+// MAIN PDF GENERATOR
+// ============================================================
+
+function generatePropertyPDF(report, res) {
+  try {
+    const doc = new PDFDocument({
+      size: "A4",
+      margin: 50,
+      bufferPages: true,
+    });
+
+    // --------------------------------------------------------
+    // RESPONSE HEADERS
+    // --------------------------------------------------------
+
+    res.setHeader(
+      "Content-Type",
+      "application/pdf"
+    );
+
+    res.setHeader(
+      "Content-Disposition",
+      'attachment; filename="HomeGuardian-AI-Report.pdf"'
+    );
+
+    // --------------------------------------------------------
+    // PIPE PDF TO RESPONSE
+    // --------------------------------------------------------
+
+    doc.pipe(res);
+
+    // --------------------------------------------------------
+    // REPORT DATA
+    // --------------------------------------------------------
+
+    const address =
+      report?.address ||
+      "Unknown address";
+
+    const homeHealthScore =
+      report?.homeHealthScore ??
+      report?.overallScore ??
+      0;
+
+    const healthStatus =
+      report?.healthStatus ||
+      "Analysis completed";
+
+    const systemScores =
+      report?.systemScores ||
+      {};
+
+    const repairs =
+      Array.isArray(report?.repairs)
+        ? report.repairs
+        : Array.isArray(report?.repairPriority)
+        ? report.repairPriority
+        : [];
+
+    const vendors =
+      Array.isArray(report?.vendors)
+        ? report.vendors
+        : Array.isArray(report?.vendorMatches)
+        ? report.vendorMatches
+        : [];
+
+    const negotiation =
+      Array.isArray(report?.negotiation)
+        ? report.negotiation
+        : Array.isArray(report?.negotiationPoints)
+        ? report.negotiationPoints
+        : [];
+
+    const costForecast =
+      Array.isArray(report?.costForecast)
+        ? report.costForecast
+        : Array.isArray(report?.fiveYearForecast)
+        ? report.fiveYearForecast
+        : [];
+
+    // ========================================================
+    // HEADER
+    // ========================================================
+
+    doc
+      .font("Helvetica-Bold")
+      .fontSize(26)
+      .fillColor("#111827")
+      .text("HomeGuardian AI");
+
+    doc
+      .font("Helvetica")
+      .fontSize(11)
+      .fillColor("#6B7280")
+      .text("Home Intelligence Report");
+
+    doc.moveDown(0.8);
+
+    doc
+      .moveTo(50, doc.y)
+      .lineTo(545, doc.y)
+      .strokeColor("#6D4AFF")
+      .lineWidth(2)
+      .stroke();
+
+    doc.moveDown(1);
+
+    // ========================================================
+    // PROPERTY INFORMATION
+    // ========================================================
+
+    sectionTitle(
+      doc,
+      "Property Information"
+    );
+
+    keyValue(
+      doc,
+      "Address",
+      address
+    );
+
+    keyValue(
+      doc,
+      "Report Status",
+      healthStatus
+    );
+
+    keyValue(
+      doc,
+      "Generated",
+      new Date().toLocaleString("en-IN")
+    );
+
+    // ========================================================
+    // HOME HEALTH
+    // ========================================================
+
+    sectionTitle(
+      doc,
+      "Home Health"
+    );
+
+    drawScore(
+      doc,
+      homeHealthScore
+    );
+
+    // ========================================================
+    // SYSTEM SCORES
+    // ========================================================
+
+    sectionTitle(
+      doc,
+      "System Health"
+    );
+
+    const systemEntries = [
+      ["Roof", systemScores.roof],
+      [
+        "Foundation / Structure",
+        systemScores.foundation ||
+          systemScores.structure,
+      ],
+      ["Plumbing", systemScores.plumbing],
+      ["Electrical", systemScores.electrical],
+      ["HVAC", systemScores.hvac],
+      [
+        "Exterior / Envelope",
+        systemScores.exterior ||
+          systemScores.envelope,
+      ],
+    ];
+
+    let hasSystemScores = false;
+
+    systemEntries.forEach(
+      ([name, score]) => {
+        if (
+          score !== undefined &&
+          score !== null
+        ) {
+          hasSystemScores = true;
+
+          drawSystemScore(
+            doc,
+            name,
+            score
+          );
+        }
+      }
+    );
+
+    if (!hasSystemScores) {
+      doc
+        .font("Helvetica")
+        .fontSize(10)
+        .fillColor("#666666")
+        .text(
+          "System-level scores were not available."
+        );
+    }
+
+    // ========================================================
+    // REPAIR PRIORITY
+    // ========================================================
+
+    sectionTitle(
+      doc,
+      "Repair Priority"
+    );
+
+    if (repairs.length === 0) {
+      doc
+        .font("Helvetica")
+        .fontSize(10)
+        .fillColor("#666666")
+        .text(
+          "No repair recommendations available."
+        );
+    } else {
+      repairs.forEach(
+        (repair, index) => {
+          if (doc.y > 700) {
+            doc.addPage();
+          }
+
+          const item =
+            repair.item ||
+            repair.name ||
+            repair.description ||
+            `Repair ${index + 1}`;
+
+          const system =
+            repair.system ||
+            "General";
+
+          const priority =
+            repair.priority ||
+            repair.urgency ||
+            "Plan ahead";
+
+          const cost =
+            repair.cost ??
+            repair.estimatedCost ??
+            repair.estimated_cost ??
+            0;
+
+          doc
+            .font("Helvetica-Bold")
+            .fontSize(10)
+            .fillColor("#111827")
+            .text(`${index + 1}. ${item}`);
+
+          doc
+            .font("Helvetica")
+            .fontSize(9)
+            .fillColor("#555555")
+            .text(
+              `System: ${system}   |   Priority: ${priority}   |   Estimated Cost: ${formatINR(cost)}`
+            );
+
+          doc.moveDown(0.6);
+        }
+      );
+    }
+
+    // ========================================================
+    // COST FORECAST
+    // ========================================================
+
+    sectionTitle(
+      doc,
+      "5-Year Cost Forecast"
+    );
+
+    if (costForecast.length === 0) {
+      doc
+        .font("Helvetica")
+        .fontSize(10)
+        .fillColor("#666666")
+        .text(
+          "Cost forecast data was not available."
+        );
+    } else {
+      costForecast.forEach(
+        (yearData, index) => {
+          const year =
+            yearData.year ||
+            `Year ${index + 1}`;
+
+          const amount =
+            yearData.amount ??
+            yearData.cost ??
+            yearData.total ??
+            0;
+
+          keyValue(
+            doc,
+            year,
+            formatINR(amount)
+          );
+        }
+      );
+    }
+
+    // ========================================================
+    // NEGOTIATION BRIEF
+    // ========================================================
+
+    sectionTitle(
+      doc,
+      "Negotiation Brief"
+    );
+
+    if (negotiation.length === 0) {
+      doc
+        .font("Helvetica")
+        .fontSize(10)
+        .fillColor("#666666")
+        .text(
+          "No negotiation recommendations available."
+        );
+    } else {
+      negotiation.forEach(
+        (point, index) => {
+          const description =
+            typeof point === "string"
+              ? point
+              : point.description ||
+                point.reason ||
+                point.item ||
+                `Negotiation point ${index + 1}`;
+
+          const amount =
+            typeof point === "object"
+              ? point.amount ||
+                point.credit ||
+                point.value
+              : null;
+
+          doc
+            .font("Helvetica-Bold")
+            .fontSize(10)
+            .fillColor("#111827")
+            .text(
+              `${index + 1}. ${description}`
+            );
+
+          if (amount) {
+            doc
+              .font("Helvetica")
+              .fontSize(9)
+              .fillColor("#DC2626")
+              .text(
+                `Potential adjustment: ${formatINR(
+                  amount
+                )}`
+              );
+          }
+
+          doc.moveDown(0.5);
+        }
+      );
+    }
+
+    // ========================================================
+    // VENDOR MATCHES
+    // ========================================================
+
+    sectionTitle(
+      doc,
+      "Vendor Matches"
+    );
+
+    if (vendors.length === 0) {
+      doc
+        .font("Helvetica")
+        .fontSize(10)
+        .fillColor("#666666")
+        .text(
+          "No vendor recommendations available."
+        );
+    } else {
+      vendors.forEach(
+        (vendor, index) => {
+          if (doc.y > 700) {
+            doc.addPage();
+          }
+
+          const name =
+            vendor.name ||
+            vendor.company ||
+            `Vendor ${index + 1}`;
+
+          const rating =
+            vendor.rating ||
+            vendor.stars ||
+            "N/A";
+
+          const responseTime =
+            vendor.responseTime ||
+            vendor.response ||
+            "N/A";
+
+          const quote =
+            vendor.quote ??
+            vendor.price ??
+            vendor.cost ??
+            0;
+
+          doc
+            .font("Helvetica-Bold")
+            .fontSize(10)
+            .fillColor("#111827")
+            .text(name);
+
+          doc
+            .font("Helvetica")
+            .fontSize(9)
+            .fillColor("#555555")
+            .text(
+              `Rating: ${rating}   |   Response: ${responseTime}   |   Quote: ${formatINR(
+                quote
+              )}`
+            );
+
+          doc.moveDown(0.6);
+        }
+      );
+    }
+
+    // ========================================================
+    // FOOTER ON ALL PAGES
+    // ========================================================
+
+    const range =
+      doc.bufferedPageRange();
+
+    for (
+      let i = range.start;
+      i < range.start + range.count;
+      i++
+    ) {
+      doc.switchToPage(i);
+
+      doc
+        .font("Helvetica")
+        .fontSize(8)
+        .fillColor("#9CA3AF")
+        .text(
+          `HomeGuardian AI • INR (₹) • Page ${
+            i + 1
+          } of ${range.count}`,
+          50,
+          780,
+          {
+            align: "center",
+            width: 495,
+          }
+        );
+    }
+
+    // ========================================================
+    // FINALIZE PDF
+    // ========================================================
+
+    doc.end();
+  } catch (error) {
+    console.error(
+      "PDF generation failed:",
+      error
+    );
+
+    if (!res.headersSent) {
+      res.status(500).json({
+        success: false,
+        error:
+          "Failed to generate PDF report.",
+        details: error.message,
+      });
+    }
+  }
+}
+
+// ============================================================
+// EXPORT
+// ============================================================
 
 module.exports = {
   generatePropertyPDF,
+  formatINR,
 };

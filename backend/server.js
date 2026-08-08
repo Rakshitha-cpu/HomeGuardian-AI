@@ -1,37 +1,19 @@
 const express = require("express");
-const path = require("path");
 const cors = require("cors");
-const dotenv = require("dotenv");
+const path = require("path");
 const fs = require("fs");
-
-// Load environment variables
-dotenv.config();
 
 const app = express();
 
-// =========================================================
-// CONFIGURATION
-// =========================================================
+// ============================================================
+// PORT
+// ============================================================
 
-const PORT = Number(process.env.PORT) || 4000;
-const HOST = "0.0.0.0";
+const PORT = process.env.PORT || 4000;
 
-const FRONTEND_DIR = path.join(__dirname, "..", "frontend");
-const UPLOADS_DIR = path.join(__dirname, "uploads");
-
-// =========================================================
-// CREATE REQUIRED DIRECTORIES
-// =========================================================
-
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR, {
-    recursive: true,
-  });
-}
-
-// =========================================================
-// MIDDLEWARE
-// =========================================================
+// ============================================================
+// CORS
+// ============================================================
 
 app.use(
   cors({
@@ -40,109 +22,92 @@ app.use(
   })
 );
 
+// ============================================================
+// BODY PARSER
+// ============================================================
+
 app.use(
   express.json({
-    limit: "10mb",
+    limit: "20mb",
   })
 );
 
 app.use(
   express.urlencoded({
     extended: true,
-    limit: "10mb",
+    limit: "20mb",
   })
 );
 
-// =========================================================
-// STATIC FRONTEND
-// =========================================================
+// ============================================================
+// UPLOAD DIRECTORY
+// ============================================================
 
-app.use(express.static(FRONTEND_DIR));
+const uploadDirectory = path.join(
+  __dirname,
+  "uploads"
+);
 
-// =========================================================
-// STATIC UPLOADED FILES
-// =========================================================
+if (!fs.existsSync(uploadDirectory)) {
+  fs.mkdirSync(uploadDirectory, {
+    recursive: true,
+  });
+}
+
+// ============================================================
+// STATIC UPLOADS
+// ============================================================
 
 app.use(
   "/uploads",
-  express.static(UPLOADS_DIR)
+  express.static(uploadDirectory)
 );
 
-// =========================================================
-// ROOT ROUTE
-// =========================================================
+// ============================================================
+// ROOT
+// ============================================================
 
 app.get("/", (req, res) => {
-  const indexPath = path.join(
-    FRONTEND_DIR,
-    "index.html"
-  );
-
-  if (fs.existsSync(indexPath)) {
-    return res.sendFile(indexPath);
-  }
-
-  return res.json({
-    success: true,
-    application: "HomeGuardian AI",
-    message: "HomeGuardian AI backend is running",
-  });
-});
-
-// =========================================================
-// HEALTH CHECK
-// =========================================================
-
-app.get("/health", (req, res) => {
   res.json({
     success: true,
     service: "HomeGuardian AI",
     status: "running",
     currency: "INR",
-    environment:
-      process.env.NODE_ENV || "development",
+    message: "HomeGuardian AI backend is running.",
+  });
+});
+
+// ============================================================
+// HEALTH CHECK
+// ============================================================
+
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    service: "HomeGuardian AI",
+    status: "running",
+    currency: "INR",
     timestamp: new Date().toISOString(),
   });
 });
 
-// =========================================================
+// ============================================================
 // API ROUTES
-// =========================================================
+// ============================================================
 
-try {
-  const apiRoutes = require("./routes/api");
+const propertyRoutes = require("./routes/propertyRoutes");
 
-  app.use(
-    "/api",
-    apiRoutes
-  );
+app.use(
+  "/api",
+  propertyRoutes
+);
 
-  console.log(
-    "✅ API routes loaded successfully."
-  );
-} catch (error) {
-  console.error(
-    "❌ Could not load ./routes/api.js"
-  );
-
-  console.error(error);
-
-  app.use("/api", (req, res) => {
-    res.status(500).json({
-      success: false,
-      error:
-        "API routes could not be loaded.",
-      details: error.message,
-    });
-  });
-}
-
-// =========================================================
+// ============================================================
 // AUTH ROUTES
-// =========================================================
+// ============================================================
 
 try {
-  const authRoutes = require("./routes/auth");
+  const authRoutes = require("./auth");
 
   app.use(
     "/api/auth",
@@ -150,154 +115,35 @@ try {
   );
 
   console.log(
-    "✅ Authentication routes loaded successfully."
+    "Authentication routes loaded."
   );
 } catch (error) {
   console.warn(
-    "⚠️ Authentication routes not loaded."
-  );
-
-  console.warn(
+    "Authentication routes could not be loaded:",
     error.message
   );
 }
 
-// =========================================================
-// DASHBOARD ROUTE
-// =========================================================
-
-app.get(
-  "/dashboard",
-  (req, res) => {
-    const dashboardPath =
-      path.join(
-        FRONTEND_DIR,
-        "dashboard.html"
-      );
-
-    if (
-      !fs.existsSync(
-        dashboardPath
-      )
-    ) {
-      return res
-        .status(404)
-        .send(
-          "dashboard.html not found"
-        );
-    }
-
-    return res.sendFile(
-      dashboardPath
-    );
-  }
-);
-
-// =========================================================
-// LOGIN ROUTE
-// =========================================================
-
-app.get(
-  "/login",
-  (req, res) => {
-    const loginPath =
-      path.join(
-        FRONTEND_DIR,
-        "login.html"
-      );
-
-    if (
-      !fs.existsSync(
-        loginPath
-      )
-    ) {
-      return res
-        .status(404)
-        .send(
-          "login.html not found"
-        );
-    }
-
-    return res.sendFile(
-      loginPath
-    );
-  }
-);
-
-// =========================================================
-// REGISTER ROUTE
-// =========================================================
-
-app.get(
-  "/register",
-  (req, res) => {
-    const registerPath =
-      path.join(
-        FRONTEND_DIR,
-        "register.html"
-      );
-
-    if (
-      !fs.existsSync(
-        registerPath
-      )
-    ) {
-      return res
-        .status(404)
-        .send(
-          "register.html not found"
-        );
-    }
-
-    return res.sendFile(
-      registerPath
-    );
-  }
-);
-
-// =========================================================
-// PDF ROUTE SUPPORT
-// =========================================================
-//
-// The actual PDF endpoint should be registered
-// inside routes/api.js.
-//
-// Example:
-//
-// GET /api/reports/:id/pdf
-//
-// This server.js simply forwards /api requests
-// to routes/api.js.
-//
-// =========================================================
-
-// =========================================================
+// ============================================================
 // 404 HANDLER
-// =========================================================
+// ============================================================
+
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    error: "API endpoint not found.",
+    path: req.originalUrl,
+  });
+});
+
+// ============================================================
+// ERROR HANDLER
+// ============================================================
 
 app.use(
-  (req, res) => {
-    res.status(404).json({
-      success: false,
-      error: "Not found",
-      path: req.originalUrl,
-    });
-  }
-);
-
-// =========================================================
-// GLOBAL ERROR HANDLER
-// =========================================================
-
-app.use(
-  (
-    error,
-    req,
-    res,
-    next
-  ) => {
+  (error, req, res, next) => {
     console.error(
-      "❌ Server error:",
+      "Server error:",
       error
     );
 
@@ -305,62 +151,43 @@ app.use(
       return next(error);
     }
 
-    res
-      .status(
-        error.status || 500
-      )
-      .json({
-        success: false,
-        error:
-          error.message ||
-          "Internal server error",
-      });
+    res.status(
+      error.status || 500
+    ).json({
+      success: false,
+      error:
+        error.message ||
+        "Internal server error.",
+    });
   }
 );
 
-// =========================================================
+// ============================================================
 // START SERVER
-// =========================================================
+// ============================================================
 
-app.listen(
-  PORT,
-  HOST,
-  () => {
-    console.log("");
-    console.log(
-      "======================================"
-    );
-    console.log(
-      "          HOMEGUARDIAN AI"
-    );
-    console.log(
-      "======================================"
-    );
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(
+    "================================================"
+  );
 
-    console.log(
-      `🚀 Server listening on ${HOST}:${PORT}`
-    );
+  console.log(
+    "HomeGuardian AI Backend"
+  );
 
-    console.log(
-      `🏠 Frontend: http://localhost:${PORT}/`
-    );
+  console.log(
+    `Server running on port ${PORT}`
+  );
 
-    console.log(
-      `📊 Dashboard: http://localhost:${PORT}/dashboard.html`
-    );
+  console.log(
+    `Health: http://localhost:${PORT}/api/health`
+  );
 
-    console.log(
-      `❤️ Health: http://localhost:${PORT}/health`
-    );
+  console.log(
+    "Currency: INR (₹)"
+  );
 
-    console.log(
-      `🔌 API: http://localhost:${PORT}/api`
-    );
-
-    console.log(
-      "======================================"
-    );
-
-    console.log("");
-  }
-);
+  console.log(
+    "================================================"
+  );
+});
