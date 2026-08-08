@@ -1,353 +1,5115 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home Intelligence Report — 1418 Alder Court</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ink:#0B1620; --ink-soft:#12222E; --blueprint:#7C5CF0; --blueprint-light:#22D3EE;
-  --paper:#F5F3FF; --paper-dim:#ECE7FB; --brass:#F472B6; --brass-light:#FBBF24;
-  --gray:#8B9199; --line:rgba(124,92,240,0.16); --red:#E0705C; --green:#34D399;
-  --radius:12px;
-}
-*{box-sizing:border-box; margin:0; padding:0;}
-body{
-  background:
-    radial-gradient(900px 500px at 100% -10%, rgba(34,211,238,0.14), transparent 60%),
-    radial-gradient(800px 500px at -10% 20%, rgba(124,92,240,0.16), transparent 55%),
-    var(--paper);
-  color:var(--ink); font-family:'Inter',sans-serif; line-height:1.55; animation:fadeIn .5s ease;
-}
-@keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
-.card{transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, border-color .3s ease;}
-.card:hover{ transform:translateY(-5px); box-shadow:0 24px 46px -22px rgba(124,92,240,0.35); border-color:var(--blueprint-light); }
-.kpi{transition:transform .25s ease, box-shadow .25s ease;}
-.kpi:hover{ transform:translateY(-4px) scale(1.02); box-shadow:0 16px 32px -16px rgba(124,92,240,0.4); }
-.bar-fill{ transition:width 1.2s cubic-bezier(.2,.7,.2,1); background-size:200% 100%; animation:shimmer 2.5s linear infinite; }
-@keyframes shimmer{ 0%{background-position:0% 0;} 100%{background-position:200% 0;} }
-.vendor{transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;}
-.vendor:hover{ transform:translateY(-4px); border-color:var(--blueprint-light); box-shadow:0 14px 28px -16px rgba(34,211,238,0.4); }
-.mono{font-family:'IBM Plex Mono',monospace;}
-h1,h2,h3{font-family:'Fraunces',serif; font-weight:500;}
-a{color:inherit; text-decoration:none;}
 
-header{
-  border-bottom:1px solid var(--line);
-  background:linear-gradient(90deg, rgba(124,92,240,0.08), rgba(244,114,182,0.08), rgba(34,211,238,0.08));
-  backdrop-filter:blur(10px);
-  position:sticky; top:0; z-index:10;
-}
-.header-inner{
-  max-width:1180px; margin:0 auto; padding:16px 32px;
-  display:flex; align-items:center; justify-content:space-between;
-}
-.brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:600; font-size:17px;}
-.brand-mark{width:22px; height:22px; border-radius:7px; position:relative;
-  background:linear-gradient(135deg,var(--blueprint),var(--brass)); box-shadow:0 4px 14px -3px rgba(124,92,240,0.6);}
-.brand-mark::after{content:''; position:absolute; inset:5px; border:1px solid rgba(255,255,255,0.6); border-radius:3px;}
-.back{font-size:13px; color:var(--blueprint); font-family:'IBM Plex Mono',monospace;}
-.export{
-  font-size:13px; font-weight:700; padding:9px 18px; border-radius:8px;
-  background:linear-gradient(90deg,var(--blueprint),var(--brass)); background-size:180% 100%;
-  color:#fff; transition:background-position .35s ease, transform .15s ease, box-shadow .2s ease;
-  box-shadow:0 8px 20px -8px rgba(124,92,240,0.55);
-}
-.export:hover{ background-position:100% 0; transform:translateY(-2px); box-shadow:0 12px 26px -8px rgba(244,114,182,0.55); }
+    <meta charset="UTF-8">
 
-.layout{max-width:1180px; margin:0 auto; padding:36px 32px 80px; display:grid; grid-template-columns:280px 1fr; gap:32px;}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-/* SIDEBAR */
-.sidebar{position:sticky; top:80px; align-self:start;}
-.prop-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:22px; margin-bottom:16px;}
-.prop-card .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray);}
-.prop-card h2{font-size:20px; margin:6px 0 4px;}
-.prop-card .sub{font-size:13px; color:var(--gray);}
-.score-wrap{display:flex; align-items:center; gap:16px; margin-top:18px;}
-.score-ring{
-  width:84px; height:84px; border-radius:50%; flex-shrink:0;
-  background:conic-gradient(from 0deg, var(--blueprint), var(--brass) 40%, var(--blueprint-light) 74%, var(--paper-dim) 74% 100%);
-  box-shadow:0 8px 24px -8px rgba(124,92,240,0.5);
-  display:flex; align-items:center; justify-content:center;
-}
-.score-ring .inner{
-  width:64px; height:64px; border-radius:50%; background:#fff;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-}
-.score-ring .inner b{font-family:'Fraunces',serif; font-size:22px; line-height:1;}
-.score-ring .inner span{font-size:9px; color:var(--gray); font-family:'IBM Plex Mono',monospace;}
-.score-trend{font-size:13px; color:var(--green); font-family:'IBM Plex Mono',monospace;}
+    <title>HomeGuardian AI | Dashboard</title>
 
-.nav-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:10px;}
-.nav-card a{
-  display:flex; align-items:center; gap:10px; padding:11px 12px; border-radius:6px;
-  font-size:14px; color:#3B4A54;
-}
-.nav-card a:hover{background:var(--paper-dim);}
-.nav-card a .dot{width:6px; height:6px; border-radius:50%; background:var(--blueprint-light);}
 
-/* MAIN */
-.card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:28px; margin-bottom:24px;}
-.card h3{font-size:19px; margin-bottom:6px;}
-.card .desc{font-size:14px; color:var(--gray); margin-bottom:20px;}
+    <!-- =====================================================
+         FONTS
+    ====================================================== -->
 
-.kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px;}
-.kpi{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:18px;}
-.kpi .k{font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; color:var(--gray); letter-spacing:0.06em;}
-.kpi .v{font-family:'Fraunces',serif; font-size:26px; margin-top:8px;}
-.kpi .d{font-size:12px; margin-top:4px; color:var(--gray);}
-.kpi.alert .v{color:var(--red);}
-.kpi.good .v{color:var(--green);}
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
 
-/* System bars */
-.bar-row{display:flex; align-items:center; gap:14px; margin-bottom:16px; font-size:14px;}
-.bar-row .lbl{width:160px; flex-shrink:0; color:#3B4A54;}
-.bar-track{flex:1; height:9px; background:var(--paper-dim); border-radius:5px; overflow:hidden;}
-.bar-fill{height:100%; background:linear-gradient(90deg,var(--blueprint),var(--blueprint-light));}
-.bar-fill.warn{background:linear-gradient(90deg,#F59E0B,var(--brass-light));}
-.bar-fill.risk{background:linear-gradient(90deg,#DC2626,var(--red));}
-.bar-row .pct{width:64px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--gray);}
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet"
+    >
 
-/* Repair table */
-table{width:100%; border-collapse:collapse; font-size:14px;}
-th{
-  text-align:left; font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase;
-  color:var(--gray); font-weight:500; padding:10px 12px; border-bottom:1px solid var(--line);
-}
-td{padding:14px 12px; border-bottom:1px solid var(--line); vertical-align:top;}
-tr:last-child td{border-bottom:none;}
-.tag{
-  display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11px;
-  padding:3px 9px; border-radius:20px; text-transform:uppercase;
-}
-.tag.urgent{background:#F5E3E0; color:var(--red);}
-.tag.soon{background:#F6EBD8; color:#8A5F1E;}
-.tag.plan{background:#E4EEF2; color:var(--blueprint);}
 
-/* Cost chart */
-.chart{display:flex; align-items:flex-end; gap:16px; height:160px; padding-top:20px;}
-.chart .col{flex:1; display:flex; flex-direction:column; align-items:center; gap:8px;}
-.chart .bar{width:100%; background:var(--blueprint); border-radius:4px 4px 0 0;}
-.chart .yr{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gray);}
-.chart .amt{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink);}
+    <style>
 
-/* Vendor cards */
-.vendor-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
-.vendor{border:1px solid var(--line); border-radius:8px; padding:16px;}
-.vendor .name{font-weight:600; font-size:14px;}
-.vendor .meta{font-size:12px; color:var(--gray); margin-top:4px; font-family:'IBM Plex Mono',monospace;}
-.vendor .quote{margin-top:12px; font-family:'Fraunces',serif; font-size:18px;}
+        /* =====================================================
+           VARIABLES
+        ====================================================== */
 
-.neg-list{list-style:none; padding:0;}
-.neg-list li{
-  display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--line); font-size:14px;
-}
-.neg-list li:last-child{border-bottom:none;}
-.neg-list .amt{font-family:'IBM Plex Mono',monospace; color:var(--red); font-weight:500;}
+        :root {
 
-@media (max-width:900px){
-  .layout{grid-template-columns:1fr;}
-  .sidebar{position:static;}
-  .kpi-grid{grid-template-columns:repeat(2,1fr);}
-  .vendor-grid{grid-template-columns:1fr;}
-}
-:focus-visible{outline:2px solid var(--brass); outline-offset:2px;}
-</style>
+            --ink: #0B1620;
+
+            --ink-soft: #12222E;
+
+            --purple: #8B5CF6;
+
+            --purple-light: #C4B5FD;
+
+            --pink: #F472B6;
+
+            --cyan: #22D3EE;
+
+            --amber: #FBBF24;
+
+            --green: #34D399;
+
+            --red: #EF4444;
+
+            --paper: #F1F3EF;
+
+            --paper-dim: #EEF1EF;
+
+            --gray: #6B7280;
+
+            --line:
+                rgba(18, 34, 46, 0.10);
+
+            --radius: 14px;
+        }
+
+
+        /* =====================================================
+           RESET
+        ====================================================== */
+
+        * {
+
+            box-sizing: border-box;
+
+            margin: 0;
+
+            padding: 0;
+        }
+
+
+        html {
+
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family:
+                "Inter",
+                sans-serif;
+
+            color:
+                var(--ink);
+
+            min-height:
+                100vh;
+
+            background:
+
+                radial-gradient(
+                    900px 600px at 0% 0%,
+                    rgba(139, 92, 246, 0.10),
+                    transparent 60%
+                ),
+
+                radial-gradient(
+                    800px 600px at 100% 20%,
+                    rgba(34, 211, 238, 0.08),
+                    transparent 60%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #F8FAF8,
+                    #EEF2EF
+                );
+        }
+
+
+        button,
+        input,
+        textarea {
+
+            font-family:
+                inherit;
+        }
+
+
+        button {
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        header {
+
+            border-bottom:
+                1px solid var(--line);
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    rgba(124,92,240,0.08),
+                    rgba(244,114,182,0.08),
+                    rgba(34,211,238,0.08)
+                );
+
+            backdrop-filter:
+                blur(10px);
+
+            position:
+                sticky;
+
+            top:
+                0;
+
+            z-index:
+                100;
+        }
+
+
+        .header-inner {
+
+            max-width:
+                1180px;
+
+            margin:
+                0 auto;
+
+            padding:
+                16px 32px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                20px;
+        }
+
+
+        .brand {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-weight:
+                600;
+
+            font-size:
+                17px;
+        }
+
+
+        .brand-mark {
+
+            width:
+                22px;
+
+            height:
+                22px;
+
+            border-radius:
+                7px;
+
+            position:
+                relative;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    var(--purple),
+                    var(--pink)
+                );
+
+            box-shadow:
+                0 4px 14px -3px
+                rgba(124,92,240,0.6);
+        }
+
+
+        .brand-mark::after {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            inset:
+                5px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.7);
+
+            border-radius:
+                3px;
+        }
+
+
+        .header-actions {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+        }
+
+
+        .user-name {
+
+            font-size:
+                12px;
+
+            color:
+                var(--gray);
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+        }
+
+
+        .logout-btn {
+
+            border:
+                1px solid var(--line);
+
+            background:
+                white;
+
+            color:
+                var(--ink);
+
+            padding:
+                9px 15px;
+
+            border-radius:
+                8px;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+        }
+
+
+        .logout-btn:hover {
+
+            background:
+                var(--paper);
+        }
+
+
+        /* =====================================================
+           LAYOUT
+        ====================================================== */
+
+        .layout {
+
+            max-width:
+                1180px;
+
+            margin:
+                0 auto;
+
+            padding:
+                36px 32px 80px;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                280px 1fr;
+
+            gap:
+                32px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ====================================================== */
+
+        .sidebar {
+
+            position:
+                sticky;
+
+            top:
+                90px;
+
+            align-self:
+                start;
+        }
+
+
+        .prop-card {
+
+            background:
+                white;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                var(--radius);
+
+            padding:
+                22px;
+
+            margin-bottom:
+                16px;
+        }
+
+
+        .prop-card .eyebrow {
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            font-size:
+                10px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.08em;
+
+            color:
+                var(--gray);
+        }
+
+
+        .prop-card h2 {
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-size:
+                22px;
+
+            margin:
+                6px 0 4px;
+        }
+
+
+        .prop-card .sub {
+
+            font-size:
+                12px;
+
+            color:
+                var(--gray);
+
+            line-height:
+                1.5;
+        }
+
+
+        .score-wrap {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                16px;
+
+            margin-top:
+                18px;
+        }
+
+
+        .score-ring {
+
+            width:
+                84px;
+
+            height:
+                84px;
+
+            border-radius:
+                50%;
+
+            flex-shrink:
+                0;
+
+            background:
+
+                conic-gradient(
+                    from 0deg,
+                    var(--purple),
+                    var(--pink) 40%,
+                    var(--cyan) 74%,
+                    var(--paper-dim) 74% 100%
+                );
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            box-shadow:
+                0 8px 24px -8px
+                rgba(124,92,240,0.5);
+        }
+
+
+        .score-ring .inner {
+
+            width:
+                64px;
+
+            height:
+                64px;
+
+            border-radius:
+                50%;
+
+            background:
+                white;
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+        }
+
+
+        .score-ring .inner b {
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-size:
+                22px;
+
+            line-height:
+                1;
+        }
+
+
+        .score-ring .inner span {
+
+            font-size:
+                9px;
+
+            color:
+                var(--gray);
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+        }
+
+
+        .score-trend {
+
+            font-size:
+                12px;
+
+            color:
+                var(--green);
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+        }
+
+
+        .nav-card {
+
+            background:
+                white;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                var(--radius);
+
+            padding:
+                10px;
+        }
+
+
+        .nav-card a {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            padding:
+                11px 12px;
+
+            border-radius:
+                7px;
+
+            font-size:
+                13px;
+
+            color:
+                #3B4A54;
+
+            text-decoration:
+                none;
+        }
+
+
+        .nav-card a:hover {
+
+            background:
+                var(--paper-dim);
+        }
+
+
+        .nav-card a .dot {
+
+            width:
+                6px;
+
+            height:
+                6px;
+
+            border-radius:
+                50%;
+
+            background:
+                var(--purple-light);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ====================================================== */
+
+        .main {
+
+            min-width:
+                0;
+        }
+
+
+        .page-title {
+
+            margin-bottom:
+                24px;
+        }
+
+
+        .page-title .eyebrow {
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            color:
+                #7045D5;
+
+            font-size:
+                10px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.08em;
+        }
+
+
+        .page-title h1 {
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-size:
+                34px;
+
+            margin:
+                5px 0;
+        }
+
+
+        .page-title p {
+
+            color:
+                var(--gray);
+
+            font-size:
+                14px;
+
+            line-height:
+                1.6;
+        }
+
+
+        /* =====================================================
+           CARDS
+        ====================================================== */
+
+        .card {
+
+            background:
+                white;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                var(--radius);
+
+            padding:
+                28px;
+
+            margin-bottom:
+                24px;
+        }
+
+
+        .card h3 {
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-size:
+                20px;
+
+            margin-bottom:
+                6px;
+        }
+
+
+        .card .desc {
+
+            font-size:
+                13px;
+
+            color:
+                var(--gray);
+
+            margin-bottom:
+                20px;
+
+            line-height:
+                1.6;
+        }
+
+
+        /* =====================================================
+           UPLOAD CARD
+        ====================================================== */
+
+        .upload-zone {
+
+            border:
+                2px dashed
+                rgba(139,92,246,0.30);
+
+            border-radius:
+                14px;
+
+            padding:
+                34px 20px;
+
+            text-align:
+                center;
+
+            background:
+                rgba(139,92,246,0.035);
+
+            transition:
+                border-color .2s ease,
+                background .2s ease;
+        }
+
+
+        .upload-zone.dragover {
+
+            border-color:
+                var(--purple);
+
+            background:
+                rgba(139,92,246,0.08);
+        }
+
+
+        .upload-icon {
+
+            font-size:
+                34px;
+
+            margin-bottom:
+                10px;
+        }
+
+
+        .upload-zone h4 {
+
+            font-size:
+                16px;
+
+            margin-bottom:
+                6px;
+        }
+
+
+        .upload-zone p {
+
+            color:
+                var(--gray);
+
+            font-size:
+                12px;
+
+            margin-bottom:
+                18px;
+        }
+
+
+        .upload-btn {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            padding:
+                11px 18px;
+
+            border:
+                none;
+
+            border-radius:
+                9px;
+
+            color:
+                white;
+
+            font-size:
+                13px;
+
+            font-weight:
+                700;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    var(--purple),
+                    var(--pink)
+                );
+        }
+
+
+        #fileInput {
+
+            display:
+                none;
+        }
+
+
+        .file-types {
+
+            margin-top:
+                12px;
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            font-size:
+                10px;
+
+            color:
+                #8A939C;
+        }
+
+
+        /* =====================================================
+           FILE LIST
+        ====================================================== */
+
+        #fileList {
+
+            margin-top:
+                18px;
+        }
+
+
+        .file-item {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                12px;
+
+            padding:
+                12px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                9px;
+
+            margin-bottom:
+                8px;
+
+            background:
+                #FAFBFA;
+        }
+
+
+        .file-info {
+
+            min-width:
+                0;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+        }
+
+
+        .file-icon {
+
+            width:
+                34px;
+
+            height:
+                34px;
+
+            border-radius:
+                8px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            background:
+                rgba(139,92,246,0.09);
+
+            flex-shrink:
+                0;
+        }
+
+
+        .file-name {
+
+            font-size:
+                12px;
+
+            font-weight:
+                600;
+
+            white-space:
+                nowrap;
+
+            overflow:
+                hidden;
+
+            text-overflow:
+                ellipsis;
+        }
+
+
+        .file-size {
+
+            font-size:
+                10px;
+
+            color:
+                var(--gray);
+
+            margin-top:
+                2px;
+        }
+
+
+        .remove-file {
+
+            border:
+                none;
+
+            background:
+                transparent;
+
+            color:
+                var(--red);
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            flex-shrink:
+                0;
+        }
+
+
+        /* =====================================================
+           INPUT GRID
+        ====================================================== */
+
+        .input-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 220px;
+
+            gap:
+                16px;
+
+            margin-top:
+                20px;
+        }
+
+
+        .field label {
+
+            display:
+                block;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            margin-bottom:
+                7px;
+        }
+
+
+        .field input {
+
+            width:
+                100%;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                9px;
+
+            padding:
+                12px 13px;
+
+            font-size:
+                13px;
+
+            outline:
+                none;
+
+            background:
+                #FAFBFA;
+        }
+
+
+        .field input:focus {
+
+            border-color:
+                var(--purple);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(139,92,246,0.10);
+
+            background:
+                white;
+        }
+
+
+        .currency-input {
+
+            position:
+                relative;
+        }
+
+
+        .currency-symbol {
+
+            position:
+                absolute;
+
+            left:
+                13px;
+
+            top:
+                50%;
+
+            transform:
+                translateY(-50%);
+
+            font-weight:
+                700;
+
+            color:
+                var(--purple);
+        }
+
+
+        .currency-input input {
+
+            padding-left:
+                30px;
+        }
+
+
+        /* =====================================================
+           ANALYZE BUTTON
+        ====================================================== */
+
+        .analyze-area {
+
+            margin-top:
+                22px;
+
+            display:
+                flex;
+
+            justify-content:
+                flex-end;
+        }
+
+
+        .analyze-btn {
+
+            border:
+                none;
+
+            padding:
+                14px 24px;
+
+            border-radius:
+                10px;
+
+            color:
+                white;
+
+            font-size:
+                13px;
+
+            font-weight:
+                700;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    var(--purple),
+                    var(--pink),
+                    var(--cyan)
+                );
+
+            background-size:
+                180% 100%;
+
+            box-shadow:
+                0 12px 30px
+                rgba(139,92,246,0.25);
+
+            transition:
+                transform .2s ease,
+                background-position .3s ease;
+        }
+
+
+        .analyze-btn:hover:not(:disabled) {
+
+            transform:
+                translateY(-2px);
+
+            background-position:
+                100% 0;
+        }
+
+
+        .analyze-btn:disabled {
+
+            opacity:
+                0.55;
+
+            cursor:
+                not-allowed;
+        }
+
+
+        /* =====================================================
+           PROGRESS
+        ====================================================== */
+
+        #progressContainer {
+
+            display:
+                none;
+
+            margin-top:
+                20px;
+        }
+
+
+        .progress-header {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            font-size:
+                11px;
+
+            margin-bottom:
+                7px;
+
+            color:
+                var(--gray);
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+        }
+
+
+        .progress-track {
+
+            height:
+                8px;
+
+            border-radius:
+                10px;
+
+            background:
+                var(--paper-dim);
+
+            overflow:
+                hidden;
+        }
+
+
+        #progressBar {
+
+            width:
+                0%;
+
+            height:
+                100%;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    var(--purple),
+                    var(--pink),
+                    var(--cyan)
+                );
+
+            transition:
+                width .25s ease;
+        }
+
+
+        /* =====================================================
+           MESSAGE
+        ====================================================== */
+
+        #message {
+
+            display:
+                none;
+
+            padding:
+                12px 14px;
+
+            border-radius:
+                9px;
+
+            margin-bottom:
+                18px;
+
+            font-size:
+                12px;
+
+            line-height:
+                1.5;
+        }
+
+
+        #message.success {
+
+            display:
+                block;
+
+            color:
+                #047857;
+
+            background:
+                #ECFDF5;
+
+            border:
+                1px solid #A7F3D0;
+        }
+
+
+        #message.error {
+
+            display:
+                block;
+
+            color:
+                #B91C1C;
+
+            background:
+                #FEF2F2;
+
+            border:
+                1px solid #FECACA;
+        }
+
+
+        /* =====================================================
+           KPI GRID
+        ====================================================== */
+
+        .kpi-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap:
+                16px;
+
+            margin-bottom:
+                24px;
+        }
+
+
+        .kpi {
+
+            background:
+                white;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                var(--radius);
+
+            padding:
+                18px;
+        }
+
+
+        .kpi .k {
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            font-size:
+                10px;
+
+            text-transform:
+                uppercase;
+
+            color:
+                var(--gray);
+
+            letter-spacing:
+                0.06em;
+        }
+
+
+        .kpi .v {
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-size:
+                26px;
+
+            margin-top:
+                8px;
+        }
+
+
+        .kpi .d {
+
+            font-size:
+                11px;
+
+            margin-top:
+                4px;
+
+            color:
+                var(--gray);
+        }
+
+
+        .kpi.alert .v {
+
+            color:
+                var(--red);
+        }
+
+
+        .kpi.good .v {
+
+            color:
+                var(--green);
+        }
+
+
+        /* =====================================================
+           SYSTEM BARS
+        ====================================================== */
+
+        .bar-row {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                14px;
+
+            margin-bottom:
+                16px;
+
+            font-size:
+                13px;
+        }
+
+
+        .bar-row .lbl {
+
+            width:
+                160px;
+
+            flex-shrink:
+                0;
+
+            color:
+                #3B4A54;
+        }
+
+
+        .bar-track {
+
+            flex:
+                1;
+
+            height:
+                9px;
+
+            background:
+                var(--paper-dim);
+
+            border-radius:
+                5px;
+
+            overflow:
+                hidden;
+        }
+
+
+        .bar-fill {
+
+            height:
+                100%;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    var(--purple),
+                    var(--cyan)
+                );
+
+            transition:
+                width 1s ease;
+        }
+
+
+        .bar-fill.warn {
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    #F59E0B,
+                    var(--amber)
+                );
+        }
+
+
+        .bar-fill.risk {
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    #DC2626,
+                    var(--red)
+                );
+        }
+
+
+        .bar-row .pct {
+
+            width:
+                70px;
+
+            text-align:
+                right;
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            font-size:
+                11px;
+
+            color:
+                var(--gray);
+        }
+
+
+        /* =====================================================
+           TABLE
+        ====================================================== */
+
+        table {
+
+            width:
+                100%;
+
+            border-collapse:
+                collapse;
+
+            font-size:
+                13px;
+        }
+
+
+        th {
+
+            text-align:
+                left;
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            font-size:
+                10px;
+
+            text-transform:
+                uppercase;
+
+            color:
+                var(--gray);
+
+            font-weight:
+                500;
+
+            padding:
+                10px 12px;
+
+            border-bottom:
+                1px solid var(--line);
+        }
+
+
+        td {
+
+            padding:
+                14px 12px;
+
+            border-bottom:
+                1px solid var(--line);
+
+            vertical-align:
+                top;
+        }
+
+
+        tr:last-child td {
+
+            border-bottom:
+                none;
+        }
+
+
+        .tag {
+
+            display:
+                inline-block;
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            font-size:
+                10px;
+
+            padding:
+                3px 9px;
+
+            border-radius:
+                20px;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        .tag.urgent {
+
+            background:
+                #F5E3E0;
+
+            color:
+                var(--red);
+        }
+
+
+        .tag.soon {
+
+            background:
+                #F6EBD8;
+
+            color:
+                #8A5F1E;
+        }
+
+
+        .tag.plan {
+
+            background:
+                #E4EEF2;
+
+            color:
+                #365D70;
+        }
+
+
+        /* =====================================================
+           COST CHART
+        ====================================================== */
+
+        .chart {
+
+            display:
+                flex;
+
+            align-items:
+                flex-end;
+
+            gap:
+                16px;
+
+            height:
+                180px;
+
+            padding-top:
+                20px;
+        }
+
+
+        .chart .col {
+
+            flex:
+                1;
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            align-items:
+                center;
+
+            gap:
+                8px;
+        }
+
+
+        .chart .bar {
+
+            width:
+                100%;
+
+            max-width:
+                90px;
+
+            background:
+
+                linear-gradient(
+                    180deg,
+                    var(--purple),
+                    var(--pink)
+                );
+
+            border-radius:
+                5px 5px 0 0;
+        }
+
+
+        .chart .yr {
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            font-size:
+                10px;
+
+            color:
+                var(--gray);
+        }
+
+
+        .chart .amt {
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            font-size:
+                10px;
+
+            color:
+                var(--ink);
+        }
+
+
+        /* =====================================================
+           VENDOR CARDS
+        ====================================================== */
+
+        .vendor-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap:
+                16px;
+        }
+
+
+        .vendor {
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                9px;
+
+            padding:
+                16px;
+        }
+
+
+        .vendor .name {
+
+            font-weight:
+                600;
+
+            font-size:
+                13px;
+        }
+
+
+        .vendor .meta {
+
+            font-size:
+                11px;
+
+            color:
+                var(--gray);
+
+            margin-top:
+                4px;
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+        }
+
+
+        .vendor .quote {
+
+            margin-top:
+                12px;
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-size:
+                18px;
+        }
+
+
+        /* =====================================================
+           NEGOTIATION
+        ====================================================== */
+
+        .neg-list {
+
+            list-style:
+                none;
+
+            padding:
+                0;
+        }
+
+
+        .neg-list li {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            gap:
+                20px;
+
+            padding:
+                14px 0;
+
+            border-bottom:
+                1px solid var(--line);
+
+            font-size:
+                13px;
+        }
+
+
+        .neg-list li:last-child {
+
+            border-bottom:
+                none;
+        }
+
+
+        .neg-list .amt {
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            color:
+                var(--red);
+
+            font-weight:
+                500;
+
+            white-space:
+                nowrap;
+        }
+
+
+        /* =====================================================
+           PDF BUTTON
+        ====================================================== */
+
+        .pdf-area {
+
+            display:
+                flex;
+
+            justify-content:
+                flex-end;
+
+            margin-top:
+                20px;
+        }
+
+
+        .pdf-btn {
+
+            border:
+                none;
+
+            padding:
+                12px 18px;
+
+            border-radius:
+                9px;
+
+            background:
+                var(--ink-soft);
+
+            color:
+                white;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+        }
+
+
+        .pdf-btn:hover {
+
+            opacity:
+                0.9;
+        }
+
+
+        .pdf-btn:disabled {
+
+            opacity:
+                0.5;
+
+            cursor:
+                not-allowed;
+        }
+
+
+        /* =====================================================
+           EMPTY RESULTS
+        ====================================================== */
+
+        #results {
+
+            display:
+                none;
+        }
+
+
+        .empty-results {
+
+            text-align:
+                center;
+
+            padding:
+                40px 20px;
+
+            color:
+                var(--gray);
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 900px) {
+
+            .layout {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .sidebar {
+
+                position:
+                    static;
+            }
+
+
+            .kpi-grid {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+
+            .vendor-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .input-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .header-inner {
+
+                padding:
+                    14px 18px;
+            }
+
+
+            .user-name {
+
+                display:
+                    none;
+            }
+
+
+            .layout {
+
+                padding:
+                    24px 16px 60px;
+            }
+
+
+            .card {
+
+                padding:
+                    20px;
+            }
+
+
+            .kpi-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
+
+                gap:
+                    10px;
+            }
+
+
+            .bar-row {
+
+                flex-wrap:
+                    wrap;
+            }
+
+
+            .bar-row .lbl {
+
+                width:
+                    100%;
+            }
+
+
+            .bar-row .pct {
+
+                width:
+                    auto;
+            }
+
+
+            table {
+
+                display:
+                    block;
+
+                overflow-x:
+                    auto;
+            }
+
+
+            .chart {
+
+                gap:
+                    8px;
+            }
+
+
+            .neg-list li {
+
+                flex-direction:
+                    column;
+
+                gap:
+                    6px;
+            }
+        }
+
+    </style>
+
 </head>
+
+
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="brand"><span class="brand-mark"></span> HomeGuardian AI</div>
-    <a class="back" href="index.html">← BACK TO OVERVIEW</a>
-    <a class="export">Export PDF</a>
-  </div>
-</header>
 
-<div class="layout">
-  <aside class="sidebar">
-    <div class="prop-card">
-      <div class="eyebrow">Home Intelligence Report</div>
-      <h2 id="propAddr">1418 Alder Court</h2>
-      <div class="sub" id="propMeta">Portland, OR · 3bd / 2ba · Built 1987</div>
-      <div class="score-wrap">
-        <div class="score-ring" id="scoreRing"><div class="inner"><b id="scoreVal">74</b><span>HEALTH</span></div></div>
-        <div>
-          <div class="score-trend" id="scoreTrend">↑ 3 pts since inspection</div>
-          <div class="sub">Updated live as data arrives</div>
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header>
+
+        <div class="header-inner">
+
+            <div class="brand">
+
+                <span class="brand-mark"></span>
+
+                HomeGuardian AI
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <span
+                    class="user-name"
+                    id="userName"
+                >
+                    Welcome
+                </span>
+
+
+                <button
+                    class="logout-btn"
+                    id="logoutBtn"
+                    type="button"
+                >
+                    Log out
+                </button>
+
+            </div>
+
         </div>
-      </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN LAYOUT
+    ====================================================== -->
+
+    <div class="layout">
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside class="sidebar">
+
+
+            <div class="prop-card">
+
+                <div class="eyebrow">
+                    Home Intelligence
+                </div>
+
+
+                <h2 id="propertyAddress">
+                    Your property
+                </h2>
+
+
+                <div class="sub">
+                    Upload inspection information
+                    to generate your HomeGuardian
+                    intelligence report.
+                </div>
+
+
+                <div class="score-wrap">
+
+                    <div class="score-ring">
+
+                        <div class="inner">
+
+                            <b id="sideScore">
+                                —
+                            </b>
+
+                            <span>
+                                SCORE
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <div
+                            class="score-trend"
+                            id="scoreStatus"
+                        >
+                            Awaiting analysis
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <nav class="nav-card">
+
+                <a href="#upload">
+
+                    <span class="dot"></span>
+
+                    Upload & Analyze
+
+                </a>
+
+
+                <a href="#risk">
+
+                    <span class="dot"></span>
+
+                    System Health
+
+                </a>
+
+
+                <a href="#repairs">
+
+                    <span class="dot"></span>
+
+                    Repair Priority
+
+                </a>
+
+
+                <a href="#cost">
+
+                    <span class="dot"></span>
+
+                    Cost Forecast
+
+                </a>
+
+
+                <a href="#negotiation">
+
+                    <span class="dot"></span>
+
+                    Negotiation
+
+                </a>
+
+
+                <a href="#vendors">
+
+                    <span class="dot"></span>
+
+                    Vendors
+
+                </a>
+
+            </nav>
+
+        </aside>
+
+
+        <!-- =================================================
+             MAIN CONTENT
+        ================================================== -->
+
+        <main class="main">
+
+
+            <div class="page-title">
+
+                <div class="eyebrow">
+                    AI-powered home intelligence
+                </div>
+
+
+                <h1>
+                    Home Analysis Dashboard
+                </h1>
+
+
+                <p>
+                    Upload photos, videos, inspection documents,
+                    and property information to generate your
+                    HomeGuardian AI report.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 MESSAGE
+            ================================================== -->
+
+            <div id="message"></div>
+
+
+            <!-- =================================================
+                 UPLOAD CARD
+            ================================================== -->
+
+            <section
+                id="upload"
+                class="card"
+            >
+
+                <h3>
+                    Analyze your home
+                </h3>
+
+
+                <div class="desc">
+
+                    Upload multiple property files.
+                    HomeGuardian AI accepts photos, videos,
+                    and PDF inspection documents.
+
+                </div>
+
+
+                <!-- Upload zone -->
+
+                <div
+                    class="upload-zone"
+                    id="uploadZone"
+                >
+
+                    <div class="upload-icon">
+                        📷
+                    </div>
+
+
+                    <h4>
+                        Upload property files
+                    </h4>
+
+
+                    <p>
+                        Drag and drop your files here,
+                        or select files from your device.
+                    </p>
+
+
+                    <button
+                        type="button"
+                        class="upload-btn"
+                        id="chooseFilesBtn"
+                    >
+                        Choose files
+                    </button>
+
+
+                    <input
+                        type="file"
+                        id="fileInput"
+                        multiple
+                        accept="
+                            image/jpeg,
+                            image/jpg,
+                            image/png,
+                            image/webp,
+                            image/heic,
+                            video/mp4,
+                            application/pdf
+                        "
+                    >
+
+
+                    <div class="file-types">
+
+                        JPG · JPEG · PNG · WEBP · HEIC ·
+                        MP4 · PDF · Max 20 MB each
+
+                    </div>
+
+                </div>
+
+
+                <!-- Selected files -->
+
+                <div id="fileList"></div>
+
+
+                <!-- Address + budget -->
+
+                <div class="input-grid">
+
+
+                    <div class="field">
+
+                        <label for="address">
+                            Property address
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="address"
+                            placeholder="Enter your property address"
+                            autocomplete="street-address"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="budgetCap">
+                            Budget cap
+                        </label>
+
+
+                        <div class="currency-input">
+
+                            <span class="currency-symbol">
+                                ₹
+                            </span>
+
+
+                            <input
+                                type="number"
+                                id="budgetCap"
+                                min="0"
+                                step="1000"
+                                placeholder="500000"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Upload progress -->
+
+                <div id="progressContainer">
+
+                    <div class="progress-header">
+
+                        <span id="progressText">
+                            Uploading files...
+                        </span>
+
+
+                        <span id="progressPercent">
+                            0%
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress-track">
+
+                        <div id="progressBar"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Analyze -->
+
+                <div class="analyze-area">
+
+                    <button
+                        type="button"
+                        id="analyzeBtn"
+                        class="analyze-btn"
+                    >
+                        Analyze My Home →
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 RESULTS
+            ================================================== -->
+
+            <div id="results">
+
+
+                <!-- =================================================
+                     KPI
+                ================================================== -->
+
+                <div class="kpi-grid">
+
+
+                    <div class="kpi good">
+
+                        <div class="k">
+                            Home health
+                        </div>
+
+                        <div
+                            class="v"
+                            id="healthScore"
+                        >
+                            —
+                        </div>
+
+                        <div
+                            class="d"
+                            id="healthStatus"
+                        >
+                            Awaiting analysis
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi alert">
+
+                        <div class="k">
+                            Risk items
+                        </div>
+
+                        <div
+                            class="v"
+                            id="riskCount"
+                        >
+                            —
+                        </div>
+
+                        <div class="d">
+                            Items requiring attention
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi">
+
+                        <div class="k">
+                            Estimated repairs
+                        </div>
+
+                        <div
+                            class="v"
+                            id="repairTotal"
+                        >
+                            ₹0
+                        </div>
+
+                        <div class="d">
+                            Estimated repair cost
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi">
+
+                        <div class="k">
+                            Files analyzed
+                        </div>
+
+                        <div
+                            class="v"
+                            id="filesAnalyzed"
+                        >
+                            0
+                        </div>
+
+                        <div class="d">
+                            Uploaded property files
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     SYSTEM HEALTH
+                ================================================== -->
+
+                <section
+                    id="risk"
+                    class="card"
+                >
+
+                    <h3>
+                        System health
+                    </h3>
+
+
+                    <div class="desc">
+
+                        Scored by the Vision Inspection
+                        and Structural Risk agents from
+                        uploaded property information.
+
+                    </div>
+
+
+                    <div id="systemBars">
+
+                        <!-- Generated dynamically -->
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     REPAIRS
+                ================================================== -->
+
+                <section
+                    id="repairs"
+                    class="card"
+                >
+
+                    <h3>
+                        Repair priority
+                    </h3>
+
+
+                    <div class="desc">
+
+                        Repairs are sequenced according
+                        to urgency and estimated cost.
+
+                    </div>
+
+
+                    <div style="overflow-x:auto;">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Item
+                                    </th>
+
+                                    <th>
+                                        System
+                                    </th>
+
+                                    <th>
+                                        Priority
+                                    </th>
+
+                                    <th>
+                                        Est. cost
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="repairRows">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     COST FORECAST
+                ================================================== -->
+
+                <section
+                    id="cost"
+                    class="card"
+                >
+
+                    <h3>
+                        5-year cost forecast
+                    </h3>
+
+
+                    <div class="desc">
+
+                        Estimated future home maintenance
+                        and repair costs shown in Indian Rupees.
+
+                    </div>
+
+
+                    <div
+                        class="chart"
+                        id="costChart"
+                    >
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     NEGOTIATION
+                ================================================== -->
+
+                <section
+                    id="negotiation"
+                    class="card"
+                >
+
+                    <h3>
+                        Negotiation brief
+                    </h3>
+
+
+                    <div class="desc">
+
+                        Evidence-based points that can
+                        help you negotiate repair-related costs.
+
+                    </div>
+
+
+                    <ul
+                        class="neg-list"
+                        id="negList"
+                    >
+
+                    </ul>
+
+                </section>
+
+
+                <!-- =================================================
+                     VENDORS
+                ================================================== -->
+
+                <section
+                    id="vendors"
+                    class="card"
+                >
+
+                    <h3>
+                        Vendor matches
+                    </h3>
+
+
+                    <div class="desc">
+
+                        Vendor recommendations based on
+                        rating, response time, and price fit.
+
+                    </div>
+
+
+                    <div
+                        class="vendor-grid"
+                        id="vendorGrid"
+                    >
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     PDF
+                ================================================== -->
+
+                <section class="card">
+
+                    <h3>
+                        Home Intelligence Report
+                    </h3>
+
+
+                    <div class="desc">
+
+                        Generate and download the complete
+                        HomeGuardian AI report as a PDF.
+                        All estimated costs are shown in ₹ INR.
+
+                    </div>
+
+
+                    <div class="pdf-area">
+
+                        <button
+                            type="button"
+                            id="pdfBtn"
+                            class="pdf-btn"
+                            disabled
+                        >
+                            Download PDF Report ↓
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+            </div>
+
+        </main>
+
     </div>
-    <nav class="nav-card">
-      <a href="#overview"><span class="dot"></span> Overview</a>
-      <a href="#risk"><span class="dot"></span> System health</a>
-      <a href="#repairs"><span class="dot"></span> Repair priority</a>
-      <a href="#cost"><span class="dot"></span> 5-year cost forecast</a>
-      <a href="#negotiation"><span class="dot"></span> Negotiation brief</a>
-      <a href="#vendors"><span class="dot"></span> Vendor matches</a>
-    </nav>
-  </aside>
 
-  <main>
-    <section id="overview" class="kpi-grid">
-      <div class="kpi alert"><div class="k">Urgent repairs</div><div class="v" id="kpiUrgent">3</div><div class="d">Address within 30 days</div></div>
-      <div class="kpi"><div class="k">5-yr est. cost</div><div class="v" id="kpiCost">$18,200</div><div class="d">Repairs + maintenance</div></div>
-      <div class="kpi good"><div class="k">Negotiation leverage</div><div class="v" id="kpiLeverage">$6,400</div><div class="d">Evidence-backed ask</div></div>
-      <div class="kpi"><div class="k">Vendors matched</div><div class="v" id="kpiVendors">7</div><div class="d">Within 12 miles</div></div>
-    </section>
 
-    <section id="risk" class="card">
-      <h3>System health</h3>
-      <div class="desc">Scored by the Vision Inspection and Structural Risk agents from uploaded photos, video, and inspection documents.</div>
-      <div id="systemBars">
-      <div class="bar-row"><div class="lbl">Roof</div><div class="bar-track"><div class="bar-fill" data-w="78" style="width:0%"></div></div><div class="pct">78 / 100</div></div>
-      <div class="bar-row"><div class="lbl">Foundation / structure</div><div class="bar-track"><div class="bar-fill risk" data-w="62" style="width:0%"></div></div><div class="pct">62 / 100</div></div>
-      <div class="bar-row"><div class="lbl">Plumbing</div><div class="bar-track"><div class="bar-fill" data-w="91" style="width:0%"></div></div><div class="pct">91 / 100</div></div>
-      <div class="bar-row"><div class="lbl">Electrical</div><div class="bar-track"><div class="bar-fill warn" data-w="70" style="width:0%"></div></div><div class="pct">70 / 100</div></div>
-      <div class="bar-row"><div class="lbl">HVAC</div><div class="bar-track"><div class="bar-fill" data-w="83" style="width:0%"></div></div><div class="pct">83 / 100</div></div>
-      <div class="bar-row"><div class="lbl">Exterior / envelope</div><div class="bar-track"><div class="bar-fill warn" data-w="66" style="width:0%"></div></div><div class="pct">66 / 100</div></div>
-      </div>
-    </section>
+    <!-- =====================================================
+         AUTH JS
+    ====================================================== -->
 
-    <section id="repairs" class="card">
-      <h3>Repair priority</h3>
-      <div class="desc">Sequenced by the Budget Optimization agent against urgency and estimated cost.</div>
-      <table>
-        <tr><th>Item</th><th>System</th><th>Priority</th><th>Est. cost</th></tr>
-        <tbody id="repairRows">
-        <tr><td>Foundation hairline crack — monitor &amp; seal</td><td>Structure</td><td><span class="tag urgent">Urgent</span></td><td>$2,800</td></tr>
-        <tr><td>Panel upgrade — 100A to 200A service</td><td>Electrical</td><td><span class="tag urgent">Urgent</span></td><td>$3,400</td></tr>
-        <tr><td>Gutter resealing before wet season</td><td>Exterior</td><td><span class="tag urgent">Urgent</span></td><td>$650</td></tr>
-        <tr><td>Water heater — replace within 18 months</td><td>Plumbing</td><td><span class="tag soon">Soon</span></td><td>$1,900</td></tr>
-        <tr><td>Roof shingles — reseal south-facing slope</td><td>Roof</td><td><span class="tag soon">Soon</span></td><td>$2,200</td></tr>
-        <tr><td>Repaint exterior trim</td><td>Exterior</td><td><span class="tag plan">Plan ahead</span></td><td>$1,600</td></tr>
-        </tbody>
-      </table>
-    </section>
+    <script src="/auth.js"></script>
 
-    <section id="cost" class="card">
-      <h3>5-year cost forecast</h3>
-      <div class="desc">Modeled by the Cost Intelligence agent from repair scope, regional labor rates, and material trends.</div>
-      <div class="chart" id="costChart">
-        <div class="col"><div class="amt">$7.2k</div><div class="bar" style="height:100px;"></div><div class="yr">YEAR 1</div></div>
-        <div class="col"><div class="amt">$2.1k</div><div class="bar" style="height:32px;"></div><div class="yr">YEAR 2</div></div>
-        <div class="col"><div class="amt">$3.4k</div><div class="bar" style="height:50px;"></div><div class="yr">YEAR 3</div></div>
-        <div class="col"><div class="amt">$1.8k</div><div class="bar" style="height:26px;"></div><div class="yr">YEAR 4</div></div>
-        <div class="col"><div class="amt">$3.7k</div><div class="bar" style="height:55px;"></div><div class="yr">YEAR 5</div></div>
-      </div>
-    </section>
 
-    <section id="negotiation" class="card">
-      <h3>Negotiation brief</h3>
-      <div class="desc">Evidence-based leverage points from the Negotiation Advisor agent, ready to bring to your offer.</div>
-      <ul class="neg-list" id="negList">
-        <li><span>Foundation crack requires monitoring + sealant, unresolved by seller</span><span class="amt">−$2,800</span></li>
-        <li><span>Electrical panel under current code minimum for insurability</span><span class="amt">−$3,400</span></li>
-        <li><span>Water heater past 70% of expected service life</span><span class="amt">−$1,200 (partial credit)</span></li>
-      </ul>
-    </section>
+    <!-- =====================================================
+         DASHBOARD JS
+    ====================================================== -->
 
-    <section id="vendors" class="card">
-      <h3>Vendor matches</h3>
-      <div class="desc">Ranked by the Vendor Intelligence agent on rating, response time, and price fit.</div>
-      <div class="vendor-grid" id="vendorGrid">
-        <div class="vendor"><div class="name">Cascade Structural Co.</div><div class="meta">4.9 ★ · Responds in 4h</div><div class="quote">$2,650</div></div>
-        <div class="vendor"><div class="name">Alder Electric</div><div class="meta">4.8 ★ · Responds in 6h</div><div class="quote">$3,150</div></div>
-        <div class="vendor"><div class="name">Portland Roof &amp; Gutter</div><div class="meta">4.7 ★ · Responds in 12h</div><div class="quote">$580</div></div>
-      </div>
-    </section>
-  </main>
-</div>
+    <script>
 
-<script>
-window.addEventListener('load', function(){
-  setTimeout(function(){
-    document.querySelectorAll('.bar-fill').forEach(function(el){
-      var w = el.getAttribute('data-w');
-      if(w){ el.style.width = w + '%'; }
-    });
-  }, 200);
-});
-</script>
+        /* =====================================================
+           GLOBAL STATE
+        ====================================================== */
 
-<script>
-const API_BASE = window.API_BASE || 'http://localhost:4000';
+        let selectedFiles = [];
 
-function fmtMoney(n){ return '$' + Math.round(n).toLocaleString(); }
+        let currentReportId = null;
 
-function renderReport(report){
-  document.getElementById('propAddr').textContent = report.property.address;
-  document.getElementById('propMeta').textContent = 'Live report · generated ' + new Date(report.generatedAt).toLocaleString();
+        let currentReport = null;
 
-  const score = report.homeHealthScore;
-  document.getElementById('scoreVal').textContent = score;
-  document.getElementById('scoreRing').style.background = 'conic-gradient(from 0deg, var(--blueprint), var(--brass) 40%, var(--blueprint-light) ' + score + '%, var(--paper-dim) ' + score + '% 100%)';
-  document.getElementById('scoreTrend').textContent = 'Live score from ' + Object.keys(report.systemScores).length + ' systems';
 
-  const urgentCount = report.repairPriority.filter(r => r.priority === 'urgent').length;
-  document.getElementById('kpiUrgent').textContent = urgentCount;
-  document.getElementById('kpiCost').textContent = fmtMoney(report.costForecast.totalFiveYear);
-  document.getElementById('kpiLeverage').textContent = fmtMoney(report.negotiationBrief.totalLeverage);
-  document.getElementById('kpiVendors').textContent = report.vendorMatches.length;
+        /* =====================================================
+           ELEMENTS
+        ====================================================== */
 
-  const barClass = (v) => v < 65 ? 'risk' : v < 78 ? 'warn' : '';
-  const barsHtml = Object.entries(report.systemScores).map(([sys, val]) => {
-    const label = sys.charAt(0).toUpperCase() + sys.slice(1);
-    return '<div class="bar-row"><div class="lbl">' + label + '</div><div class="bar-track"><div class="bar-fill ' + barClass(val) + '" data-w="' + val + '" style="width:0%"></div></div><div class="pct">' + val + ' / 100</div></div>';
-  }).join('');
-  document.getElementById('systemBars').innerHTML = barsHtml;
+        const fileInput =
+            document.getElementById(
+                "fileInput"
+            );
 
-  const priorityTag = { urgent: 'urgent', soon: 'soon', plan_ahead: 'plan' };
-  const priorityLabel = { urgent: 'Urgent', soon: 'Soon', plan_ahead: 'Plan ahead' };
-  const rowsHtml = report.repairPriority.map(r => {
-    return '<tr><td>' + r.label + '</td><td>—</td><td><span class="tag ' + priorityTag[r.priority] + '">' + priorityLabel[r.priority] + '</span></td><td>' + fmtMoney(r.cost) + '</td></tr>';
-  }).join('');
-  document.getElementById('repairRows').innerHTML = rowsHtml;
 
-  const maxCost = Math.max(...report.costForecast.fiveYearForecast);
-  const chartHtml = report.costForecast.fiveYearForecast.map((amt, i) => {
-    const h = Math.max(8, Math.round((amt / maxCost) * 100));
-    return '<div class="col"><div class="amt">' + fmtMoney(amt) + '</div><div class="bar" style="height:' + h + 'px;"></div><div class="yr">YEAR ' + (i+1) + '</div></div>';
-  }).join('');
-  document.getElementById('costChart').innerHTML = chartHtml;
+        const uploadZone =
+            document.getElementById(
+                "uploadZone"
+            );
 
-  const negHtml = report.negotiationBrief.leveragePoints.map(p => {
-    return '<li><span>' + p.point + '</span><span class="amt">−' + fmtMoney(p.suggestedCredit) + '</span></li>';
-  }).join('');
-  document.getElementById('negList').innerHTML = negHtml || '<li><span>No major leverage points found</span></li>';
 
-  const vendorHtml = report.vendorMatches.map(v => {
-    return '<div class="vendor"><div class="name">' + v.name + '</div><div class="meta">' + v.rating + ' ★ · Responds in ' + v.responseTime + '</div><div class="quote">' + fmtMoney(v.quote) + '</div></div>';
-  }).join('');
-  document.getElementById('vendorGrid').innerHTML = vendorHtml;
+        const chooseFilesBtn =
+            document.getElementById(
+                "chooseFilesBtn"
+            );
 
-  setTimeout(function(){
-    document.querySelectorAll('.bar-fill').forEach(function(el){
-      var w = el.getAttribute('data-w');
-      if(w){ el.style.width = w + '%'; }
-    });
-  }, 100);
-}
 
-(async function(){
-  const params = new URLSearchParams(window.location.search);
-  const reportId = params.get('reportId');
-  if(!reportId){ return; }
-  try{
-    const res = await fetch(API_BASE + '/api/reports/' + encodeURIComponent(reportId));
-    if(!res.ok) throw new Error('Report not found');
-    const report = await res.json();
-    renderReport(report);
-  }catch(err){
-    const banner = document.createElement('div');
-    banner.style.cssText = 'max-width:1180px;margin:16px auto 0;padding:14px 20px;background:#FBEAF0;border:1px solid #F4C0D1;border-radius:8px;font-size:14px;color:#72243E;';
-    banner.textContent = 'Could not load live report (backend may not be running). Showing sample data instead.';
-    document.querySelector('.layout').before(banner);
-  }
-})();
-</script>
+        const fileList =
+            document.getElementById(
+                "fileList"
+            );
+
+
+        const analyzeBtn =
+            document.getElementById(
+                "analyzeBtn"
+            );
+
+
+        const pdfBtn =
+            document.getElementById(
+                "pdfBtn"
+            );
+
+
+        /* =====================================================
+           MESSAGE
+        ====================================================== */
+
+        function showMessage(
+            text,
+            type = "error"
+        ) {
+
+            const box =
+                document.getElementById(
+                    "message"
+                );
+
+
+            box.textContent =
+                text;
+
+            box.className =
+                type;
+
+            box.style.display =
+                "block";
+
+
+            box.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+        }
+
+
+        function clearMessage() {
+
+            const box =
+                document.getElementById(
+                    "message"
+                );
+
+            box.textContent =
+                "";
+
+            box.className =
+                "";
+
+            box.style.display =
+                "none";
+        }
+
+
+        /* =====================================================
+           FORMAT INR
+        ====================================================== */
+
+        function formatINR(value) {
+
+            const number =
+                Number(value) || 0;
+
+
+            return new Intl.NumberFormat(
+                "en-IN",
+                {
+                    style:
+                        "currency",
+
+                    currency:
+                        "INR",
+
+                    maximumFractionDigits:
+                        0
+                }
+            ).format(number);
+        }
+
+
+        /* =====================================================
+           FILE SIZE
+        ====================================================== */
+
+        function formatFileSize(bytes) {
+
+            if (bytes < 1024) {
+
+                return `${bytes} B`;
+            }
+
+
+            if (bytes < 1024 * 1024) {
+
+                return `${(
+                    bytes / 1024
+                ).toFixed(1)} KB`;
+            }
+
+
+            return `${(
+                bytes /
+                (1024 * 1024)
+            ).toFixed(1)} MB`;
+        }
+
+
+        /* =====================================================
+           FILE ICON
+        ====================================================== */
+
+        function getFileIcon(file) {
+
+            if (
+                file.type.startsWith(
+                    "image/"
+                )
+            ) {
+                return "📷";
+            }
+
+
+            if (
+                file.type.startsWith(
+                    "video/"
+                )
+            ) {
+                return "🎥";
+            }
+
+
+            if (
+                file.type ===
+                "application/pdf"
+            ) {
+                return "📄";
+            }
+
+
+            return "📁";
+        }
+
+
+        /* =====================================================
+           RENDER FILES
+        ====================================================== */
+
+        function renderFiles() {
+
+            fileList.innerHTML =
+                "";
+
+
+            if (
+                selectedFiles.length ===
+                0
+            ) {
+                return;
+            }
+
+
+            selectedFiles.forEach(
+                function (file, index) {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+                    item.className =
+                        "file-item";
+
+
+                    item.innerHTML = `
+
+                        <div class="file-info">
+
+                            <div class="file-icon">
+                                ${getFileIcon(file)}
+                            </div>
+
+                            <div>
+
+                                <div class="file-name">
+                                    ${escapeHtml(file.name)}
+                                </div>
+
+                                <div class="file-size">
+                                    ${formatFileSize(file.size)}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="remove-file"
+                            data-index="${index}"
+                        >
+                            Remove
+                        </button>
+
+                    `;
+
+
+                    fileList.appendChild(
+                        item
+                    );
+                }
+            );
+
+
+            document
+                .querySelectorAll(
+                    ".remove-file"
+                )
+                .forEach(
+                    function (button) {
+
+                        button.addEventListener(
+                            "click",
+                            function () {
+
+                                const index =
+                                    Number(
+                                        button.dataset.index
+                                    );
+
+                                selectedFiles.splice(
+                                    index,
+                                    1
+                                );
+
+                                renderFiles();
+                            }
+                        );
+                    }
+                );
+        }
+
+
+        /* =====================================================
+           ESCAPE HTML
+        ====================================================== */
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+        }
+
+
+        /* =====================================================
+           ADD FILES
+        ====================================================== */
+
+        function addFiles(
+            files
+        ) {
+
+            const incoming =
+                Array.from(files);
+
+
+            const allowedTypes = [
+
+                "image/jpeg",
+
+                "image/jpg",
+
+                "image/png",
+
+                "image/webp",
+
+                "image/heic",
+
+                "video/mp4",
+
+                "application/pdf"
+
+            ];
+
+
+            for (
+                const file
+                of incoming
+            ) {
+
+
+                if (
+                    !allowedTypes.includes(
+                        file.type
+                    )
+                ) {
+
+                    showMessage(
+                        `${file.name} is not a supported file type.`,
+                        "error"
+                    );
+
+                    continue;
+                }
+
+
+                if (
+                    file.size >
+                    20 * 1024 * 1024
+                ) {
+
+                    showMessage(
+                        `${file.name} is larger than 20 MB.`,
+                        "error"
+                    );
+
+                    continue;
+                }
+
+
+                if (
+                    selectedFiles.some(
+                        existing =>
+                            existing.name ===
+                            file.name &&
+                            existing.size ===
+                            file.size
+                    )
+                ) {
+
+                    continue;
+                }
+
+
+                if (
+                    selectedFiles.length >=
+                    20
+                ) {
+
+                    showMessage(
+                        "You can upload a maximum of 20 files.",
+                        "error"
+                    );
+
+                    break;
+                }
+
+
+                selectedFiles.push(
+                    file
+                );
+            }
+
+
+            renderFiles();
+
+
+            if (
+                selectedFiles.length >
+                0
+            ) {
+
+                clearMessage();
+            }
+        }
+
+
+        /* =====================================================
+           FILE INPUT
+        ====================================================== */
+
+        chooseFilesBtn.addEventListener(
+            "click",
+            function () {
+
+                fileInput.click();
+            }
+        );
+
+
+        fileInput.addEventListener(
+            "change",
+            function () {
+
+                addFiles(
+                    fileInput.files
+                );
+
+                /*
+                 * Allow selecting the same
+                 * file again later.
+                 */
+
+                fileInput.value =
+                    "";
+            }
+        );
+
+
+        /* =====================================================
+           DRAG & DROP
+        ====================================================== */
+
+        [
+            "dragenter",
+            "dragover"
+        ].forEach(
+            function (eventName) {
+
+                uploadZone.addEventListener(
+                    eventName,
+                    function (event) {
+
+                        event.preventDefault();
+
+                        event.stopPropagation();
+
+                        uploadZone.classList.add(
+                            "dragover"
+                        );
+                    }
+                );
+            }
+        );
+
+
+        [
+            "dragleave",
+            "drop"
+        ].forEach(
+            function (eventName) {
+
+                uploadZone.addEventListener(
+                    eventName,
+                    function (event) {
+
+                        event.preventDefault();
+
+                        event.stopPropagation();
+
+                        uploadZone.classList.remove(
+                            "dragover"
+                        );
+                    }
+                );
+            }
+        );
+
+
+        uploadZone.addEventListener(
+            "drop",
+            function (event) {
+
+                addFiles(
+                    event.dataTransfer.files
+                );
+            }
+        );
+
+
+        /* =====================================================
+           UPLOAD FILES
+        ====================================================== */
+
+        function uploadFiles() {
+
+            return new Promise(
+                function (
+                    resolve,
+                    reject
+                ) {
+
+                    const formData =
+                        new FormData();
+
+
+                    selectedFiles.forEach(
+                        function (file) {
+
+                            formData.append(
+                                "files",
+                                file
+                            );
+                        }
+                    );
+
+
+                    const xhr =
+                        new XMLHttpRequest();
+
+
+                    const apiBase =
+                        window.HomeGuardianAuth
+                            ?.API_BASE;
+
+
+                    if (!apiBase) {
+
+                        reject(
+                            new Error(
+                                "Authentication API configuration is unavailable."
+                            )
+                        );
+
+                        return;
+                    }
+
+
+                    const url =
+                        `${apiBase}/api/upload`;
+
+
+                    xhr.open(
+                        "POST",
+                        url
+                    );
+
+
+                    const token =
+                        localStorage.getItem(
+                            "homeguardian_token"
+                        );
+
+
+                    if (token) {
+
+                        xhr.setRequestHeader(
+                            "Authorization",
+                            `Bearer ${token}`
+                        );
+                    }
+
+
+                    xhr.upload.onprogress =
+                        function (event) {
+
+                            if (
+                                !event.lengthComputable
+                            ) {
+                                return;
+                            }
+
+
+                            const percent =
+                                Math.round(
+                                    (
+                                        event.loaded /
+                                        event.total
+                                    ) *
+                                    100
+                                );
+
+
+                            updateProgress(
+                                percent,
+                                `Uploading files...`
+                            );
+                        };
+
+
+                    xhr.onload =
+                        function () {
+
+                            let data = {};
+
+
+                            try {
+
+                                data =
+                                    JSON.parse(
+                                        xhr.responseText
+                                    );
+
+                            } catch (error) {
+
+                                reject(
+                                    new Error(
+                                        "Server returned an invalid upload response."
+                                    )
+                                );
+
+                                return;
+                            }
+
+
+                            if (
+                                xhr.status < 200 ||
+                                xhr.status >= 300
+                            ) {
+
+                                reject(
+                                    new Error(
+                                        data.error ||
+                                        "File upload failed."
+                                    )
+                                );
+
+                                return;
+                            }
+
+
+                            updateProgress(
+                                100,
+                                "Upload complete"
+                            );
+
+
+                            resolve(
+                                data
+                            );
+                        };
+
+
+                    xhr.onerror =
+                        function () {
+
+                            reject(
+                                new Error(
+                                    "Unable to connect to the Render server during file upload."
+                                )
+                            );
+                        };
+
+
+                    xhr.send(
+                        formData
+                    );
+                }
+            );
+        }
+
+
+        /* =====================================================
+           PROGRESS
+        ====================================================== */
+
+        function updateProgress(
+            percent,
+            text
+        ) {
+
+            const container =
+                document.getElementById(
+                    "progressContainer"
+                );
+
+
+            const bar =
+                document.getElementById(
+                    "progressBar"
+                );
+
+
+            const progressText =
+                document.getElementById(
+                    "progressText"
+                );
+
+
+            const progressPercent =
+                document.getElementById(
+                    "progressPercent"
+                );
+
+
+            container.style.display =
+                "block";
+
+
+            bar.style.width =
+                `${percent}%`;
+
+
+            progressText.textContent =
+                text;
+
+
+            progressPercent.textContent =
+                `${percent}%`;
+        }
+
+
+        /* =====================================================
+           RESET PROGRESS
+        ====================================================== */
+
+        function hideProgress() {
+
+            const container =
+                document.getElementById(
+                    "progressContainer"
+                );
+
+
+            container.style.display =
+                "none";
+        }
+
+
+        /* =====================================================
+           ANALYZE
+        ====================================================== */
+
+        analyzeBtn.addEventListener(
+            "click",
+            analyzeHome
+        );
+
+
+        async function analyzeHome() {
+
+            clearMessage();
+
+
+            if (
+                selectedFiles.length ===
+                0
+            ) {
+
+                showMessage(
+                    "Please upload at least one photo, video, or PDF.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            const address =
+                document
+                    .getElementById(
+                        "address"
+                    )
+                    .value
+                    .trim();
+
+
+            const budgetValue =
+                document
+                    .getElementById(
+                        "budgetCap"
+                    )
+                    .value;
+
+
+            if (!address) {
+
+                showMessage(
+                    "Please enter the property address.",
+                    "error"
+                );
+
+                document
+                    .getElementById(
+                        "address"
+                    )
+                    .focus();
+
+                return;
+            }
+
+
+            const budgetCap =
+                budgetValue === ""
+                    ? null
+                    : Number(
+                        budgetValue
+                    );
+
+
+            analyzeBtn.disabled =
+                true;
+
+            analyzeBtn.textContent =
+                "Analyzing...";
+
+
+            try {
+
+                /* =============================================
+                   STEP 1 — UPLOAD
+                ============================================= */
+
+                updateProgress(
+                    0,
+                    "Preparing upload..."
+                );
+
+
+                const uploadResult =
+                    await uploadFiles();
+
+
+                console.log(
+                    "Upload result:",
+                    uploadResult
+                );
+
+
+                /* =============================================
+                   STEP 2 — ANALYZE
+                ============================================= */
+
+                updateProgress(
+                    100,
+                    "Generating AI analysis..."
+                );
+
+
+                const apiBase =
+                    window.HomeGuardianAuth
+                        ?.API_BASE;
+
+
+                const result =
+                    await window.HomeGuardianAuth.apiRequest(
+                        "/api/analyze",
+                        {
+                            method:
+                                "POST",
+
+                            body:
+                                JSON.stringify({
+
+                                    address:
+                                        address,
+
+                                    uploadedFileCount:
+                                        uploadResult.uploaded ||
+                                        selectedFiles.length,
+
+                                    budgetCap:
+                                        budgetCap
+
+                                })
+                        }
+                    );
+
+
+                console.log(
+                    "Analysis result:",
+                    result
+                );
+
+
+                currentReportId =
+                    result.reportId ||
+                    null;
+
+
+                currentReport =
+                    result;
+
+
+                renderResults(
+                    result,
+                    uploadResult
+                );
+
+
+                if (
+                    currentReportId
+                ) {
+
+                    pdfBtn.disabled =
+                        false;
+                }
+
+
+                showMessage(
+                    "Home analysis completed successfully.",
+                    "success"
+                );
+
+
+                document
+                    .getElementById(
+                        "results"
+                    )
+                    .style.display =
+                    "block";
+
+
+                setTimeout(
+                    function () {
+
+                        document
+                            .getElementById(
+                                "results"
+                            )
+                            .scrollIntoView({
+                                behavior:
+                                    "smooth"
+                            });
+
+                    },
+                    150
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Analysis error:",
+                    error
+                );
+
+
+                showMessage(
+                    error.message ||
+                    "Home analysis failed. Please try again.",
+                    "error"
+                );
+
+
+            } finally {
+
+                analyzeBtn.disabled =
+                    false;
+
+                analyzeBtn.textContent =
+                    "Analyze My Home →";
+
+                hideProgress();
+            }
+        }
+
+
+        /* =====================================================
+           RENDER RESULTS
+        ====================================================== */
+
+        function renderResults(
+            report,
+            uploadResult
+        ) {
+
+            const score =
+                Number(
+                    report.homeHealthScore ??
+                    report.healthScore ??
+                    report.score ??
+                    0
+                );
+
+
+            document
+                .getElementById(
+                    "healthScore"
+                )
+                .textContent =
+                `${Math.round(score)}/100`;
+
+
+            document
+                .getElementById(
+                    "sideScore"
+                )
+                .textContent =
+                Math.round(score);
+
+
+            document
+                .getElementById(
+                    "healthStatus"
+                )
+                .textContent =
+                report.healthStatus ||
+                "Analysis complete";
+
+
+            document
+                .getElementById(
+                    "scoreStatus"
+                )
+                .textContent =
+                report.healthStatus ||
+                "Analysis complete";
+
+
+            document
+                .getElementById(
+                    "filesAnalyzed"
+                )
+                .textContent =
+                uploadResult?.uploaded ??
+                selectedFiles.length;
+
+
+            const address =
+                report.address ||
+                document
+                    .getElementById(
+                        "address"
+                    )
+                    .value
+                    .trim();
+
+
+            document
+                .getElementById(
+                    "propertyAddress"
+                )
+                .textContent =
+                address ||
+                "Your property";
+
+
+            renderSystemScores(
+                report
+            );
+
+
+            renderRepairs(
+                report
+            );
+
+
+            renderCostForecast(
+                report
+            );
+
+
+            renderNegotiation(
+                report
+            );
+
+
+            renderVendors(
+                report
+            );
+        }
+
+
+        /* =====================================================
+           SYSTEM SCORES
+        ====================================================== */
+
+        function renderSystemScores(
+            report
+        ) {
+
+            const container =
+                document.getElementById(
+                    "systemBars"
+                );
+
+
+            container.innerHTML =
+                "";
+
+
+            const scores =
+                report.systemScores ||
+                report.systemHealth ||
+                {};
+
+
+            const defaultSystems = [
+
+                [
+                    "Roof",
+                    78,
+                    ""
+                ],
+
+                [
+                    "Foundation / structure",
+                    62,
+                    "risk"
+                ],
+
+                [
+                    "Plumbing",
+                    91,
+                    ""
+                ],
+
+                [
+                    "Electrical",
+                    70,
+                    "warn"
+                ],
+
+                [
+                    "HVAC",
+                    83,
+                    ""
+                ],
+
+                [
+                    "Exterior / envelope",
+                    66,
+                    "warn"
+                ]
+
+            ];
+
+
+            const systemNames = [
+
+                "Roof",
+
+                "Foundation / structure",
+
+                "Plumbing",
+
+                "Electrical",
+
+                "HVAC",
+
+                "Exterior / envelope"
+
+            ];
+
+
+            systemNames.forEach(
+                function (
+                    name,
+                    index
+                ) {
+
+                    let value =
+                        findSystemScore(
+                            scores,
+                            name
+                        );
+
+
+                    if (
+                        value === null
+                    ) {
+
+                        value =
+                            defaultSystems[
+                                index
+                            ][1];
+                    }
+
+
+                    const cssClass =
+                        value < 65
+                            ? "risk"
+                            : value < 75
+                                ? "warn"
+                                : "";
+
+
+                    const row =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    row.className =
+                        "bar-row";
+
+
+                    row.innerHTML = `
+
+                        <div class="lbl">
+                            ${escapeHtml(name)}
+                        </div>
+
+                        <div class="bar-track">
+
+                            <div
+                                class="bar-fill ${cssClass}"
+                                style="width:${Math.max(0, Math.min(100, value))}%"
+                            ></div>
+
+                        </div>
+
+                        <div class="pct">
+                            ${Math.round(value)} / 100
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(
+                        row
+                    );
+                }
+            );
+
+
+            const riskCount =
+                Object.values(scores)
+                    .filter(
+                        value =>
+                            Number(value) <
+                            70
+                    )
+                    .length;
+
+
+            document
+                .getElementById(
+                    "riskCount"
+                )
+                .textContent =
+                riskCount ||
+                "0";
+        }
+
+
+        function findSystemScore(
+            scores,
+            target
+        ) {
+
+            if (
+                !scores ||
+                typeof scores !==
+                "object"
+            ) {
+                return null;
+            }
+
+
+            const normalizedTarget =
+                target
+                    .toLowerCase()
+                    .replace(
+                        /[^a-z0-9]/g,
+                        ""
+                    );
+
+
+            for (
+                const key
+                of Object.keys(scores)
+            ) {
+
+                const normalizedKey =
+                    key
+                        .toLowerCase()
+                        .replace(
+                            /[^a-z0-9]/g,
+                            ""
+                        );
+
+
+                if (
+                    normalizedKey.includes(
+                        normalizedTarget
+                    ) ||
+                    normalizedTarget.includes(
+                        normalizedKey
+                    )
+                ) {
+
+                    const value =
+                        Number(
+                            scores[key]
+                        );
+
+
+                    if (
+                        Number.isFinite(
+                            value
+                        )
+                    ) {
+
+                        return value;
+                    }
+                }
+            }
+
+
+            return null;
+        }
+
+
+        /* =====================================================
+           REPAIRS
+        ====================================================== */
+
+        function renderRepairs(
+            report
+        ) {
+
+            const rows =
+                document.getElementById(
+                    "repairRows"
+                );
+
+
+            rows.innerHTML =
+                "";
+
+
+            const repairs =
+                report.repairs ||
+                report.repairPriority ||
+                report.repairItems ||
+                [];
+
+
+            const fallback = [
+
+                {
+                    item:
+                        "Foundation hairline crack — monitor & seal",
+
+                    system:
+                        "Structure",
+
+                    priority:
+                        "Urgent",
+
+                    cost:
+                        2800
+
+                },
+
+                {
+                    item:
+                        "Panel upgrade — 100A to 200A service",
+
+                    system:
+                        "Electrical",
+
+                    priority:
+                        "Urgent",
+
+                    cost:
+                        3400
+
+                },
+
+                {
+                    item:
+                        "Gutter resealing before wet season",
+
+                    system:
+                        "Exterior",
+
+                    priority:
+                        "Urgent",
+
+                    cost:
+                        650
+
+                },
+
+                {
+                    item:
+                        "Water heater — replace within 18 months",
+
+                    system:
+                        "Plumbing",
+
+                    priority:
+                        "Soon",
+
+                    cost:
+                        1900
+
+                },
+
+                {
+                    item:
+                        "Roof shingles — reseal south-facing slope",
+
+                    system:
+                        "Roof",
+
+                    priority:
+                        "Soon",
+
+                    cost:
+                        2200
+
+                },
+
+                {
+                    item:
+                        "Repaint exterior trim",
+
+                    system:
+                        "Exterior",
+
+                    priority:
+                        "Plan ahead",
+
+                    cost:
+                        1600
+
+                }
+
+            ];
+
+
+            const data =
+                Array.isArray(repairs) &&
+                repairs.length
+                    ? repairs
+                    : fallback;
+
+
+            let total =
+                0;
+
+
+            data.forEach(
+                function (repair) {
+
+                    const item =
+                        repair.item ||
+                        repair.name ||
+                        repair.description ||
+                        "Repair item";
+
+
+                    const system =
+                        repair.system ||
+                        repair.category ||
+                        "General";
+
+
+                    const priority =
+                        repair.priority ||
+                        repair.urgency ||
+                        "Soon";
+
+
+                    const cost =
+                        Number(
+                            repair.cost ??
+                            repair.estimatedCost ??
+                            repair.estimated_cost ??
+                            0
+                        );
+
+
+                    total +=
+                        Number.isFinite(cost)
+                            ? cost
+                            : 0;
+
+
+                    const priorityClass =
+                        priority
+                            .toLowerCase()
+                            .includes("urgent")
+                            ? "urgent"
+                            : priority
+                                .toLowerCase()
+                                .includes("plan")
+                                    ? "plan"
+                                    : "soon";
+
+
+                    const tr =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    tr.innerHTML = `
+
+                        <td>
+                            ${escapeHtml(item)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(system)}
+                        </td>
+
+                        <td>
+                            <span class="tag ${priorityClass}">
+                                ${escapeHtml(priority)}
+                            </span>
+                        </td>
+
+                        <td>
+                            ${formatINR(cost)}
+                        </td>
+
+                    `;
+
+
+                    rows.appendChild(
+                        tr
+                    );
+                }
+            );
+
+
+            document
+                .getElementById(
+                    "repairTotal"
+                )
+                .textContent =
+                formatINR(total);
+        }
+
+
+        /* =====================================================
+           COST FORECAST
+        ====================================================== */
+
+        function renderCostForecast(
+            report
+        ) {
+
+            const chart =
+                document.getElementById(
+                    "costChart"
+                );
+
+
+            chart.innerHTML =
+                "";
+
+
+            const forecast =
+                report.costForecast ||
+                report.costForecast5Year ||
+                report.forecast ||
+                [];
+
+
+            const fallback = [
+
+                {
+                    year:
+                        1,
+
+                    amount:
+                        7200
+                },
+
+                {
+                    year:
+                        2,
+
+                    amount:
+                        2100
+                },
+
+                {
+                    year:
+                        3,
+
+                    amount:
+                        3400
+                },
+
+                {
+                    year:
+                        4,
+
+                    amount:
+                        1800
+                },
+
+                {
+                    year:
+                        5,
+
+                    amount:
+                        3700
+                }
+
+            ];
+
+
+            let data =
+                Array.isArray(
+                    forecast
+                ) &&
+                forecast.length
+                    ? forecast
+                    : fallback;
+
+
+            data =
+                data.slice(
+                    0,
+                    5
+                );
+
+
+            const amounts =
+                data.map(
+                    item =>
+                        Number(
+                            item.amount ??
+                            item.cost ??
+                            item.value ??
+                            0
+                        )
+                );
+
+
+            const max =
+                Math.max(
+                    ...amounts,
+                    1
+                );
+
+
+            data.forEach(
+                function (
+                    item,
+                    index
+                ) {
+
+                    const amount =
+                        Number(
+                            item.amount ??
+                            item.cost ??
+                            item.value ??
+                            0
+                        );
+
+
+                    const height =
+                        Math.max(
+                            20,
+                            (
+                                amount /
+                                max
+                            ) *
+                            115
+                        );
+
+
+                    const year =
+                        item.year ||
+                        index + 1;
+
+
+                    const col =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    col.className =
+                        "col";
+
+
+                    col.innerHTML = `
+
+                        <div class="amt">
+                            ${formatINR(amount)}
+                        </div>
+
+                        <div
+                            class="bar"
+                            style="height:${height}px;"
+                        ></div>
+
+                        <div class="yr">
+                            YEAR ${escapeHtml(year)}
+                        </div>
+
+                    `;
+
+
+                    chart.appendChild(
+                        col
+                    );
+                }
+            );
+        }
+
+
+        /* =====================================================
+           NEGOTIATION
+        ====================================================== */
+
+        function renderNegotiation(
+            report
+        ) {
+
+            const list =
+                document.getElementById(
+                    "negList"
+                );
+
+
+            list.innerHTML =
+                "";
+
+
+            const items =
+                report.negotiation ||
+                report.negotiationPoints ||
+                report.negotiationBrief ||
+                [];
+
+
+            const fallback = [
+
+                {
+                    text:
+                        "Foundation crack requires monitoring + sealant, unresolved by seller",
+
+                    amount:
+                        -2800
+                },
+
+                {
+                    text:
+                        "Electrical panel may require upgrade for current service requirements",
+
+                    amount:
+                        -3400
+                },
+
+                {
+                    text:
+                        "Water heater approaching expected service life",
+
+                    amount:
+                        -1200
+                }
+
+            ];
+
+
+            const data =
+                Array.isArray(items) &&
+                items.length
+                    ? items
+                    : fallback;
+
+
+            data.forEach(
+                function (item) {
+
+                    const text =
+                        typeof item ===
+                        "string"
+                            ? item
+                            : (
+                                item.text ||
+                                item.description ||
+                                item.point ||
+                                "Negotiation point"
+                            );
+
+
+                    const amount =
+                        typeof item ===
+                        "object"
+                            ? Number(
+                                item.amount ??
+                                item.discount ??
+                                0
+                            )
+                            : 0;
+
+
+                    const li =
+                        document.createElement(
+                            "li"
+                        );
+
+
+                    li.innerHTML = `
+
+                        <span>
+                            ${escapeHtml(text)}
+                        </span>
+
+                        <span class="amt">
+                            ${amount
+                                ? `−${formatINR(Math.abs(amount))}`
+                                : "Review"}
+                        </span>
+
+                    `;
+
+
+                    list.appendChild(
+                        li
+                    );
+                }
+            );
+        }
+
+
+        /* =====================================================
+           VENDORS
+        ====================================================== */
+
+        function renderVendors(
+            report
+        ) {
+
+            const grid =
+                document.getElementById(
+                    "vendorGrid"
+                );
+
+
+            grid.innerHTML =
+                "";
+
+
+            const vendors =
+                report.vendors ||
+                report.vendorMatches ||
+                [];
+
+
+            const fallback = [
+
+                {
+                    name:
+                        "Recommended Structural Vendor",
+
+                    rating:
+                        "4.9",
+
+                    response:
+                        "Responds in 4h",
+
+                    quote:
+                        2650
+                },
+
+                {
+                    name:
+                        "Recommended Electrical Vendor",
+
+                    rating:
+                        "4.8",
+
+                    response:
+                        "Responds in 6h",
+
+                    quote:
+                        3150
+                },
+
+                {
+                    name:
+                        "Recommended Roof & Gutter Vendor",
+
+                    rating:
+                        "4.7",
+
+                    response:
+                        "Responds in 12h",
+
+                    quote:
+                        580
+                }
+
+            ];
+
+
+            const data =
+                Array.isArray(vendors) &&
+                vendors.length
+                    ? vendors
+                    : fallback;
+
+
+            data.slice(
+                0,
+                6
+            ).forEach(
+                function (vendor) {
+
+                    const name =
+                        vendor.name ||
+                        vendor.vendor ||
+                        "Vendor";
+
+
+                    const rating =
+                        vendor.rating ??
+                        vendor.score ??
+                        "—";
+
+
+                    const response =
+                        vendor.responseTime ||
+                        vendor.response ||
+                        "Response time unavailable";
+
+
+                    const quote =
+                        Number(
+                            vendor.quote ??
+                            vendor.price ??
+                            vendor.estimatedCost ??
+                            0
+                        );
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "vendor";
+
+
+                    card.innerHTML = `
+
+                        <div class="name">
+                            ${escapeHtml(name)}
+                        </div>
+
+                        <div class="meta">
+                            ${escapeHtml(String(rating))} ★ ·
+                            ${escapeHtml(String(response))}
+                        </div>
+
+                        <div class="quote">
+                            ${quote
+                                ? formatINR(quote)
+                                : "Quote on request"}
+                        </div>
+
+                    `;
+
+
+                    grid.appendChild(
+                        card
+                    );
+                }
+            );
+        }
+
+
+        /* =====================================================
+           DOWNLOAD PDF
+        ====================================================== */
+
+        pdfBtn.addEventListener(
+            "click",
+            downloadPDF
+        );
+
+
+        async function downloadPDF() {
+
+            if (
+                !currentReportId
+            ) {
+
+                showMessage(
+                    "Please analyze your home first.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            const apiBase =
+                window.HomeGuardianAuth
+                    ?.API_BASE;
+
+
+            if (!apiBase) {
+
+                showMessage(
+                    "API configuration is unavailable.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            pdfBtn.disabled =
+                true;
+
+            pdfBtn.textContent =
+                "Generating PDF...";
+
+
+            try {
+
+                const token =
+                    localStorage.getItem(
+                        "homeguardian_token"
+                    );
+
+
+                const response =
+                    await fetch(
+                        `${apiBase}/api/reports/${encodeURIComponent(currentReportId)}/pdf`,
+                        {
+                            method:
+                                "GET",
+
+                            headers:
+                                token
+                                    ? {
+                                        Authorization:
+                                            `Bearer ${token}`
+                                    }
+                                    : {}
+                        }
+                    );
+
+
+                if (
+                    !response.ok
+                ) {
+
+                    let errorMessage =
+                        "Failed to generate PDF report.";
+
+
+                    try {
+
+                        const errorData =
+                            await response.json();
+
+
+                        errorMessage =
+                            errorData.error ||
+                            errorData.message ||
+                            errorMessage;
+
+                    } catch (error) {
+                        /* Ignore JSON parsing error */
+                    }
+
+
+                    throw new Error(
+                        errorMessage
+                    );
+                }
+
+
+                const blob =
+                    await response.blob();
+
+
+                const url =
+                    window.URL.createObjectURL(
+                        blob
+                    );
+
+
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+
+
+                link.href =
+                    url;
+
+
+                link.download =
+                    "HomeGuardian-AI-Report-INR.pdf";
+
+
+                document.body.appendChild(
+                    link
+                );
+
+
+                link.click();
+
+
+                link.remove();
+
+
+                window.URL.revokeObjectURL(
+                    url
+                );
+
+
+                showMessage(
+                    "PDF report generated successfully.",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "PDF error:",
+                    error
+                );
+
+
+                showMessage(
+                    error.message ||
+                    "Unable to generate PDF report.",
+                    "error"
+                );
+
+            } finally {
+
+                pdfBtn.disabled =
+                    false;
+
+                pdfBtn.textContent =
+                    "Download PDF Report ↓";
+            }
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ====================================================== */
+
+        document
+            .getElementById(
+                "logoutBtn"
+            )
+            .addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        window.HomeGuardianAuth
+                    ) {
+
+                        window.HomeGuardianAuth.logout();
+
+                    } else {
+
+                        localStorage.removeItem(
+                            "homeguardian_token"
+                        );
+
+                        localStorage.removeItem(
+                            "homeguardian_user"
+                        );
+
+                        window.location.href =
+                            "/login";
+                    }
+                }
+            );
+
+
+        /* =====================================================
+           INITIALIZE
+        ====================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                /*
+                 * Require authentication.
+                 */
+
+                if (
+                    window.HomeGuardianAuth &&
+                    !window.HomeGuardianAuth.isLoggedIn()
+                ) {
+
+                    window.location.href =
+                        "/login";
+
+                    return;
+                }
+
+
+                /*
+                 * Display user name.
+                 */
+
+                const user =
+                    window.HomeGuardianAuth
+                        ?.getCurrentUser();
+
+
+                if (
+                    user &&
+                    user.name
+                ) {
+
+                    document
+                        .getElementById(
+                            "userName"
+                        )
+                        .textContent =
+                        `Hi, ${user.name}`;
+                }
+
+            }
+        );
+
+    </script>
 
 </body>
+
 </html>

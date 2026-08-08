@@ -1,41 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Create Account | HomeGuardian AI</title>
 
-    <title>Sign up — HomeGuardian AI</title>
-
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
         rel="stylesheet"
     >
 
-
     <style>
-
         :root {
+            --ink: #0B1620;
             --purple: #8B5CF6;
-            --purple-light: #C4B5FD;
             --pink: #F472B6;
             --cyan: #22D3EE;
-            --amber: #FBBF24;
             --green: #34D399;
-            --radius: 18px;
+            --red: #EF4444;
+            --gray: #6B7280;
+            --line: rgba(18, 34, 46, 0.10);
         }
-
 
         * {
             box-sizing: border-box;
@@ -43,557 +30,544 @@
             padding: 0;
         }
 
-
-        html,
         body {
-            min-height: 100%;
-        }
-
-
-        body {
+            min-height: 100vh;
+            font-family: "Inter", sans-serif;
+            color: var(--ink);
 
             background:
                 radial-gradient(
-                    1100px 800px at 90% -10%,
-                    rgba(251,191,36,0.4),
-                    transparent 55%
+                    900px 600px at 0% 0%,
+                    rgba(139, 92, 246, 0.18),
+                    transparent 60%
                 ),
                 radial-gradient(
-                    1000px 700px at -10% 20%,
-                    rgba(139,92,246,0.55),
-                    transparent 50%
-                ),
-                radial-gradient(
-                    900px 700px at 60% 120%,
-                    rgba(34,211,238,0.4),
-                    transparent 55%
+                    800px 600px at 100% 20%,
+                    rgba(34, 211, 238, 0.14),
+                    transparent 60%
                 ),
                 linear-gradient(
-                    160deg,
-                    #0B1620 0%,
-                    #1A0F2E 55%,
-                    #12122E 100%
+                    135deg,
+                    #F8FAF8,
+                    #EEF2EF
                 );
 
-            background-size:
-                200% 200%,
-                200% 200%,
-                200% 200%,
-                100% 100%;
+            display: flex;
+            flex-direction: column;
+        }
 
-            animation:
-                gradientShift
-                16s
-                ease-in-out
-                infinite;
+        /* ================================
+           NAVBAR
+        ================================= */
 
-            font-family:
-                "Inter",
-                sans-serif;
-
-            min-height: 100vh;
+        .navbar {
+            height: 68px;
+            padding: 0 6%;
 
             display: flex;
-
             align-items: center;
+            justify-content: space-between;
 
-            justify-content: center;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(18px);
 
-            padding: 24px;
-
-            position: relative;
-
-            overflow: hidden;
+            border-bottom: 1px solid var(--line);
         }
 
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
 
-        @keyframes gradientShift {
+            text-decoration: none;
+            color: var(--ink);
 
-            0%,
-            100% {
-                background-position:
-                    0% 0%,
-                    100% 0%,
-                    50% 100%,
-                    0 0;
-            }
-
-            50% {
-                background-position:
-                    30% 30%,
-                    70% 40%,
-                    60% 70%,
-                    0 0;
-            }
-        }
-
-
-        .blob {
-
-            position: fixed;
-
-            border-radius: 50%;
-
-            filter: blur(80px);
-
-            opacity: 0.5;
-
-            pointer-events: none;
-
-            animation:
-                float
-                9s
-                ease-in-out
-                infinite;
-
-            z-index: 0;
-        }
-
-
-        .blob1 {
-
-            width: 340px;
-            height: 340px;
-
-            background: var(--amber);
-
-            top: -90px;
-            right: -60px;
-        }
-
-
-        .blob2 {
-
-            width: 320px;
-            height: 320px;
-
-            background: var(--purple);
-
-            bottom: -100px;
-            left: -80px;
-
-            animation-delay: -3s;
-        }
-
-
-        .blob3 {
-
-            width: 260px;
-            height: 260px;
-
-            background: var(--cyan);
-
-            top: 55%;
-            left: 65%;
-
-            animation-delay: -6s;
-        }
-
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform:
-                    translate(0,0)
-                    scale(1);
-            }
-
-            50% {
-                transform:
-                    translate(-20px,26px)
-                    scale(1.1);
-            }
-        }
-
-
-        .card {
-
-            position: relative;
-
-            z-index: 1;
-
-            background:
-                rgba(18,22,34,0.72);
-
-            backdrop-filter:
-                blur(20px)
-                saturate(1.3);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.12);
-
-            border-radius:
-                var(--radius);
-
-            padding: 42px;
-
-            width: 100%;
-
-            max-width: 420px;
-
-            box-shadow:
-                0 30px 80px
-                rgba(0,0,0,0.45);
-        }
-
-
-        .brand {
-
-            font-family:
-                "Fraunces",
-                serif;
-
+            font-family: "Fraunces", serif;
+            font-size: 20px;
             font-weight: 600;
-
-            font-size: 18px;
-
-            margin-bottom: 32px;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            color: white;
         }
 
-
-        .brand-mark {
-
-            width: 12px;
-
-            height: 12px;
-
+        .logo-mark {
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
 
             background:
                 linear-gradient(
                     135deg,
-                    var(--amber),
+                    var(--purple),
                     var(--pink)
                 );
-
-            display: inline-block;
 
             box-shadow:
-                0 0 14px
-                rgba(244,114,182,0.8);
+                0 0 15px rgba(139, 92, 246, 0.5);
         }
 
+        .nav-link {
+            text-decoration: none;
+            color: var(--ink);
 
-        h1 {
-
-            font-family:
-                "Fraunces",
-                serif;
-
+            font-size: 13px;
             font-weight: 600;
 
-            font-size: 30px;
+            padding: 10px 16px;
+            border-radius: 9px;
 
-            margin-bottom: 6px;
+            background: rgba(18, 34, 46, 0.06);
 
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--amber),
-                    var(--pink)
-                );
-
-            -webkit-background-clip: text;
-
-            background-clip: text;
-
-            color: transparent;
+            transition: 0.2s ease;
         }
 
-
-        .sub {
-
-            color: #B7C0CC;
-
-            font-size: 14px;
-
-            margin-bottom: 28px;
+        .nav-link:hover {
+            transform: translateY(-2px);
         }
 
+        /* ================================
+           PAGE
+        ================================= */
 
-        label {
+        .page {
+            flex: 1;
 
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-            font-size: 11.5px;
+            padding: 60px 20px;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .register-card {
+            background: rgba(255, 255, 255, 0.96);
+
+            border: 1px solid var(--line);
+            border-radius: 22px;
+
+            padding: 38px;
+
+            box-shadow:
+                0 30px 70px rgba(11, 22, 32, 0.12);
+        }
+
+        .eyebrow {
+            display: inline-block;
+
+            padding: 7px 12px;
+            margin-bottom: 18px;
+
+            border-radius: 20px;
+
+            background: rgba(139, 92, 246, 0.10);
+
+            color: #7045D5;
 
             font-family:
                 "IBM Plex Mono",
                 monospace;
 
+            font-size: 10px;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-
-            letter-spacing: 0.09em;
-
-            color: var(--cyan);
-
-            margin-bottom: 6px;
-
-            margin-top: 18px;
         }
 
+        h1 {
+            font-family: "Fraunces", serif;
+
+            font-size: 38px;
+            line-height: 1.05;
+
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--gray);
+
+            font-size: 14px;
+            line-height: 1.6;
+
+            margin-bottom: 28px;
+        }
+
+        /* ================================
+           FORM
+        ================================= */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
 
         input {
-
             width: 100%;
 
             padding: 13px 14px;
 
-            border:
-                1px solid
-                rgba(255,255,255,0.14);
-
+            border: 1px solid rgba(18, 34, 46, 0.14);
             border-radius: 10px;
 
-            font-family:
-                "Inter",
-                sans-serif;
+            background: #FAFBFA;
 
-            font-size: 15px;
+            color: var(--ink);
 
-            background:
-                rgba(255,255,255,0.06);
-
-            color: white;
-
-            transition:
-                border-color .2s ease,
-                background .2s ease,
-                box-shadow .2s ease;
-        }
-
-
-        input::placeholder {
-            color: #6B7684;
-        }
-
-
-        input:focus {
+            font-family: "Inter", sans-serif;
+            font-size: 14px;
 
             outline: none;
 
-            border-color:
-                var(--purple-light);
-
-            background:
-                rgba(255,255,255,0.1);
-
-            box-shadow:
-                0 0 0 4px
-                rgba(139,92,246,0.22);
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease,
+                background .2s ease;
         }
 
+        input:focus {
+            background: white;
 
-        .btn {
+            border-color: var(--purple);
 
-            margin-top: 28px;
+            box-shadow:
+                0 0 0 3px rgba(139, 92, 246, 0.12);
+        }
 
+        input::placeholder {
+            color: #9CA3AF;
+        }
+
+        .password-note {
+            margin-top: 6px;
+
+            color: #8A939C;
+
+            font-size: 11px;
+        }
+
+        /* ================================
+           MESSAGE
+        ================================= */
+
+        #authMessage {
+            display: none;
+
+            margin-bottom: 18px;
+            padding: 12px 14px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+            line-height: 1.5;
+
+            border: 1px solid transparent;
+        }
+
+        #authMessage.error {
+            display: block;
+
+            color: #B91C1C;
+
+            background: #FEF2F2;
+            border-color: #FECACA;
+        }
+
+        #authMessage.success {
+            display: block;
+
+            color: #047857;
+
+            background: #ECFDF5;
+            border-color: #A7F3D0;
+        }
+
+        /* ================================
+           BUTTON
+        ================================= */
+
+        .submit-btn {
             width: 100%;
 
-            padding: 14px;
-
             border: none;
+            cursor: pointer;
 
-            border-radius: 10px;
+            padding: 14px 20px;
+
+            border-radius: 11px;
+
+            color: white;
+
+            font-size: 14px;
+            font-weight: 700;
 
             background:
                 linear-gradient(
                     90deg,
-                    var(--amber),
+                    var(--purple),
                     var(--pink)
                 );
 
-            color: #1A0F2E;
-
-            font-weight: 700;
-
-            font-size: 15px;
-
-            cursor: pointer;
+            box-shadow:
+                0 12px 28px
+                rgba(139, 92, 246, 0.25);
 
             transition:
-                transform .15s ease,
-                box-shadow .2s ease;
+                transform .2s ease,
+                box-shadow .2s ease,
+                opacity .2s ease;
         }
 
-
-        .btn:hover {
-
-            transform:
-                translateY(-2px);
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
 
             box-shadow:
-                0 14px 36px -8px
-                rgba(244,114,182,0.6);
+                0 16px 35px
+                rgba(139, 92, 246, 0.35);
         }
 
-
-        .btn:disabled {
-
-            opacity: 0.6;
-
+        .submit-btn:disabled {
             cursor: not-allowed;
-
-            transform: none;
+            opacity: 0.65;
         }
 
+        /* ================================
+           LOGIN LINK
+        ================================= */
 
-        .msg {
-
-            margin-top: 14px;
-
-            font-size: 13px;
-
-            min-height: 18px;
-        }
-
-
-        .foot {
-
-            margin-top: 26px;
-
-            font-size: 13px;
-
-            color: #9AA5B1;
-
+        .login-text {
             text-align: center;
+
+            margin-top: 22px;
+
+            color: var(--gray);
+
+            font-size: 13px;
         }
 
-
-        .foot a {
-
-            color: var(--cyan);
-
-            font-weight: 600;
+        .login-text a {
+            color: #7045D5;
 
             text-decoration: none;
+
+            font-weight: 700;
         }
 
-
-        .foot a:hover {
+        .login-text a:hover {
             text-decoration: underline;
         }
 
+        /* ================================
+           FOOTER
+        ================================= */
+
+        footer {
+            padding: 20px 6%;
+
+            text-align: center;
+
+            color: #8A939C;
+
+            font-size: 11px;
+        }
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .nav-link {
+                padding: 8px 11px;
+                font-size: 11px;
+            }
+
+            .page {
+                padding: 35px 15px;
+            }
+
+            .register-card {
+                padding: 28px 22px;
+                border-radius: 18px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+        }
     </style>
-
 </head>
-
 
 <body>
 
-    <div class="blob blob1"></div>
+    <!-- ================================
+         NAVIGATION
+    ================================= -->
 
-    <div class="blob blob2"></div>
+    <nav class="navbar">
 
-    <div class="blob blob3"></div>
-
-
-    <div class="card">
-
-        <div class="brand">
-
-            <span class="brand-mark"></span>
-
+        <a href="/" class="logo">
+            <span class="logo-mark"></span>
             HomeGuardian AI
+        </a>
+
+        <a href="/login" class="nav-link">
+            Log in
+        </a>
+
+    </nav>
+
+
+    <!-- ================================
+         REGISTER
+    ================================= -->
+
+    <main class="page">
+
+        <div class="register-container">
+
+            <div class="register-card">
+
+                <span class="eyebrow">
+                    Home intelligence
+                </span>
+
+                <h1>
+                    Create your account.
+                </h1>
+
+                <p class="subtitle">
+                    Create your HomeGuardian AI account to
+                    analyze your home, upload inspection files,
+                    generate insights, and access your reports.
+                </p>
+
+
+                <!-- Message area -->
+
+                <div id="authMessage"></div>
+
+
+                <!-- Registration form -->
+
+                <form id="registerForm" novalidate>
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+
+                        <div class="password-note">
+                            Password must contain at least 6 characters.
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        id="registerBtn"
+                        class="submit-btn"
+                    >
+                        Create account →
+                    </button>
+
+                </form>
+
+
+                <div class="login-text">
+
+                    Already have an account?
+
+                    <a href="/login">
+                        Log in
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
 
-
-        <h1>
-            Create your account
-        </h1>
+    </main>
 
 
-        <div class="sub">
-            Get a Home Intelligence Report in minutes.
-        </div>
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
+    <footer>
+        © 2026 HomeGuardian AI · AI-powered home intelligence
+    </footer>
 
 
-        <form id="registerForm">
+    <!-- ================================
+         AUTH JAVASCRIPT
+    ================================= -->
 
-            <label for="name">
-                Name
-            </label>
-
-            <input
-                type="text"
-                id="name"
-                required
-                autocomplete="name"
-                placeholder="Your name"
-            >
-
-
-            <label for="email">
-                Email
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                required
-                autocomplete="email"
-                placeholder="you@example.com"
-            >
-
-
-            <label for="password">
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                required
-                minlength="6"
-                autocomplete="new-password"
-                placeholder="At least 6 characters"
-            >
-
-
-            <button
-                class="btn"
-                type="submit"
-                id="registerBtn"
-            >
-                Create account →
-            </button>
-
-
-            <div
-                class="msg"
-                id="msg"
-            ></div>
-
-        </form>
-
-
-        <div class="foot">
-
-            Already have an account?
-
-            <a href="/login">
-                Log in
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- Authentication JavaScript -->
     <script src="/auth.js"></script>
 
 </body>
-
 </html>
