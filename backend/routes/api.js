@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-// Health endpoint
 router.get("/health", (req, res) => {
   res.json({
     success: true,
@@ -10,36 +9,34 @@ router.get("/health", (req, res) => {
   });
 });
 
-// Upload endpoint
 router.post("/upload", (req, res) => {
-  try {
-    res.json({
-      success: true,
-      message: "File uploaded successfully",
-      fileSize: "2.5 MB"
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
+  res.json({
+    success: true,
+    message: "File uploaded successfully",
+    fileSize: "2.5 MB"
+  });
 });
 
-// Analyze endpoint
 router.post("/analyze", (req, res) => {
-  try {
-    res.json({
-      success: true,
-      homeScore: 78,
-      summary: "Home inspection analysis complete"
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
+  res.json({
+    success: true,
+    homeScore: 78,
+    summary: "Home inspection analysis complete"
+  });
+});
+
+router.post("/login", (req, res) => {
+  res.json({
+    success: true,
+    message: "Login successful"
+  });
+});
+
+router.post("/register", (req, res) => {
+  res.json({
+    success: true,
+    message: "Registration successful"
+  });
 });
 
 module.exports = router;

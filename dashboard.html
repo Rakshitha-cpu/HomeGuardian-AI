@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomeGuardian AI - Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #f1f3ef 0%, #ffffff 100%);
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #12222E;
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #C08A3E;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      color: #C08A3E;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .dashboard-title {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-title h1 {
+      color: #12222E;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .score-card {
+      background: linear-gradient(135deg, #12222E 0%, #2C5F7C 100%);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .score-number {
+      font-size: 4rem;
+      font-weight: 700;
+      margin: 1rem 0;
+    }
+
+    .score-label {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .score-status {
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h3 {
+      color: #12222E;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      border-bottom: 3px solid #C08A3E;
+      padding-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .issues-list {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .issues-list li {
+      padding: 0.8rem;
+      margin-bottom: 0.8rem;
+      background: #f5f5f5;
+      border-left: 4px solid #B14A3D;
+      border-radius: 3px;
+    }
+
+    .issue-title {
+      font-weight: 600;
+      color: #12222E;
+    }
+
+    .issue-severity {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.3rem;
+    }
+
+    .issue-estimate {
+      font-weight: 600;
+      color: #C08A3E;
+      margin-top: 0.3rem;
+    }
+
+    .recommendations {
+      background: #f0f8ff;
+      border-left: 4px solid #2C5F7C;
+      padding: 1.5rem;
+      border-radius: 5px;
+    }
+
+    .recommendations h4 {
+      color: #2C5F7C;
+      margin-bottom: 1rem;
+    }
+
+    .recommendations ul {
+      margin-left: 1.5rem;
+    }
+
+    .recommendations li {
+      margin-bottom: 0.8rem;
+      color: #333;
+    }
+
+    .cost-breakdown {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .cost-breakdown h3 {
+      color: #12222E;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      border-bottom: 3px solid #C08A3E;
+      padding-bottom: 0.5rem;
+    }
+
+    .cost-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cost-item:last-child {
+      border-bottom: none;
+    }
+
+    .cost-label {
+      font-weight: 600;
+      color: #12222E;
+    }
+
+    .cost-amount {
+      color: #C08A3E;
+      font-weight: 700;
+    }
+
+    button {
+      background-color: #2C5F7C;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #1a3a4a;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .action-buttons {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    footer {
+      background-color: #12222E;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .score-number {
+        font-size: 2.5rem;
+      }
+
+      nav ul {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">🏠 HomeGuardian AI</div>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="dashboard-title">
+      <h1>📊 Home Intelligence Report</h1>
+      <p>Complete analysis of your property inspection</p>
+    </section>
+
+    <!-- Home Score Card -->
+    <section class="score-card">
+      <div class="score-label">HOME HEALTH SCORE</div>
+      <div class="score-number" id="homeScore">78</div>
+      <div class="score-status" id="homeStatus">Good</div>
+    </section>
+
+    <!-- Main Grid -->
+    <section class="grid">
+      <!-- Issues Found -->
+      <div class="card">
+        <h3>⚠️ Issues Found</h3>
+        <ul class="issues-list" id="issuesList">
+          <li>
+            <div class="issue-title">Old Roof</div>
+            <div class="issue-severity">Severity: High</div>
+            <div class="issue-estimate">Estimate: ₹150,000</div>
+          </li>
+          <li>
+            <div class="issue-title">Foundation Settling</div>
+            <div class="issue-severity">Severity: Medium</div>
+            <div class="issue-estimate">Estimate: ₹75,000</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="card recommendations">
+        <h4>✓ Recommendations</h4>
+        <ul id="recommendationsList">
+          <li>Replace roof within 2 years</li>
+          <li>Monitor foundation cracks quarterly</li>
+          <li>Schedule professional foundation inspection</li>
+          <li>Update electrical wiring to modern standards</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cost Breakdown -->
+    <section class="cost-breakdown">
+      <h3>💰 5-Year Cost Forecast</h3>
+      <div class="cost-item">
+        <span class="cost-label">Immediate Repairs (Year 1)</span>
+        <span class="cost-amount">₹225,000</span>
+      </div>
+      <div class="cost-item">
+        <span class="cost-label">Major Repairs (Year 2-3)</span>
+        <span class="cost-amount">₹150,000</span>
+      </div>
+      <div class="cost-item">
+        <span class="cost-label">Maintenance & Upgrades (Year 4-5)</span>
+        <span class="cost-amount">₹100,000</span>
+      </div>
+      <div class="cost-item" style="margin-top: 1rem; padding-top: 1rem; border-top: 2px solid #C08A3E;">
+        <span class="cost-label">TOTAL 5-YEAR ESTIMATE</span>
+        <span class="cost-amount" style="font-size: 1.2rem;">₹475,000</span>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <section class="action-buttons">
+      <button onclick="downloadPDF()">📥 Download PDF Report</button>
+      <button onclick="goHome()" style="background-color: #B14A3D;">🏠 Back to Home</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 HomeGuardian AI. All rights reserved.</p>
+    <p>Your trusted home intelligence partner.</p>
+  </footer>
+
+  <script>
+    function downloadPDF() {
+      alert("📥 PDF download feature coming soon!");
+    }
+
+    function goHome() {
+      window.location.href = "/";
+    }
+
+    function logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/";
+    }
+
+    // Check if user is logged in
+    document.addEventListener("DOMContentLoaded", function() {
+      const user = localStorage.getItem("user");
+      if (!user) {
+        alert("Please login first");
+        window.location.href = "/";
+      }
+    });
+  </script>
+</body>
+</html>

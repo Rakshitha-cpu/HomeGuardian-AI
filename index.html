@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomeGuardian AI - Home Intelligence Report</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #f1f3ef 0%, #ffffff 100%);
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #12222E;
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #C08A3E;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #C08A3E;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #12222E 0%, #2C5F7C 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 3rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      opacity: 0.95;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .card h3 {
+      color: #12222E;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-section h2 {
+      color: #12222E;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #12222E;
+      font-weight: 600;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #2C5F7C;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    button {
+      background-color: #2C5F7C;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background-color: #1a3a4a;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    button.primary {
+      background-color: #C08A3E;
+    }
+
+    button.primary:hover {
+      background-color: #a1723a;
+    }
+
+    button.secondary {
+      background-color: #B14A3D;
+    }
+
+    button.secondary:hover {
+      background-color: #8a3831;
+    }
+
+    .mt-3 {
+      margin-top: 1.5rem;
+      text-align: center;
+      min-height: 30px;
+    }
+
+    footer {
+      background-color: #12222E;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      nav ul {
+        gap: 1rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">🏠 HomeGuardian AI</div>
+      <ul>
+        <li><a href="#upload">Upload</a></li>
+        <li><a href="#analyze">Analyze</a></li>
+        <li><a href="#login">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>🏡 Welcome to HomeGuardian AI</h1>
+      <p>Your Autonomous Home Purchase & Lifecycle Intelligence Agent</p>
+      <p>Get comprehensive home inspection reports powered by AI</p>
+    </section>
+
+    <section class="cards">
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <h3>Smart Analysis</h3>
+        <p>Upload inspection reports and get AI-powered analysis in seconds</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <h3>Detailed Reports</h3>
+        <p>Comprehensive breakdowns of home health, issues, and repairs</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <h3>Cost Estimates</h3>
+        <p>Get accurate repair cost forecasts and negotiation briefs</p>
+      </div>
+    </section>
+
+    <section id="upload" class="form-section">
+      <h2>📤 Upload Inspection Report</h2>
+      <div class="form-group">
+        <label for="file-upload">Select PDF or Image File:</label>
+        <input type="file" id="file-upload" accept=".pdf,.jpg,.png,.jpeg">
+      </div>
+      <button onclick="upload()">Upload & Analyze</button>
+      <div id="upload-status" class="mt-3"></div>
+    </section>
+
+    <section id="analyze" class="form-section">
+      <h2>🔬 Analyze Home</h2>
+      <p>Click below to analyze the uploaded inspection report</p>
+      <button class="primary" onclick="analyze()">Run Analysis</button>
+      <div id="analyze-status" class="mt-3"></div>
+    </section>
+
+    <section id="login" class="form-section">
+      <h2>🔐 Login to Dashboard</h2>
+      <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Enter your password">
+      </div>
+      <div class="button-group">
+        <button class="primary" onclick="login()">Login</button>
+        <button class="secondary" onclick="register()">Register</button>
+      </div>
+      <div id="login-status" class="mt-3"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 HomeGuardian AI. All rights reserved.</p>
+    <p>Your trusted home intelligence partner.</p>
+  </footer>
+
+  <script src="auth.js"></script>
+</body>
+</html>
