@@ -13,7 +13,8 @@ const app = express();
 // CONFIGURATION
 // =========================================================
 
-const PORT = process.env.PORT || 4000;
+const PORT = Number(process.env.PORT) || 4000;
+const HOST = "0.0.0.0";
 
 const FRONTEND_DIR = path.join(__dirname, "..", "frontend");
 const UPLOADS_DIR = path.join(__dirname, "uploads");
@@ -39,7 +40,11 @@ app.use(
   })
 );
 
-app.use(express.json({ limit: "10mb" }));
+app.use(
+  express.json({
+    limit: "10mb",
+  })
+);
 
 app.use(
   express.urlencoded({
@@ -52,12 +57,12 @@ app.use(
 // STATIC FRONTEND
 // =========================================================
 
-// Serve frontend files
-app.use(
-  express.static(FRONTEND_DIR)
-);
+app.use(express.static(FRONTEND_DIR));
 
-// Serve uploaded images/files
+// =========================================================
+// STATIC UPLOADED FILES
+// =========================================================
+
 app.use(
   "/uploads",
   express.static(UPLOADS_DIR)
@@ -94,6 +99,8 @@ app.get("/health", (req, res) => {
     service: "HomeGuardian AI",
     status: "running",
     currency: "INR",
+    environment:
+      process.env.NODE_ENV || "development",
     timestamp: new Date().toISOString(),
   });
 });
@@ -102,25 +109,24 @@ app.get("/health", (req, res) => {
 // API ROUTES
 // =========================================================
 
-let apiRoutes;
-
 try {
-  apiRoutes = require("./routes/api");
+  const apiRoutes = require("./routes/api");
 
   app.use(
     "/api",
     apiRoutes
   );
 
-  console.log("✅ API routes loaded successfully.");
+  console.log(
+    "✅ API routes loaded successfully."
+  );
 } catch (error) {
   console.error(
     "❌ Could not load ./routes/api.js"
   );
 
-  console.error(error.message);
+  console.error(error);
 
-  // Keep server running so frontend can still open
   app.use("/api", (req, res) => {
     res.status(500).json({
       success: false,
@@ -132,96 +138,183 @@ try {
 }
 
 // =========================================================
+// AUTH ROUTES
+// =========================================================
+
+try {
+  const authRoutes = require("./routes/auth");
+
+  app.use(
+    "/api/auth",
+    authRoutes
+  );
+
+  console.log(
+    "✅ Authentication routes loaded successfully."
+  );
+} catch (error) {
+  console.warn(
+    "⚠️ Authentication routes not loaded."
+  );
+
+  console.warn(
+    error.message
+  );
+}
+
+// =========================================================
 // DASHBOARD ROUTE
 // =========================================================
 
-app.get("/dashboard", (req, res) => {
-  const dashboardPath = path.join(
-    FRONTEND_DIR,
-    "dashboard.html"
-  );
+app.get(
+  "/dashboard",
+  (req, res) => {
+    const dashboardPath =
+      path.join(
+        FRONTEND_DIR,
+        "dashboard.html"
+      );
 
-  if (!fs.existsSync(dashboardPath)) {
-    return res.status(404).send(
-      "dashboard.html not found"
+    if (
+      !fs.existsSync(
+        dashboardPath
+      )
+    ) {
+      return res
+        .status(404)
+        .send(
+          "dashboard.html not found"
+        );
+    }
+
+    return res.sendFile(
+      dashboardPath
     );
   }
-
-  return res.sendFile(
-    dashboardPath
-  );
-});
+);
 
 // =========================================================
 // LOGIN ROUTE
 // =========================================================
 
-app.get("/login", (req, res) => {
-  const loginPath = path.join(
-    FRONTEND_DIR,
-    "login.html"
-  );
+app.get(
+  "/login",
+  (req, res) => {
+    const loginPath =
+      path.join(
+        FRONTEND_DIR,
+        "login.html"
+      );
 
-  if (!fs.existsSync(loginPath)) {
-    return res.status(404).send(
-      "login.html not found"
+    if (
+      !fs.existsSync(
+        loginPath
+      )
+    ) {
+      return res
+        .status(404)
+        .send(
+          "login.html not found"
+        );
+    }
+
+    return res.sendFile(
+      loginPath
     );
   }
-
-  return res.sendFile(loginPath);
-});
+);
 
 // =========================================================
 // REGISTER ROUTE
 // =========================================================
 
-app.get("/register", (req, res) => {
-  const registerPath = path.join(
-    FRONTEND_DIR,
-    "register.html"
-  );
+app.get(
+  "/register",
+  (req, res) => {
+    const registerPath =
+      path.join(
+        FRONTEND_DIR,
+        "register.html"
+      );
 
-  if (!fs.existsSync(registerPath)) {
-    return res.status(404).send(
-      "register.html not found"
+    if (
+      !fs.existsSync(
+        registerPath
+      )
+    ) {
+      return res
+        .status(404)
+        .send(
+          "register.html not found"
+        );
+    }
+
+    return res.sendFile(
+      registerPath
     );
   }
+);
 
-  return res.sendFile(
-    registerPath
-  );
-});
+// =========================================================
+// PDF ROUTE SUPPORT
+// =========================================================
+//
+// The actual PDF endpoint should be registered
+// inside routes/api.js.
+//
+// Example:
+//
+// GET /api/reports/:id/pdf
+//
+// This server.js simply forwards /api requests
+// to routes/api.js.
+//
+// =========================================================
 
 // =========================================================
 // 404 HANDLER
 // =========================================================
 
-app.use((req, res) => {
-  res.status(404).json({
-    error: "Not found",
-    path: req.originalUrl,
-  });
-});
+app.use(
+  (req, res) => {
+    res.status(404).json({
+      success: false,
+      error: "Not found",
+      path: req.originalUrl,
+    });
+  }
+);
 
 // =========================================================
 // GLOBAL ERROR HANDLER
 // =========================================================
 
 app.use(
-  (error, req, res, next) => {
+  (
+    error,
+    req,
+    res,
+    next
+  ) => {
     console.error(
       "❌ Server error:",
       error
     );
 
-    res.status(
-      error.status || 500
-    ).json({
-      success: false,
-      error:
-        error.message ||
-        "Internal server error",
-    });
+    if (res.headersSent) {
+      return next(error);
+    }
+
+    res
+      .status(
+        error.status || 500
+      )
+      .json({
+        success: false,
+        error:
+          error.message ||
+          "Internal server error",
+      });
   }
 );
 
@@ -231,35 +324,43 @@ app.use(
 
 app.listen(
   PORT,
+  HOST,
   () => {
     console.log("");
     console.log(
       "======================================"
     );
     console.log(
-      "       HOMEGUARDIAN AI"
+      "          HOMEGUARDIAN AI"
     );
     console.log(
       "======================================"
     );
+
     console.log(
-      `🚀 Server running on: http://localhost:${PORT}`
+      `🚀 Server listening on ${HOST}:${PORT}`
     );
+
     console.log(
       `🏠 Frontend: http://localhost:${PORT}/`
     );
+
     console.log(
       `📊 Dashboard: http://localhost:${PORT}/dashboard.html`
     );
+
     console.log(
       `❤️ Health: http://localhost:${PORT}/health`
     );
+
     console.log(
       `🔌 API: http://localhost:${PORT}/api`
     );
+
     console.log(
       "======================================"
     );
+
     console.log("");
   }
 );
