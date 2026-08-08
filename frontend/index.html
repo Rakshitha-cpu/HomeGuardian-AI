@@ -1,1760 +1,1515 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>HomeGuardian AI</title>
+```
+<title>HomeGuardian AI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+>
+
+<style>
+    :root {
+        --ink: #0B1620;
+        --ink-soft: #12222E;
+
+        --purple: #8B5CF6;
+        --purple-light: #C4B5FD;
+
+        --pink: #F472B6;
+        --cyan: #22D3EE;
+
+        --amber: #FBBF24;
+        --green: #34D399;
+        --red: #EF4444;
+
+        --paper: #F1F3EF;
+        --gray: #6B7280;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: "Inter", sans-serif;
+        color: var(--ink);
+        min-height: 100vh;
+
+        background:
+            radial-gradient(
+                900px 600px at 0% 0%,
+                rgba(139, 92, 246, 0.18),
+                transparent 60%
+            ),
+            radial-gradient(
+                800px 600px at 100% 20%,
+                rgba(34, 211, 238, 0.14),
+                transparent 60%
+            ),
+            linear-gradient(
+                135deg,
+                #F8FAF8,
+                #EEF2EF
+            );
+    }
+
+    /* NAVIGATION */
+
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+
+        height: 68px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 0 6%;
+
+        background: rgba(255, 255, 255, 0.92);
+
+        backdrop-filter: blur(18px);
+
+        border-bottom:
+            1px solid
+            rgba(18, 34, 46, 0.08);
+
+        z-index: 9999;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        text-decoration: none;
+        color: var(--ink);
+
+        font-family: "Fraunces", serif;
+        font-size: 20px;
+        font-weight: 600;
+    }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    .logo-mark {
+        width: 14px;
+        height: 14px;
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
-        rel="stylesheet"
-    >
+        border-radius: 50%;
 
-    <style>
+        background:
+            linear-gradient(
+                135deg,
+                var(--purple),
+                var(--pink)
+            );
 
-        :root {
-            --ink: #0B1620;
-            --ink-soft: #12222E;
+        box-shadow:
+            0 0 15px
+            rgba(139, 92, 246, 0.5);
+    }
 
-            --purple: #8B5CF6;
-            --purple-light: #C4B5FD;
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-            --pink: #F472B6;
-            --cyan: #22D3EE;
+    .nav-btn {
+        text-decoration: none;
 
-            --amber: #FBBF24;
-            --green: #34D399;
-            --red: #EF4444;
+        padding: 10px 17px;
 
-            --paper: #F1F3EF;
-            --gray: #6B7280;
-        }
+        border-radius: 9px;
 
+        font-size: 13px;
+        font-weight: 600;
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease,
+            opacity .2s ease;
+    }
 
+    .nav-login {
+        color: var(--ink);
+        background: rgba(18, 34, 46, 0.06);
+    }
 
-        html {
-            scroll-behavior: smooth;
-        }
+    .nav-register {
+        color: white;
 
+        background:
+            linear-gradient(
+                90deg,
+                var(--purple),
+                var(--pink)
+            );
 
-        body {
-            font-family: "Inter", sans-serif;
+        box-shadow:
+            0 7px 20px
+            rgba(139, 92, 246, 0.25);
+    }
 
-            color: var(--ink);
+    .nav-btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
 
-            min-height: 100vh;
+    /* HERO */
 
-            background:
-                radial-gradient(
-                    900px 600px at 0% 0%,
-                    rgba(139, 92, 246, 0.18),
-                    transparent 60%
-                ),
-                radial-gradient(
-                    800px 600px at 100% 20%,
-                    rgba(34, 211, 238, 0.14),
-                    transparent 60%
-                ),
-                linear-gradient(
-                    135deg,
-                    #F8FAF8,
-                    #EEF2EF
-                );
-        }
+    .hero {
+        min-height: 100vh;
 
+        padding:
+            150px 7%
+            90px;
 
-        /* =====================================================
-           NAVIGATION
-        ===================================================== */
+        display: grid;
 
-        .navbar {
-            position: fixed;
+        grid-template-columns:
+            1.1fr 0.9fr;
 
-            top: 0;
-            left: 0;
-            right: 0;
+        align-items: center;
 
-            height: 68px;
+        gap: 70px;
+    }
 
-            display: flex;
+    .hero-content {
+        max-width: 700px;
+    }
 
-            align-items: center;
-            justify-content: space-between;
+    .eyebrow {
+        display: inline-block;
 
-            padding: 0 6%;
+        padding: 7px 12px;
 
-            background:
-                rgba(255, 255, 255, 0.92);
+        border-radius: 20px;
 
-            backdrop-filter: blur(18px);
+        background:
+            rgba(139, 92, 246, 0.1);
 
-            border-bottom:
-                1px solid
-                rgba(18, 34, 46, 0.08);
+        color: #7045D5;
 
-            z-index: 9999;
-        }
+        font-family:
+            "IBM Plex Mono",
+            monospace;
 
+        font-size: 11px;
 
-        .logo {
-            display: flex;
+        letter-spacing: 0.08em;
 
-            align-items: center;
+        text-transform: uppercase;
 
-            gap: 10px;
+        margin-bottom: 22px;
+    }
 
-            text-decoration: none;
+    .hero h1 {
+        font-family: "Fraunces", serif;
 
-            color: var(--ink);
+        font-size:
+            clamp(44px, 6vw, 76px);
 
-            font-family:
-                "Fraunces",
-                serif;
+        line-height: 0.98;
 
-            font-size: 20px;
+        letter-spacing: -0.035em;
 
-            font-weight: 600;
-        }
+        margin-bottom: 24px;
+    }
 
+    .hero h1 span {
+        background:
+            linear-gradient(
+                90deg,
+                var(--purple),
+                var(--pink),
+                var(--cyan)
+            );
 
-        .logo-mark {
-            width: 14px;
-            height: 14px;
+        -webkit-background-clip: text;
+        background-clip: text;
 
-            border-radius: 50%;
+        color: transparent;
+    }
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--purple),
-                    var(--pink)
-                );
+    .hero p {
+        max-width: 600px;
 
-            box-shadow:
-                0 0 15px
-                rgba(139, 92, 246, 0.5);
-        }
+        color: #53606B;
 
+        font-size: 17px;
 
-        .nav-actions {
-            display: flex;
+        line-height: 1.7;
 
-            align-items: center;
+        margin-bottom: 30px;
+    }
 
-            gap: 10px;
-        }
+    .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
 
+    .primary-btn {
+        border: none;
 
-        .nav-btn {
-            text-decoration: none;
+        cursor: pointer;
 
-            padding: 10px 17px;
+        text-decoration: none;
 
-            border-radius: 9px;
+        display: inline-flex;
 
-            font-size: 13px;
+        align-items: center;
+        justify-content: center;
 
-            font-weight: 600;
+        padding: 14px 22px;
 
-            transition:
-                transform .2s ease,
-                box-shadow .2s ease,
-                opacity .2s ease;
-        }
+        border-radius: 11px;
 
+        color: white;
 
-        .nav-login {
-            color: var(--ink);
+        font-size: 14px;
+        font-weight: 700;
 
-            background:
-                rgba(18, 34, 46, 0.06);
-        }
+        background:
+            linear-gradient(
+                90deg,
+                var(--purple),
+                var(--pink)
+            );
 
+        box-shadow:
+            0 12px 30px
+            rgba(139, 92, 246, 0.25);
 
-        .nav-register {
-            color: white;
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
 
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--purple),
-                    var(--pink)
-                );
+    .primary-btn:hover {
+        transform: translateY(-2px);
 
-            box-shadow:
-                0 7px 20px
-                rgba(139, 92, 246, 0.25);
-        }
+        box-shadow:
+            0 16px 35px
+            rgba(139, 92, 246, 0.35);
+    }
 
+    .secondary-btn {
+        text-decoration: none;
 
-        .nav-btn:hover {
-            transform:
-                translateY(-2px);
+        display: inline-flex;
 
-            opacity: 0.9;
-        }
+        align-items: center;
+        justify-content: center;
 
+        padding: 14px 22px;
 
-        /* =====================================================
-           HERO
-        ===================================================== */
+        border-radius: 11px;
 
+        color: var(--ink);
+
+        background: white;
+
+        border:
+            1px solid
+            rgba(18, 34, 46, 0.12);
+
+        font-size: 14px;
+        font-weight: 700;
+
+        transition:
+            transform .2s ease;
+    }
+
+    .secondary-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    /* HERO CARD */
+
+    .hero-card {
+        position: relative;
+
+        padding: 30px;
+
+        border-radius: 24px;
+
+        background:
+            rgba(18, 22, 34, 0.94);
+
+        color: white;
+
+        box-shadow:
+            0 35px 80px
+            rgba(11, 22, 32, 0.25);
+
+        overflow: hidden;
+    }
+
+    .hero-card::before {
+        content: "";
+
+        position: absolute;
+
+        width: 220px;
+        height: 220px;
+
+        border-radius: 50%;
+
+        background: var(--purple);
+
+        filter: blur(80px);
+
+        opacity: 0.25;
+
+        top: -80px;
+        right: -70px;
+    }
+
+    .hero-card-title {
+        position: relative;
+
+        font-family:
+            "IBM Plex Mono",
+            monospace;
+
+        font-size: 11px;
+
+        letter-spacing: 0.08em;
+
+        color: var(--cyan);
+
+        text-transform: uppercase;
+
+        margin-bottom: 12px;
+    }
+
+    .hero-card h2 {
+        position: relative;
+
+        font-family:
+            "Fraunces",
+            serif;
+
+        font-size: 30px;
+
+        margin-bottom: 12px;
+    }
+
+    .hero-card p {
+        position: relative;
+
+        color: #AEB8C2;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+
+        margin-bottom: 25px;
+    }
+
+    .score {
+        position: relative;
+
+        padding: 20px;
+
+        border-radius: 15px;
+
+        background:
+            rgba(255, 255, 255, 0.07);
+
+        border:
+            1px solid
+            rgba(255, 255, 255, 0.1);
+
+        margin-bottom: 12px;
+    }
+
+    .score-label {
+        color: #AEB8C2;
+
+        font-size: 11px;
+
+        text-transform: uppercase;
+
+        letter-spacing: .08em;
+    }
+
+    .score-value {
+        font-size: 42px;
+
+        font-weight: 700;
+
+        margin-top: 5px;
+
+        color: var(--green);
+    }
+
+    .score-bar {
+        width: 100%;
+
+        height: 7px;
+
+        margin-top: 10px;
+
+        background:
+            rgba(255, 255, 255, 0.1);
+
+        border-radius: 10px;
+
+        overflow: hidden;
+    }
+
+    .score-bar span {
+        display: block;
+
+        width: 82%;
+
+        height: 100%;
+
+        border-radius: inherit;
+
+        background:
+            linear-gradient(
+                90deg,
+                var(--green),
+                var(--cyan)
+            );
+    }
+
+    /* REPORT */
+
+    .report-box {
+        position: relative;
+
+        margin-top: 15px;
+
+        padding: 16px;
+
+        border-radius: 14px;
+
+        background:
+            rgba(255, 255, 255, 0.06);
+
+        border:
+            1px solid
+            rgba(255, 255, 255, 0.1);
+    }
+
+    .report-status {
+        color: #AEB8C2;
+
+        font-size: 12px;
+
+        line-height: 1.5;
+
+        margin-bottom: 12px;
+    }
+
+    .download-btn {
+        width: 100%;
+
+        border: none;
+
+        cursor: pointer;
+
+        padding: 12px 16px;
+
+        border-radius: 9px;
+
+        color: white;
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        background:
+            linear-gradient(
+                90deg,
+                var(--purple),
+                var(--pink)
+            );
+
+        transition:
+            transform .2s ease,
+            opacity .2s ease;
+    }
+
+    .download-btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.92;
+    }
+
+    .download-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+        transform: none;
+    }
+
+    /* FEATURES */
+
+    .features {
+        padding: 90px 7%;
+        background: white;
+    }
+
+    .section-title {
+        text-align: center;
+
+        max-width: 700px;
+
+        margin:
+            0 auto 50px;
+    }
+
+    .section-title h2 {
+        font-family:
+            "Fraunces",
+            serif;
+
+        font-size: 42px;
+
+        margin-bottom: 12px;
+    }
+
+    .section-title p {
+        color: var(--gray);
+
+        line-height: 1.7;
+    }
+
+    .feature-grid {
+        max-width: 1100px;
+
+        margin: auto;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 20px;
+    }
+
+    .feature {
+        padding: 28px;
+
+        border:
+            1px solid
+            rgba(18, 34, 46, 0.09);
+
+        border-radius: 17px;
+
+        background: #FAFBFA;
+
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .feature:hover {
+        transform: translateY(-5px);
+
+        box-shadow:
+            0 15px 35px
+            rgba(18, 34, 46, 0.08);
+    }
+
+    .feature-icon {
+        width: 44px;
+        height: 44px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        margin-bottom: 17px;
+
+        background:
+            rgba(139, 92, 246, 0.1);
+
+        font-size: 20px;
+    }
+
+    .feature h3 {
+        font-size: 17px;
+
+        margin-bottom: 9px;
+    }
+
+    .feature p {
+        color: #68737D;
+
+        font-size: 13px;
+
+        line-height: 1.65;
+    }
+
+    /* CTA */
+
+    .cta {
+        padding: 100px 7%;
+
+        text-align: center;
+
+        background:
+            linear-gradient(
+                135deg,
+                #111827,
+                #24133A
+            );
+
+        color: white;
+    }
+
+    .cta h2 {
+        font-family:
+            "Fraunces",
+            serif;
+
+        font-size: 45px;
+
+        margin-bottom: 15px;
+    }
+
+    .cta p {
+        color: #B8C1CC;
+
+        max-width: 600px;
+
+        margin:
+            0 auto 28px;
+
+        line-height: 1.7;
+    }
+
+    /* FOOTER */
+
+    footer {
+        padding: 25px 7%;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        background: #0B1620;
+
+        color: #9CA8B3;
+
+        font-size: 12px;
+    }
+
+    footer strong {
+        color: white;
+    }
+
+    /* TOAST */
+
+    #downloadMessage {
+        position: fixed;
+
+        bottom: 25px;
+        right: 25px;
+
+        max-width: 350px;
+
+        padding: 14px 18px;
+
+        border-radius: 10px;
+
+        background: #111827;
+
+        color: white;
+
+        font-size: 13px;
+
+        line-height: 1.5;
+
+        box-shadow:
+            0 15px 35px
+            rgba(0, 0, 0, 0.2);
+
+        display: none;
+
+        z-index: 10000;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 850px) {
         .hero {
-            min-height: 100vh;
+            grid-template-columns: 1fr;
 
-            padding:
-                150px 7%
-                90px;
+            padding-top: 125px;
 
-            display: grid;
-
-            grid-template-columns:
-                1.1fr 0.9fr;
-
-            align-items: center;
-
-            gap: 70px;
+            gap: 40px;
         }
-
-
-        .hero-content {
-            max-width: 700px;
-        }
-
-
-        .eyebrow {
-            display: inline-block;
-
-            padding: 7px 12px;
-
-            border-radius: 20px;
-
-            background:
-                rgba(139, 92, 246, 0.1);
-
-            color:
-                #7045D5;
-
-            font-family:
-                "IBM Plex Mono",
-                monospace;
-
-            font-size: 11px;
-
-            letter-spacing:
-                0.08em;
-
-            text-transform:
-                uppercase;
-
-            margin-bottom: 22px;
-        }
-
-
-        .hero h1 {
-            font-family:
-                "Fraunces",
-                serif;
-
-            font-size:
-                clamp(44px, 6vw, 76px);
-
-            line-height: 0.98;
-
-            letter-spacing:
-                -0.035em;
-
-            margin-bottom: 24px;
-        }
-
-
-        .hero h1 span {
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--purple),
-                    var(--pink),
-                    var(--cyan)
-                );
-
-            -webkit-background-clip:
-                text;
-
-            background-clip:
-                text;
-
-            color: transparent;
-        }
-
-
-        .hero p {
-            max-width: 600px;
-
-            color:
-                #53606B;
-
-            font-size: 17px;
-
-            line-height: 1.7;
-
-            margin-bottom: 30px;
-        }
-
-
-        .hero-actions {
-            display: flex;
-
-            gap: 12px;
-
-            flex-wrap: wrap;
-        }
-
-
-        .primary-btn {
-            border: none;
-
-            cursor: pointer;
-
-            text-decoration: none;
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            padding: 14px 22px;
-
-            border-radius: 11px;
-
-            color: white;
-
-            font-size: 14px;
-
-            font-weight: 700;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--purple),
-                    var(--pink)
-                );
-
-            box-shadow:
-                0 12px 30px
-                rgba(139, 92, 246, 0.25);
-
-            transition:
-                transform .2s ease,
-                box-shadow .2s ease;
-        }
-
-
-        .primary-btn:hover {
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 16px 35px
-                rgba(139, 92, 246, 0.35);
-        }
-
-
-        .secondary-btn {
-            text-decoration: none;
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            padding: 14px 22px;
-
-            border-radius: 11px;
-
-            color: var(--ink);
-
-            background: white;
-
-            border:
-                1px solid
-                rgba(18, 34, 46, 0.12);
-
-            font-size: 14px;
-
-            font-weight: 700;
-
-            transition:
-                transform .2s ease;
-        }
-
-
-        .secondary-btn:hover {
-            transform:
-                translateY(-2px);
-        }
-
-
-        /* =====================================================
-           HERO CARD
-        ===================================================== */
 
         .hero-card {
-            position: relative;
-
-            padding: 30px;
-
-            border-radius: 24px;
-
-            background:
-                rgba(18, 22, 34, 0.94);
-
-            color: white;
-
-            box-shadow:
-                0 35px 80px
-                rgba(11, 22, 32, 0.25);
-
-            overflow: hidden;
+            max-width: 600px;
         }
-
-
-        .hero-card::before {
-            content: "";
-
-            position: absolute;
-
-            width: 220px;
-            height: 220px;
-
-            border-radius: 50%;
-
-            background:
-                var(--purple);
-
-            filter: blur(80px);
-
-            opacity: 0.25;
-
-            top: -80px;
-            right: -70px;
-        }
-
-
-        .hero-card-title {
-            position: relative;
-
-            font-family:
-                "IBM Plex Mono",
-                monospace;
-
-            font-size: 11px;
-
-            letter-spacing: 0.08em;
-
-            color:
-                var(--cyan);
-
-            text-transform: uppercase;
-
-            margin-bottom: 12px;
-        }
-
-
-        .hero-card h2 {
-            position: relative;
-
-            font-family:
-                "Fraunces",
-                serif;
-
-            font-size: 30px;
-
-            margin-bottom: 12px;
-        }
-
-
-        .hero-card p {
-            position: relative;
-
-            color: #AEB8C2;
-
-            font-size: 14px;
-
-            line-height: 1.6;
-
-            margin-bottom: 25px;
-        }
-
-
-        .score {
-            position: relative;
-
-            padding: 20px;
-
-            border-radius: 15px;
-
-            background:
-                rgba(255,255,255,0.07);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.1);
-
-            margin-bottom: 12px;
-        }
-
-
-        .score-label {
-            color: #AEB8C2;
-
-            font-size: 11px;
-
-            text-transform: uppercase;
-
-            letter-spacing: .08em;
-        }
-
-
-        .score-value {
-            font-size: 42px;
-
-            font-weight: 700;
-
-            margin-top: 5px;
-
-            color: var(--green);
-        }
-
-
-        .score-bar {
-            width: 100%;
-
-            height: 7px;
-
-            margin-top: 10px;
-
-            background:
-                rgba(255,255,255,0.1);
-
-            border-radius: 10px;
-
-            overflow: hidden;
-        }
-
-
-        .score-bar span {
-            display: block;
-
-            width: 82%;
-
-            height: 100%;
-
-            border-radius: inherit;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--green),
-                    var(--cyan)
-                );
-        }
-
-
-        /* =====================================================
-           DOWNLOAD REPORT BOX
-        ===================================================== */
-
-        .report-box {
-            position: relative;
-
-            margin-top: 15px;
-
-            padding: 16px;
-
-            border-radius: 14px;
-
-            background:
-                rgba(255,255,255,0.06);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.1);
-        }
-
-
-        .report-status {
-            color: #AEB8C2;
-
-            font-size: 12px;
-
-            line-height: 1.5;
-
-            margin-bottom: 12px;
-        }
-
-
-        .download-btn {
-            width: 100%;
-
-            border: none;
-
-            cursor: pointer;
-
-            padding: 12px 16px;
-
-            border-radius: 9px;
-
-            color: white;
-
-            font-size: 13px;
-
-            font-weight: 700;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--purple),
-                    var(--pink)
-                );
-
-            transition:
-                transform .2s ease,
-                opacity .2s ease;
-        }
-
-
-        .download-btn:hover {
-            transform:
-                translateY(-2px);
-
-            opacity: 0.92;
-        }
-
-
-        .download-btn:disabled {
-            cursor: not-allowed;
-
-            opacity: 0.55;
-
-            transform: none;
-        }
-
-
-        /* =====================================================
-           FEATURES
-        ===================================================== */
-
-        .features {
-            padding:
-                90px 7%;
-
-            background:
-                white;
-        }
-
-
-        .section-title {
-            text-align: center;
-
-            max-width: 700px;
-
-            margin:
-                0 auto 50px;
-        }
-
-
-        .section-title h2 {
-            font-family:
-                "Fraunces",
-                serif;
-
-            font-size: 42px;
-
-            margin-bottom: 12px;
-        }
-
-
-        .section-title p {
-            color:
-                var(--gray);
-
-            line-height: 1.7;
-        }
-
 
         .feature-grid {
-            max-width: 1100px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 20px;
+            grid-template-columns: 1fr;
         }
 
+        .hero h1 {
+            font-size: 52px;
+        }
+    }
 
-        .feature {
-            padding: 28px;
-
-            border:
-                1px solid
-                rgba(18,34,46,0.09);
-
-            border-radius: 17px;
-
-            background:
-                #FAFBFA;
-
-            transition:
-                transform .2s ease,
-                box-shadow .2s ease;
+    @media (max-width: 600px) {
+        .navbar {
+            padding: 0 15px;
         }
 
-
-        .feature:hover {
-            transform:
-                translateY(-5px);
-
-            box-shadow:
-                0 15px 35px
-                rgba(18,34,46,0.08);
+        .logo {
+            font-size: 16px;
         }
 
-
-        .feature-icon {
-            width: 44px;
-            height: 44px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 12px;
-
-            margin-bottom: 17px;
-
-            background:
-                rgba(139,92,246,0.1);
-
-            font-size: 20px;
+        .nav-btn {
+            padding: 8px 10px;
+            font-size: 11px;
         }
 
-
-        .feature h3 {
-            font-size: 17px;
-
-            margin-bottom: 9px;
+        .hero {
+            padding: 115px 20px 70px;
         }
 
-
-        .feature p {
-            color:
-                #68737D;
-
-            font-size: 13px;
-
-            line-height: 1.65;
+        .hero h1 {
+            font-size: 43px;
         }
 
+        .hero p {
+            font-size: 15px;
+        }
 
-        /* =====================================================
-           CTA
-        ===================================================== */
+        .hero-actions {
+            flex-direction: column;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            width: 100%;
+        }
+
+        .features {
+            padding: 70px 20px;
+        }
+
+        .section-title h2 {
+            font-size: 34px;
+        }
 
         .cta {
-            padding:
-                100px 7%;
-
-            text-align: center;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #111827,
-                    #24133A
-                );
-
-            color: white;
+            padding: 75px 20px;
         }
-
 
         .cta h2 {
-            font-family:
-                "Fraunces",
-                serif;
-
-            font-size: 45px;
-
-            margin-bottom: 15px;
+            font-size: 36px;
         }
-
-
-        .cta p {
-            color:
-                #B8C1CC;
-
-            max-width: 600px;
-
-            margin:
-                0 auto 28px;
-
-            line-height: 1.7;
-        }
-
-
-        /* =====================================================
-           FOOTER
-        ===================================================== */
 
         footer {
-            padding:
-                25px 7%;
+            flex-direction: column;
 
-            display: flex;
+            gap: 8px;
 
-            justify-content: space-between;
-
-            align-items: center;
-
-            background:
-                #0B1620;
-
-            color:
-                #9CA8B3;
-
-            font-size: 12px;
+            text-align: center;
         }
-
-
-        footer strong {
-            color: white;
-        }
-
-
-        /* =====================================================
-           TOAST MESSAGE
-        ===================================================== */
 
         #downloadMessage {
-            position: fixed;
-
-            bottom: 25px;
-
-            right: 25px;
-
-            max-width: 350px;
-
-            padding: 14px 18px;
-
-            border-radius: 10px;
-
-            background:
-                #111827;
-
-            color: white;
-
-            font-size: 13px;
-
-            line-height: 1.5;
-
-            box-shadow:
-                0 15px 35px
-                rgba(0,0,0,0.2);
-
-            display: none;
-
-            z-index: 10000;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
         }
-
-
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
-
-        @media (max-width: 850px) {
-
-            .hero {
-                grid-template-columns: 1fr;
-
-                padding-top: 125px;
-
-                gap: 40px;
-            }
-
-
-            .hero-card {
-                max-width: 600px;
-            }
-
-
-            .feature-grid {
-                grid-template-columns:
-                    1fr;
-            }
-
-
-            .hero h1 {
-                font-size: 52px;
-            }
-        }
-
-
-        @media (max-width: 600px) {
-
-            .navbar {
-                padding:
-                    0 15px;
-            }
-
-
-            .logo {
-                font-size: 16px;
-            }
-
-
-            .nav-btn {
-                padding:
-                    8px 10px;
-
-                font-size: 11px;
-            }
-
-
-            .hero {
-                padding:
-                    115px 20px 70px;
-            }
-
-
-            .hero h1 {
-                font-size: 43px;
-            }
-
-
-            .hero p {
-                font-size: 15px;
-            }
-
-
-            .hero-actions {
-                flex-direction: column;
-            }
-
-
-            .primary-btn,
-            .secondary-btn {
-                width: 100%;
-            }
-
-
-            .features {
-                padding:
-                    70px 20px;
-            }
-
-
-            .section-title h2 {
-                font-size: 34px;
-            }
-
-
-            .cta {
-                padding:
-                    75px 20px;
-            }
-
-
-            .cta h2 {
-                font-size: 36px;
-            }
-
-
-            footer {
-                flex-direction: column;
-
-                gap: 8px;
-
-                text-align: center;
-            }
-
-
-            #downloadMessage {
-                left: 15px;
-                right: 15px;
-                bottom: 15px;
-            }
-        }
-
-    </style>
+    }
+</style>
+```
 
 </head>
 
-
 <body>
 
+```
+<!-- NAVIGATION -->
 
-    <!-- =====================================================
-         NAVIGATION
-    ===================================================== -->
+<nav class="navbar">
 
-    <nav class="navbar">
+    <a href="/" class="logo">
+        <span class="logo-mark"></span>
+        HomeGuardian AI
+    </a>
+
+    <div class="nav-actions">
 
         <a
-            href="/"
-            class="logo"
+            href="/login"
+            class="nav-btn nav-login"
         >
-
-            <span class="logo-mark"></span>
-
-            HomeGuardian AI
-
+            Log in
         </a>
 
+        <a
+            href="/register"
+            class="nav-btn nav-register"
+        >
+            Create account
+        </a>
 
-        <div class="nav-actions">
+    </div>
 
-            <a
-                href="/login"
-                class="nav-btn nav-login"
-            >
-                Log in
-            </a>
+</nav>
 
 
-            <a
-                href="/register"
-                class="nav-btn nav-register"
-            >
-                Create account
-            </a>
+<!-- HERO -->
 
-        </div>
+<main>
 
-    </nav>
+    <section class="hero">
 
+        <div class="hero-content">
 
-    <!-- =====================================================
-         HERO
-    ===================================================== -->
+            <span class="eyebrow">
+                AI-powered home intelligence
+            </span>
 
-    <main>
-
-        <section class="hero">
-
-            <div class="hero-content">
-
-                <span class="eyebrow">
-                    AI-powered home intelligence
-                </span>
-
-
-                <h1>
-                    Understand your
-                    <span>home better.</span>
-                </h1>
-
-
-                <p>
-                    HomeGuardian AI analyzes your home information
-                    and turns it into a clear, practical Home
-                    Intelligence Report — helping you understand
-                    risks, recommendations, costs, and important
-                    insights.
-                </p>
-
-
-                <div class="hero-actions">
-
-                    <a
-                        href="/register"
-                        class="primary-btn"
-                    >
-                        Create your account →
-                    </a>
-
-
-                    <a
-                        href="/login"
-                        class="secondary-btn"
-                    >
-                        Already have an account?
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- =================================================
-                 REPORT PREVIEW
-            ================================================= -->
-
-            <div class="hero-card">
-
-                <div class="hero-card-title">
-                    Sample intelligence report
-                </div>
-
-
-                <h2>
-                    Home Safety Score
-                </h2>
-
-
-                <p>
-                    HomeGuardian AI analyzes your home data and
-                    generates understandable insights and
-                    recommendations.
-                </p>
-
-
-                <div class="score">
-
-                    <div class="score-label">
-                        Example overall score
-                    </div>
-
-
-                    <div class="score-value">
-                        82/100
-                    </div>
-
-
-                    <div class="score-bar">
-                        <span></span>
-                    </div>
-
-                </div>
-
-
-                <div class="score">
-
-                    <div class="score-label">
-                        Report status
-                    </div>
-
-
-                    <div
-                        style="
-                            margin-top:7px;
-                            font-weight:600;
-                            color:#34D399;
-                        "
-                    >
-                        Analysis ready
-                    </div>
-
-                </div>
-
-
-                <!-- =================================================
-                     DOWNLOAD REPORT
-                ================================================= -->
-
-                <div class="report-box">
-
-                    <div class="report-status" id="reportStatus">
-                        Generate a property analysis first.
-                        Your PDF report will become available here.
-                    </div>
-
-
-                    <button
-                        id="downloadReportBtn"
-                        class="download-btn"
-                        type="button"
-                        onclick="downloadReport()"
-                    >
-                        📄 Download Report PDF
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             FEATURES
-        ===================================================== -->
-
-        <section class="features">
-
-            <div class="section-title">
-
-                <h2>
-                    One place for your home intelligence.
-                </h2>
-
-                <p>
-                    Create an account to access your HomeGuardian
-                    AI experience and keep your reports associated
-                    with your account.
-                </p>
-
-            </div>
-
-
-            <div class="feature-grid">
-
-
-                <div class="feature">
-
-                    <div class="feature-icon">
-                        🏠
-                    </div>
-
-                    <h3>
-                        Home Analysis
-                    </h3>
-
-                    <p>
-                        Turn your home information into structured
-                        intelligence and useful recommendations.
-                    </p>
-
-                </div>
-
-
-                <div class="feature">
-
-                    <div class="feature-icon">
-                        🤖
-                    </div>
-
-                    <h3>
-                        AI Insights
-                    </h3>
-
-                    <p>
-                        Get understandable AI-generated insights
-                        instead of having to interpret raw information
-                        yourself.
-                    </p>
-
-                </div>
-
-
-                <div class="feature">
-
-                    <div class="feature-icon">
-                        📄
-                    </div>
-
-                    <h3>
-                        Intelligence Reports
-                    </h3>
-
-                    <p>
-                        Keep your analysis organized into a report
-                        that can be viewed and downloaded later.
-                    </p>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             CTA
-        ===================================================== -->
-
-        <section class="cta">
-
-            <h2>
-                Start with HomeGuardian AI.
-            </h2>
-
+            <h1>
+                Understand your
+                <span>home better.</span>
+            </h1>
 
             <p>
-                Create your account and begin exploring your
-                Home Intelligence experience.
+                HomeGuardian AI analyzes your home information
+                and turns it into a clear, practical Home
+                Intelligence Report — helping you understand
+                risks, recommendations, costs, and important
+                insights.
             </p>
 
+            <div class="hero-actions">
 
-            <a
-                href="/register"
-                class="primary-btn"
-            >
-                Create account →
-            </a>
+                <a
+                    href="/register"
+                    class="primary-btn"
+                >
+                    Create your account →
+                </a>
 
-        </section>
+                <a
+                    href="/login"
+                    class="secondary-btn"
+                >
+                    Already have an account?
+                </a>
 
-    </main>
+            </div>
 
-
-    <!-- =====================================================
-         FOOTER
-    ===================================================== -->
-
-    <footer>
-
-        <div>
-            © 2026
-            <strong>
-                HomeGuardian AI
-            </strong>
         </div>
 
 
-        <div>
-            AI-powered home intelligence · INR ₹
+        <!-- REPORT PREVIEW -->
+
+        <div class="hero-card">
+
+            <div class="hero-card-title">
+                Sample intelligence report
+            </div>
+
+            <h2>
+                Home Safety Score
+            </h2>
+
+            <p>
+                HomeGuardian AI analyzes your home data and
+                generates understandable insights and
+                recommendations.
+            </p>
+
+            <div class="score">
+
+                <div class="score-label">
+                    Example overall score
+                </div>
+
+                <div class="score-value">
+                    82/100
+                </div>
+
+                <div class="score-bar">
+                    <span></span>
+                </div>
+
+            </div>
+
+            <div class="score">
+
+                <div class="score-label">
+                    Report status
+                </div>
+
+                <div
+                    style="
+                        margin-top:7px;
+                        font-weight:600;
+                        color:#34D399;
+                    "
+                >
+                    Analysis ready
+                </div>
+
+            </div>
+
+
+            <!-- DOWNLOAD REPORT -->
+
+            <div class="report-box">
+
+                <div
+                    class="report-status"
+                    id="reportStatus"
+                >
+                    Generate a property analysis first.
+                    Your PDF report will become available here.
+                </div>
+
+                <button
+                    id="downloadReportBtn"
+                    class="download-btn"
+                    type="button"
+                    onclick="downloadReport()"
+                >
+                    📄 Download Report PDF
+                </button>
+
+            </div>
+
         </div>
 
-    </footer>
+    </section>
 
 
-    <!-- =====================================================
-         DOWNLOAD MESSAGE
-    ===================================================== -->
+    <!-- FEATURES -->
 
-    <div id="downloadMessage"></div>
+    <section class="features">
 
+        <div class="section-title">
 
-    <!-- =====================================================
-         JAVASCRIPT
-    ===================================================== -->
+            <h2>
+                One place for your home intelligence.
+            </h2>
 
-    <script>
+            <p>
+                Create an account to access your HomeGuardian
+                AI experience and keep your reports associated
+                with your account.
+            </p>
 
-        /* =====================================================
-           API CONFIGURATION
-        ===================================================== */
-
-        const API_BASE =
-            window.location.hostname === "localhost" ||
-            window.location.hostname === "127.0.0.1"
-                ? "http://localhost:4000"
-                : window.location.origin;
+        </div>
 
 
-        /* =====================================================
-           SHOW MESSAGE
-        ===================================================== */
+        <div class="feature-grid">
 
-        function showDownloadMessage(message) {
+            <div class="feature">
 
-            const box =
-                document.getElementById(
-                    "downloadMessage"
-                );
+                <div class="feature-icon">
+                    🏠
+                </div>
 
-            if (!box) {
-                return;
-            }
+                <h3>
+                    Home Analysis
+                </h3>
 
-            box.textContent = message;
+                <p>
+                    Turn your home information into structured
+                    intelligence and useful recommendations.
+                </p>
 
-            box.style.display = "block";
+            </div>
 
 
-            clearTimeout(
-                window.downloadMessageTimer
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🤖
+                </div>
+
+                <h3>
+                    AI Insights
+                </h3>
+
+                <p>
+                    Get understandable AI-generated insights
+                    instead of having to interpret raw information
+                    yourself.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    📄
+                </div>
+
+                <h3>
+                    Intelligence Reports
+                </h3>
+
+                <p>
+                    Keep your analysis organized into a report
+                    that can be viewed and downloaded later.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="cta">
+
+        <h2>
+            Start with HomeGuardian AI.
+        </h2>
+
+        <p>
+            Create your account and begin exploring your
+            Home Intelligence experience.
+        </p>
+
+        <a
+            href="/register"
+            class="primary-btn"
+        >
+            Create account →
+        </a>
+
+    </section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div>
+        © 2026
+        <strong>
+            HomeGuardian AI
+        </strong>
+    </div>
+
+    <div>
+        AI-powered home intelligence · INR ₹
+    </div>
+
+</footer>
+
+
+<!-- DOWNLOAD MESSAGE -->
+
+<div id="downloadMessage"></div>
+
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+    /*
+     * API CONFIGURATION
+     *
+     * When frontend and backend are deployed
+     * on the same Render domain, use the same origin.
+     */
+
+    const API_BASE =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+            ? "http://localhost:4000"
+            : window.location.origin;
+
+
+    /*
+     * SHOW MESSAGE
+     */
+
+    function showDownloadMessage(message) {
+
+        const box =
+            document.getElementById(
+                "downloadMessage"
             );
 
+        if (!box) {
+            return;
+        }
 
-            window.downloadMessageTimer =
-                setTimeout(() => {
+        box.textContent = message;
 
-                    box.style.display =
-                        "none";
+        box.style.display = "block";
 
-                }, 5000);
+        clearTimeout(
+            window.downloadMessageTimer
+        );
+
+        window.downloadMessageTimer =
+            setTimeout(() => {
+
+                box.style.display = "none";
+
+            }, 5000);
+    }
+
+
+    /*
+     * GET REPORT ID
+     */
+
+    function getReportId() {
+
+        const possibleKeys = [
+            "reportId",
+            "homeguardian_report_id",
+            "homeGuardianReportId",
+            "latestReportId"
+        ];
+
+        for (const key of possibleKeys) {
+
+            const value =
+                localStorage.getItem(key);
+
+            if (value) {
+                return value;
+            }
         }
 
 
-        /* =====================================================
-           GET REPORT ID
-        ===================================================== */
-
-        function getReportId() {
-
-            const possibleKeys = [
-
-                "reportId",
-
-                "homeguardian_report_id",
-
-                "homeGuardianReportId",
-
-                "latestReportId"
-
-            ];
-
-
-            for (const key of possibleKeys) {
-
-                const value =
-                    localStorage.getItem(key);
-
-                if (value) {
-                    return value;
-                }
-
-            }
-
-
-            /*
-             * Some applications save the whole
-             * analysis response.
-             */
-
-            const savedReport =
-                localStorage.getItem(
-                    "homeguardian_report"
-                );
-
-
-            if (savedReport) {
-
-                try {
-
-                    const parsed =
-                        JSON.parse(
-                            savedReport
-                        );
-
-
-                    if (parsed.reportId) {
-
-                        return parsed.reportId;
-
-                    }
-
-                } catch (error) {
-
-                    console.warn(
-                        "Could not parse saved report."
-                    );
-
-                }
-
-            }
-
-
-            return null;
-        }
-
-
-        /* =====================================================
-           UPDATE REPORT STATUS
-        ===================================================== */
-
-        function updateReportStatus() {
-
-            const status =
-                document.getElementById(
-                    "reportStatus"
-                );
-
-            const button =
-                document.getElementById(
-                    "downloadReportBtn"
-                );
-
-
-            const reportId =
-                getReportId();
-
-
-            if (reportId) {
-
-                if (status) {
-
-                    status.textContent =
-                        "Your property analysis is ready. Download the complete HomeGuardian AI PDF report.";
-
-                }
-
-
-                if (button) {
-
-                    button.disabled = false;
-
-                }
-
-            } else {
-
-                if (status) {
-
-                    status.textContent =
-                        "Generate a property analysis first. Your PDF report will become available here.";
-
-                }
-
-
-                if (button) {
-
-                    button.disabled = false;
-
-                }
-
-            }
-
-        }
-
-
-        /* =====================================================
-           DOWNLOAD REPORT PDF
-        ===================================================== */
-
-        async function downloadReport() {
-
-            const button =
-                document.getElementById(
-                    "downloadReportBtn"
-                );
-
-
-            const reportId =
-                getReportId();
-
-
-            /*
-             * Report ID is required because
-             * backend route is:
-             *
-             * GET /api/reports/:id/pdf
-             */
-
-            if (!reportId) {
-
-                showDownloadMessage(
-                    "No report found. Please generate a property analysis first."
-                );
-
-                return;
-            }
-
-
-            const originalText =
-                button
-                    ? button.textContent
-                    : "";
-
-
-            if (button) {
-
-                button.disabled = true;
-
-                button.textContent =
-                    "Generating PDF...";
-
-            }
-
+        /*
+         * Some applications save the
+         * whole analysis response.
+         */
+
+        const savedReport =
+            localStorage.getItem(
+                "homeguardian_report"
+            );
+
+        if (savedReport) {
 
             try {
 
-                const url =
-                    `${API_BASE}/api/reports/${encodeURIComponent(reportId)}/pdf`;
+                const parsed =
+                    JSON.parse(savedReport);
 
-
-                console.log(
-                    "Downloading report:",
-                    url
-                );
-
-
-                const response =
-                    await fetch(url);
-
-
-                if (!response.ok) {
-
-                    let errorMessage =
-                        `Download failed (${response.status}).`;
-
-
-                    try {
-
-                        const errorData =
-                            await response.json();
-
-
-                        if (errorData.error) {
-
-                            errorMessage =
-                                errorData.error;
-
-                        }
-
-                    } catch (error) {
-
-                        /*
-                         * Server may have returned
-                         * a non-JSON error response.
-                         */
-
-                    }
-
-
-                    throw new Error(
-                        errorMessage
-                    );
+                if (parsed.reportId) {
+                    return parsed.reportId;
                 }
-
-
-                const blob =
-                    await response.blob();
-
-
-                if (
-                    !blob ||
-                    blob.size === 0
-                ) {
-
-                    throw new Error(
-                        "The server returned an empty PDF."
-                    );
-
-                }
-
-
-                /*
-                 * Create temporary download URL.
-                 */
-
-                const downloadUrl =
-                    window.URL.createObjectURL(
-                        blob
-                    );
-
-
-                const link =
-                    document.createElement(
-                        "a"
-                    );
-
-
-                link.href =
-                    downloadUrl;
-
-
-                link.download =
-                    `HomeGuardian-AI-Report-${reportId}.pdf`;
-
-
-                document.body.appendChild(
-                    link
-                );
-
-
-                link.click();
-
-
-                link.remove();
-
-
-                /*
-                 * Release temporary URL.
-                 */
-
-                setTimeout(() => {
-
-                    window.URL.revokeObjectURL(
-                        downloadUrl
-                    );
-
-                }, 1000);
-
-
-                showDownloadMessage(
-                    "Your HomeGuardian AI PDF report has been downloaded."
-                );
-
 
             } catch (error) {
 
-                console.error(
-                    "PDF download error:",
-                    error
+                console.warn(
+                    "Could not parse saved report."
                 );
+            }
+        }
+
+        return null;
+    }
 
 
-                showDownloadMessage(
-                    error.message ||
-                    "Unable to download the PDF report."
-                );
+    /*
+     * UPDATE REPORT STATUS
+     */
 
-            } finally {
+    function updateReportStatus() {
 
-                if (button) {
+        const status =
+            document.getElementById(
+                "reportStatus"
+            );
 
-                    button.disabled = false;
+        const button =
+            document.getElementById(
+                "downloadReportBtn"
+            );
 
-                    button.textContent =
-                        originalText ||
-                        "📄 Download Report PDF";
+        const reportId =
+            getReportId();
 
-                }
+
+        if (reportId) {
+
+            if (status) {
+
+                status.textContent =
+                    "Your property analysis is ready. Download the complete HomeGuardian AI PDF report.";
 
             }
 
+            if (button) {
+                button.disabled = false;
+            }
+
+        } else {
+
+            if (status) {
+
+                status.textContent =
+                    "Generate a property analysis first. Your PDF report will become available here.";
+
+            }
+
+            if (button) {
+                button.disabled = false;
+            }
+        }
+    }
+
+
+    /*
+     * DOWNLOAD REPORT PDF
+     */
+
+    async function downloadReport() {
+
+        const button =
+            document.getElementById(
+                "downloadReportBtn"
+            );
+
+        const reportId =
+            getReportId();
+
+
+        /*
+         * Report ID is required because
+         * backend route is:
+         *
+         * GET /api/reports/:id/pdf
+         */
+
+        if (!reportId) {
+
+            showDownloadMessage(
+                "No report found. Please generate a property analysis first."
+            );
+
+            return;
         }
 
 
-        /* =====================================================
-           MAKE FUNCTION AVAILABLE
-           ===================================================== */
-
-        window.downloadReport =
-            downloadReport;
+        const originalText =
+            button
+                ? button.textContent
+                : "";
 
 
-        /* =====================================================
-           PAGE INITIALIZATION
-        ===================================================== */
+        if (button) {
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
+            button.disabled = true;
 
-                console.log(
-                    "HomeGuardian AI frontend loaded."
+            button.textContent =
+                "Generating PDF...";
+        }
+
+
+        try {
+
+            const url =
+                `${API_BASE}/api/reports/${encodeURIComponent(reportId)}/pdf`;
+
+            console.log(
+                "Downloading report:",
+                url
+            );
+
+
+            const response =
+                await fetch(url);
+
+
+            if (!response.ok) {
+
+                let errorMessage =
+                    `Download failed (${response.status}).`;
+
+                try {
+
+                    const errorData =
+                        await response.json();
+
+                    if (errorData.error) {
+
+                        errorMessage =
+                            errorData.error;
+                    }
+
+                } catch (error) {
+                    // Server may have returned non-JSON.
+                }
+
+                throw new Error(
+                    errorMessage
                 );
-
-
-                console.log(
-                    "API:",
-                    API_BASE
-                );
-
-
-                console.log(
-                    "Report ID:",
-                    getReportId()
-                );
-
-
-                updateReportStatus();
-
             }
-        );
 
-    </script>
+
+            const blob =
+                await response.blob();
+
+
+            if (
+                !blob ||
+                blob.size === 0
+            ) {
+
+                throw new Error(
+                    "The server returned an empty PDF."
+                );
+            }
+
+
+            /*
+             * Create temporary download URL.
+             */
+
+            const downloadUrl =
+                window.URL.createObjectURL(
+                    blob
+                );
+
+
+            const link =
+                document.createElement("a");
+
+
+            link.href =
+                downloadUrl;
+
+
+            link.download =
+                `HomeGuardian-AI-Report-${reportId}.pdf`;
+
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            link.remove();
+
+
+            /*
+             * Release temporary URL.
+             */
+
+            setTimeout(() => {
+
+                window.URL.revokeObjectURL(
+                    downloadUrl
+                );
+
+            }, 1000);
+
+
+            showDownloadMessage(
+                "Your HomeGuardian AI PDF report has been downloaded."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "PDF download error:",
+                error
+            );
+
+
+            showDownloadMessage(
+                error.message ||
+                "Unable to download the PDF report."
+            );
+
+
+        } finally {
+
+            if (button) {
+
+                button.disabled = false;
+
+                button.textContent =
+                    originalText ||
+                    "📄 Download Report PDF";
+            }
+        }
+    }
+
+
+    /*
+     * MAKE FUNCTION AVAILABLE
+     */
+
+    window.downloadReport =
+        downloadReport;
+
+
+    /*
+     * PAGE INITIALIZATION
+     */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            console.log(
+                "HomeGuardian AI frontend loaded."
+            );
+
+            console.log(
+                "API:",
+                API_BASE
+            );
+
+            console.log(
+                "Report ID:",
+                getReportId()
+            );
+
+            updateReportStatus();
+
+        }
+    );
+
+</script>
+```
 
 </body>
-
 </html>
