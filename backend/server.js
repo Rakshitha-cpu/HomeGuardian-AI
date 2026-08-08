@@ -17,10 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../frontend")));
 
 // =====================================================
-// API ROUTES
+// API ROUTES - HEALTH CHECK
 // =====================================================
-
-// Health check
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
@@ -31,24 +29,55 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Upload endpoint (mock)
+// =====================================================
+// API ROUTES - FILE UPLOAD
+// =====================================================
 app.post("/api/upload", (req, res) => {
+  console.log("Upload received:", req.body);
   res.json({
     success: true,
-    message: "File received",
-    file: req.body.file || "sample.pdf"
+    message: "File uploaded successfully",
+    file: req.body.file || "inspection_report.pdf",
+    size: "2.5 MB",
+    timestamp: new Date().toISOString()
   });
 });
 
-// Analyze endpoint (mock)
+// =====================================================
+// API ROUTES - ANALYZE
+// =====================================================
 app.post("/api/analyze", (req, res) => {
+  console.log("Analyze request received:", req.body);
   res.json({
     success: true,
+    homeScore: 78,
     report: {
-      homeScore: 78,
-      issues: ["Old roof", "Foundation settling"],
-      estimatedRepairs: "₹250,000 - ₹500,000"
-    }
+      homeHealth: "Good",
+      issues: [
+        { issue: "Old roof", severity: "High", estimate: "₹150,000" },
+        { issue: "Foundation settling", severity: "Medium", estimate: "₹75,000" }
+      ],
+      totalEstimate: "₹225,000 - ₹500,000",
+      recommendations: ["Replace roof within 2 years", "Monitor foundation cracks"]
+    },
+    timestamp: new Date().toISOString()
+  });
+});
+
+// =====================================================
+// API ROUTES - LOGIN
+// =====================================================
+app.post("/api/login", (req, res) => {
+  console.log("Login request received");
+  res.json({
+    success: true,
+    message: "Login successful",
+    user: {
+      id: "user123",
+      email: req.body.email || "user@example.com",
+      name: "User"
+    },
+    token: "fake-jwt-token-12345"
   });
 });
 
