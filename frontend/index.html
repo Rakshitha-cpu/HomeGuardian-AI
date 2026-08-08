@@ -1,102 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>HomeGuardian AI — Know Your Home Before You Buy</title>
+    <title>HomeGuardian AI</title>
 
-    <meta
-        name="description"
-        content="HomeGuardian AI uses specialized AI agents to inspect, analyze, price and manage property risks."
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet"
     >
 
     <style>
 
+        :root {
+            --ink: #0B1620;
+            --ink-soft: #12222E;
+            --purple: #8B5CF6;
+            --purple-light: #C4B5FD;
+            --pink: #F472B6;
+            --cyan: #22D3EE;
+            --amber: #FBBF24;
+            --green: #34D399;
+            --red: #EF4444;
+            --paper: #F1F3EF;
+            --gray: #6B7280;
+        }
+
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
+
 
         html {
             scroll-behavior: smooth;
         }
 
-        body {
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
 
-            color: #ffffff;
+        body {
+
+            font-family: "Inter", sans-serif;
+
+            color: var(--ink);
+
+            min-height: 100vh;
 
             background:
                 radial-gradient(
-                    circle at 80% 15%,
-                    rgba(255, 172, 35, 0.30),
-                    transparent 25%
+                    900px 600px at 0% 0%,
+                    rgba(139, 92, 246, 0.18),
+                    transparent 60%
                 ),
                 radial-gradient(
-                    circle at 15% 80%,
-                    rgba(101, 51, 255, 0.32),
-                    transparent 30%
+                    800px 600px at 100% 20%,
+                    rgba(34, 211, 238, 0.14),
+                    transparent 60%
                 ),
-                radial-gradient(
-                    circle at 85% 75%,
-                    rgba(0, 160, 255, 0.20),
-                    transparent 28%
-                ),
-                #090b20;
-
-            min-height: 100vh;
+                linear-gradient(
+                    135deg,
+                    #F8FAF8,
+                    #EEF2EF
+                );
         }
 
-        a {
-            text-decoration: none;
-        }
 
         /* =====================================================
-           NAVBAR
-        ===================================================== */
+           NAVIGATION
+           ===================================================== */
 
         .navbar {
-            width: 100%;
 
-            padding:
-                22px
-                6%;
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 68px;
 
             display: flex;
 
-            justify-content: space-between;
-
             align-items: center;
 
-            position: relative;
+            justify-content: space-between;
 
-            z-index: 100;
+            padding: 0 6%;
+
+            background:
+                rgba(255, 255, 255, 0.92);
+
+            backdrop-filter: blur(18px);
+
+            border-bottom:
+                1px solid
+                rgba(18, 34, 46, 0.08);
+
+            z-index: 9999;
         }
 
-        .brand {
+
+        .logo {
+
             display: flex;
 
             align-items: center;
 
             gap: 10px;
 
-            color: #ffffff;
+            text-decoration: none;
 
-            font-size: 23px;
+            color: var(--ink);
 
-            font-weight: 800;
+            font-family:
+                "Fraunces",
+                serif;
 
-            letter-spacing: -0.5px;
+            font-size: 20px;
+
+            font-weight: 600;
         }
 
-        .brand-dot {
-            width: 14px;
 
+        .logo-mark {
+
+            width: 14px;
             height: 14px;
 
             border-radius: 50%;
@@ -104,732 +136,845 @@
             background:
                 linear-gradient(
                     135deg,
-                    #ffc52f,
-                    #ff806d
+                    var(--purple),
+                    var(--pink)
                 );
 
             box-shadow:
-                0 0 20px
-                rgba(255, 185, 60, 0.8);
+                0 0 15px
+                rgba(139, 92, 246, 0.5);
         }
 
-        .nav-right {
+
+        .nav-actions {
+
             display: flex;
 
             align-items: center;
 
-            gap: 12px;
+            gap: 10px;
         }
 
-        .nav-link {
-            padding:
-                11px
-                20px;
 
-            border-radius: 10px;
+        .nav-btn {
+
+            text-decoration: none;
+
+            padding: 10px 17px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                opacity .2s ease;
+        }
+
+
+        .nav-login {
+
+            color: var(--ink);
+
+            background:
+                rgba(18, 34, 46, 0.06);
+        }
+
+
+        .nav-register {
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--purple),
+                    var(--pink)
+                );
+
+            box-shadow:
+                0 7px 20px
+                rgba(139, 92, 246, 0.25);
+        }
+
+
+        .nav-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            opacity: 0.9;
+        }
+
+
+        /* =====================================================
+           HERO
+           ===================================================== */
+
+        .hero {
+
+            min-height: 100vh;
+
+            padding:
+                150px 7%
+                90px;
+
+            display: grid;
+
+            grid-template-columns:
+                1.1fr 0.9fr;
+
+            align-items: center;
+
+            gap: 70px;
+        }
+
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+
+        .eyebrow {
+
+            display: inline-block;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(139, 92, 246, 0.1);
+
+            color:
+                #7045D5;
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            font-size: 11px;
+
+            letter-spacing:
+                0.08em;
+
+            text-transform:
+                uppercase;
+
+            margin-bottom: 22px;
+        }
+
+
+        .hero h1 {
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-size:
+                clamp(44px, 6vw, 76px);
+
+            line-height: 0.98;
+
+            letter-spacing:
+                -0.035em;
+
+            margin-bottom: 24px;
+        }
+
+
+        .hero h1 span {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--purple),
+                    var(--pink),
+                    var(--cyan)
+                );
+
+            -webkit-background-clip:
+                text;
+
+            background-clip:
+                text;
+
+            color: transparent;
+        }
+
+
+        .hero p {
+
+            max-width: 600px;
+
+            color:
+                #53606B;
+
+            font-size: 17px;
+
+            line-height: 1.7;
+
+            margin-bottom: 30px;
+        }
+
+
+        .hero-actions {
+
+            display: flex;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .primary-btn {
+
+            border: none;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 14px 22px;
+
+            border-radius: 11px;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--purple),
+                    var(--pink)
+                );
+
+            box-shadow:
+                0 12px 30px
+                rgba(139, 92, 246, 0.25);
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+
+        .primary-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 16px 35px
+                rgba(139, 92, 246, 0.35);
+        }
+
+
+        .secondary-btn {
+
+            text-decoration: none;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 14px 22px;
+
+            border-radius: 11px;
+
+            color: var(--ink);
+
+            background: white;
+
+            border:
+                1px solid
+                rgba(18, 34, 46, 0.12);
 
             font-size: 14px;
 
             font-weight: 700;
 
             transition:
-                transform 0.2s ease,
-                background 0.2s ease;
+                transform .2s ease;
         }
 
-        .login-button {
-            color: #ffffff;
 
-            border:
-                1px solid
-                rgba(255,255,255,0.22);
+        .secondary-btn:hover {
 
-            background:
-                rgba(255,255,255,0.06);
+            transform:
+                translateY(-2px);
         }
 
-        .register-button {
-            color: #111111;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #ffc52f,
-                    #ff8c70
-                );
-        }
-
-        .nav-link:hover {
-            transform: translateY(-2px);
-        }
 
         /* =====================================================
-           HERO
-        ===================================================== */
+           HERO CARD
+           ===================================================== */
 
-        .hero {
-            max-width: 1200px;
+        .hero-card {
 
-            margin:
-                0 auto;
+            position: relative;
 
-            padding:
-                90px 30px
-                70px;
+            padding: 30px;
 
-            text-align: center;
+            border-radius: 24px;
+
+            background:
+                rgba(18, 22, 34, 0.94);
+
+            color: white;
+
+            box-shadow:
+                0 35px 80px
+                rgba(11, 22, 32, 0.25);
+
+            overflow: hidden;
         }
 
-        .hero-badge {
-            display: inline-block;
 
-            padding:
-                9px 18px;
+        .hero-card::before {
 
-            border-radius: 30px;
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            border-radius: 50%;
+
+            background:
+                var(--purple);
+
+            filter: blur(80px);
+
+            opacity: 0.25;
+
+            top: -80px;
+            right: -70px;
+        }
+
+
+        .hero-card-title {
+
+            position: relative;
+
+            font-family:
+                "IBM Plex Mono",
+                monospace;
+
+            font-size: 11px;
+
+            letter-spacing: 0.08em;
+
+            color:
+                var(--cyan);
+
+            text-transform: uppercase;
+
+            margin-bottom: 12px;
+        }
+
+
+        .hero-card h2 {
+
+            position: relative;
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-size: 30px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .hero-card p {
+
+            position: relative;
+
+            color: #AEB8C2;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+        }
+
+
+        .score {
+
+            position: relative;
+
+            padding: 20px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(255,255,255,0.07);
 
             border:
                 1px solid
-                rgba(255,255,255,0.14);
+                rgba(255,255,255,0.1);
 
-            background:
-                rgba(255,255,255,0.05);
+            margin-bottom: 12px;
+        }
 
-            color: #ffd45c;
 
-            font-size: 13px;
+        .score-label {
+
+            color: #AEB8C2;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .08em;
+        }
+
+
+        .score-value {
+
+            font-size: 42px;
 
             font-weight: 700;
 
-            margin-bottom: 28px;
+            margin-top: 5px;
+
+            color: var(--green);
         }
 
-        .hero h1 {
-            font-size:
-                clamp(
-                    46px,
-                    7vw,
-                    82px
-                );
 
-            line-height: 1.02;
+        .score-bar {
 
-            letter-spacing: -3px;
+            width: 100%;
 
-            margin-bottom: 28px;
+            height: 7px;
+
+            margin-top: 10px;
+
+            background:
+                rgba(255,255,255,0.1);
+
+            border-radius: 10px;
+
+            overflow: hidden;
         }
 
-        .gradient-text {
+
+        .score-bar span {
+
+            display: block;
+
+            width: 82%;
+
+            height: 100%;
+
+            border-radius: inherit;
+
             background:
                 linear-gradient(
                     90deg,
-                    #ffc52f,
-                    #ff8c70
+                    var(--green),
+                    var(--cyan)
                 );
-
-            -webkit-background-clip: text;
-
-            background-clip: text;
-
-            -webkit-text-fill-color: transparent;
         }
 
-        .hero-description {
-            max-width: 760px;
+
+        /* =====================================================
+           FEATURES
+           ===================================================== */
+
+        .features {
+
+            padding:
+                90px 7%;
+
+            background:
+                white;
+        }
+
+
+        .section-title {
+
+            text-align: center;
+
+            max-width: 700px;
 
             margin:
-                0 auto;
+                0 auto 50px;
+        }
 
-            color: #b9bdd5;
 
-            font-size: 19px;
+        .section-title h2 {
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-size: 42px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .section-title p {
+
+            color:
+                var(--gray);
 
             line-height: 1.7;
         }
 
-        /* =====================================================
-           HERO BUTTONS
-        ===================================================== */
 
-        .hero-actions {
-            margin-top: 38px;
+        .feature-grid {
 
-            display: flex;
+            max-width: 1100px;
 
-            justify-content: center;
-
-            align-items: center;
-
-            gap: 14px;
-
-            flex-wrap: wrap;
-        }
-
-        .primary-button {
-            display: inline-block;
-
-            padding:
-                16px 30px;
-
-            border-radius: 12px;
-
-            color: #111111;
-
-            font-size: 16px;
-
-            font-weight: 800;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #ffc52f,
-                    #ff8c70
-                );
-
-            box-shadow:
-                0 12px 35px
-                rgba(255, 163, 50, 0.22);
-
-            transition:
-                transform 0.2s ease;
-        }
-
-        .secondary-button {
-            display: inline-block;
-
-            padding:
-                16px 30px;
-
-            border-radius: 12px;
-
-            color: #ffffff;
-
-            font-size: 16px;
-
-            font-weight: 700;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.18);
-
-            background:
-                rgba(255,255,255,0.05);
-
-            transition:
-                transform 0.2s ease;
-        }
-
-        .primary-button:hover,
-        .secondary-button:hover {
-            transform: translateY(-3px);
-        }
-
-        /* =====================================================
-           QUICK STATS
-        ===================================================== */
-
-        .stats {
-            max-width: 1000px;
-
-            margin:
-                20px auto 80px;
-
-            padding:
-                0 25px;
+            margin: auto;
 
             display: grid;
 
             grid-template-columns:
                 repeat(3, 1fr);
 
-            gap: 16px;
+            gap: 20px;
         }
 
-        .stat {
-            padding:
-                22px;
 
-            border-radius: 16px;
+        .feature {
+
+            padding: 28px;
 
             border:
                 1px solid
-                rgba(255,255,255,0.09);
-
-            background:
-                rgba(255,255,255,0.04);
-
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 28px;
-
-            font-weight: 800;
-
-            color: #ffc84b;
-
-            margin-bottom: 7px;
-        }
-
-        .stat-label {
-            color: #999eb8;
-
-            font-size: 13px;
-        }
-
-        /* =====================================================
-           PROBLEM SECTION
-        ===================================================== */
-
-        .section {
-            max-width: 1100px;
-
-            margin:
-                0 auto;
-
-            padding:
-                70px 25px;
-        }
-
-        .section-label {
-            color: #ffc84b;
-
-            font-size: 13px;
-
-            font-weight: 800;
-
-            letter-spacing: 2px;
-
-            text-transform: uppercase;
-
-            margin-bottom: 14px;
-        }
-
-        .section h2 {
-            font-size:
-                clamp(
-                    32px,
-                    5vw,
-                    48px
-                );
-
-            letter-spacing: -1px;
-
-            margin-bottom: 18px;
-        }
-
-        .section-description {
-            color: #aeb2c9;
-
-            max-width: 700px;
-
-            line-height: 1.7;
-
-            font-size: 16px;
-        }
-
-        /* =====================================================
-           FEATURE CARDS
-        ===================================================== */
-
-        .features {
-            margin-top: 38px;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 16px;
-        }
-
-        .feature-card {
-            padding:
-                25px;
-
-            border-radius: 18px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.10);
-
-            background:
-                rgba(255,255,255,0.045);
-
-            transition:
-                transform 0.2s ease,
-                border-color 0.2s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-
-            border-color:
-                rgba(255,196,55,0.30);
-        }
-
-        .feature-icon {
-            font-size: 31px;
-
-            margin-bottom: 18px;
-        }
-
-        .feature-card h3 {
-            font-size: 17px;
-
-            margin-bottom: 10px;
-        }
-
-        .feature-card p {
-            color: #9fa4bd;
-
-            font-size: 14px;
-
-            line-height: 1.6;
-        }
-
-        /* =====================================================
-           AGENTS
-        ===================================================== */
-
-        .agents {
-            margin-top: 38px;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 14px;
-        }
-
-        .agent {
-            display: flex;
-
-            gap: 18px;
-
-            align-items: flex-start;
-
-            padding:
-                20px;
-
-            border-radius: 15px;
-
-            background:
-                rgba(255,255,255,0.04);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.08);
-        }
-
-        .agent-number {
-            min-width: 38px;
-
-            height: 38px;
-
-            border-radius: 50%;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            color: #111111;
-
-            font-weight: 800;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffc52f,
-                    #ff8c70
-                );
-        }
-
-        .agent h3 {
-            margin-bottom: 7px;
-
-            font-size: 16px;
-        }
-
-        .agent p {
-            color: #9fa4bd;
-
-            font-size: 13px;
-
-            line-height: 1.5;
-        }
-
-        /* =====================================================
-           HOW IT WORKS
-        ===================================================== */
-
-        .steps {
-            margin-top: 38px;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 15px;
-        }
-
-        .step {
-            padding:
-                25px;
-
-            text-align: center;
+                rgba(18,34,46,0.09);
 
             border-radius: 17px;
 
-            border:
-                1px solid
-                rgba(255,255,255,0.08);
-
             background:
-                rgba(255,255,255,0.04);
+                #FAFBFA;
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease;
         }
 
-        .step-number {
+
+        .feature:hover {
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(18,34,46,0.08);
+        }
+
+
+        .feature-icon {
+
             width: 44px;
 
             height: 44px;
 
-            margin:
-                0 auto 16px;
-
-            border-radius: 50%;
-
             display: flex;
 
             align-items: center;
 
             justify-content: center;
 
-            color: #111111;
+            border-radius: 12px;
 
-            font-weight: 800;
+            margin-bottom: 17px;
 
             background:
-                linear-gradient(
-                    135deg,
-                    #ffc52f,
-                    #ff8c70
-                );
+                rgba(139,92,246,0.1);
+
+            font-size: 20px;
         }
 
-        .step h3 {
+
+        .feature h3 {
+
+            font-size: 17px;
+
             margin-bottom: 9px;
         }
 
-        .step p {
-            color: #9fa4bd;
+
+        .feature p {
+
+            color:
+                #68737D;
 
             font-size: 13px;
 
-            line-height: 1.5;
+            line-height: 1.65;
         }
 
+
         /* =====================================================
-           CTA SECTION
-        ===================================================== */
+           CTA
+           ===================================================== */
 
-        .final-cta {
-            max-width: 950px;
-
-            margin:
-                70px auto;
+        .cta {
 
             padding:
-                60px 30px;
+                100px 7%;
 
             text-align: center;
-
-            border-radius: 25px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.10);
 
             background:
                 linear-gradient(
                     135deg,
-                    rgba(255,197,47,0.09),
-                    rgba(104,65,255,0.09)
+                    #111827,
+                    #24133A
                 );
+
+            color: white;
         }
 
-        .final-cta h2 {
-            font-size:
-                clamp(
-                    30px,
-                    5vw,
-                    46px
-                );
+
+        .cta h2 {
+
+            font-family:
+                "Fraunces",
+                serif;
+
+            font-size: 45px;
 
             margin-bottom: 15px;
         }
 
-        .final-cta p {
-            color: #aeb2c9;
 
-            max-width: 650px;
+        .cta p {
+
+            color:
+                #B8C1CC;
+
+            max-width: 600px;
 
             margin:
-                0 auto;
+                0 auto 28px;
 
-            line-height: 1.6;
+            line-height: 1.7;
         }
+
 
         /* =====================================================
            FOOTER
-        ===================================================== */
+           ===================================================== */
 
         footer {
-            text-align: center;
 
             padding:
-                50px 20px;
+                25px 7%;
 
-            border-top:
-                1px solid
-                rgba(255,255,255,0.06);
+            display: flex;
 
-            color: #777c98;
+            justify-content: space-between;
 
-            font-size: 13px;
+            align-items: center;
+
+            background:
+                #0B1620;
+
+            color:
+                #9CA8B3;
+
+            font-size: 12px;
         }
 
-        .footer-brand {
-            color: #ffffff;
 
-            font-weight: 800;
-
-            font-size: 16px;
-
-            margin-bottom: 8px;
+        footer strong {
+            color: white;
         }
+
 
         /* =====================================================
-           MOBILE
-        ===================================================== */
+           RESPONSIVE
+           ===================================================== */
 
-        @media (max-width: 900px) {
-
-            .features {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-            .steps {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-        }
-
-        @media (max-width: 650px) {
-
-            .navbar {
-                padding:
-                    18px;
-            }
-
-            .brand {
-                font-size: 18px;
-            }
-
-            .nav-link {
-                padding:
-                    9px 12px;
-
-                font-size: 12px;
-            }
+        @media (max-width: 850px) {
 
             .hero {
-                padding:
-                    65px 20px
-                    45px;
+
+                grid-template-columns: 1fr;
+
+                padding-top: 125px;
+
+                gap: 40px;
             }
+
+
+            .hero-card {
+                max-width: 600px;
+            }
+
+
+            .feature-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
 
             .hero h1 {
-                letter-spacing:
-                    -2px;
+                font-size: 52px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding:
+                    0 15px;
             }
 
-            .hero-description {
+
+            .logo {
+
                 font-size: 16px;
             }
 
-            .stats {
-                grid-template-columns: 1fr;
 
-                margin-bottom: 40px;
-            }
+            .nav-btn {
 
-            .features,
-            .agents,
-            .steps {
-                grid-template-columns: 1fr;
-            }
-
-            .section {
                 padding:
-                    50px 20px;
+                    8px 10px;
+
+                font-size: 11px;
             }
+
+
+            .hero {
+
+                padding:
+                    115px 20px 70px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 43px;
+            }
+
+
+            .hero p {
+
+                font-size: 15px;
+            }
+
 
             .hero-actions {
+
                 flex-direction: column;
             }
 
-            .primary-button,
-            .secondary-button {
-                width: 100%;
 
-                max-width: 320px;
+            .primary-btn,
+            .secondary-btn {
+
+                width: 100%;
             }
 
+
+            .features {
+
+                padding:
+                    70px 20px;
+            }
+
+
+            .section-title h2 {
+
+                font-size: 34px;
+            }
+
+
+            .cta {
+
+                padding:
+                    75px 20px;
+            }
+
+
+            .cta h2 {
+
+                font-size: 36px;
+            }
+
+
+            footer {
+
+                flex-direction: column;
+
+                gap: 8px;
+
+                text-align: center;
+            }
         }
 
     </style>
+
 </head>
 
 
 <body>
 
+
     <!-- =====================================================
          NAVIGATION
-    ===================================================== -->
+         ===================================================== -->
 
     <nav class="navbar">
 
-        <a href="/" class="brand">
+        <a
+            href="/"
+            class="logo"
+        >
 
-            <span class="brand-dot"></span>
+            <span class="logo-mark"></span>
 
             HomeGuardian AI
 
         </a>
 
 
-        <div class="nav-right">
+        <div class="nav-actions">
 
             <a
                 href="/login"
-                class="nav-link login-button"
+                class="nav-btn nav-login"
             >
-                Login
+                Log in
             </a>
 
 
             <a
                 href="/register"
-                class="nav-link register-button"
+                class="nav-btn nav-register"
             >
-                Register
+                Create account
             </a>
 
         </div>
@@ -839,577 +984,255 @@
 
     <!-- =====================================================
          HERO
-    ===================================================== -->
+         ===================================================== -->
 
-    <section class="hero">
+    <main>
 
-        <div class="hero-badge">
-            🏠 AI-POWERED HOME INTELLIGENCE
-        </div>
+        <section class="hero">
 
+            <div class="hero-content">
 
-        <h1>
-
-            Know Your Home
-
-            <br>
-
-            <span class="gradient-text">
-                Before You Buy.
-            </span>
-
-        </h1>
+                <span class="eyebrow">
+                    AI-powered home intelligence
+                </span>
 
 
-        <p class="hero-description">
-
-            HomeGuardian AI transforms property photos
-            into actionable intelligence — identifying
-            visible defects, evaluating risks, estimating
-            repair costs and creating a long-term
-            maintenance strategy.
-
-        </p>
+                <h1>
+                    Understand your
+                    <span>home better.</span>
+                </h1>
 
 
-        <div class="hero-actions">
+                <p>
+                    HomeGuardian AI analyzes your home information
+                    and turns it into a clear, practical Home
+                    Intelligence Report — helping you understand
+                    risks, recommendations, and important insights.
+                </p>
+
+
+                <div class="hero-actions">
+
+                    <a
+                        href="/register"
+                        class="primary-btn"
+                    >
+                        Create your account →
+                    </a>
+
+
+                    <a
+                        href="/login"
+                        class="secondary-btn"
+                    >
+                        Already have an account?
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 REPORT PREVIEW
+                 ================================================= -->
+
+            <div class="hero-card">
+
+                <div class="hero-card-title">
+                    Sample intelligence report
+                </div>
+
+
+                <h2>
+                    Home Safety Score
+                </h2>
+
+
+                <p>
+                    Your home information can be analyzed by
+                    HomeGuardian AI to generate understandable
+                    insights and recommendations.
+                </p>
+
+
+                <div class="score">
+
+                    <div class="score-label">
+                        Example overall score
+                    </div>
+
+
+                    <div class="score-value">
+                        82/100
+                    </div>
+
+
+                    <div class="score-bar">
+                        <span></span>
+                    </div>
+
+                </div>
+
+
+                <div class="score">
+
+                    <div class="score-label">
+                        Report status
+                    </div>
+
+
+                    <div
+                        style="
+                            margin-top:7px;
+                            font-weight:600;
+                            color:#34D399;
+                        "
+                    >
+                        Analysis ready
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FEATURES
+             ===================================================== -->
+
+        <section class="features">
+
+            <div class="section-title">
+
+                <h2>
+                    One place for your home intelligence.
+                </h2>
+
+                <p>
+                    Create an account to access your HomeGuardian
+                    AI experience and keep your reports associated
+                    with your account.
+                </p>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        🏠
+                    </div>
+
+                    <h3>
+                        Home Analysis
+                    </h3>
+
+                    <p>
+                        Turn your home information into structured
+                        intelligence and useful recommendations.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        🤖
+                    </div>
+
+                    <h3>
+                        AI Insights
+                    </h3>
+
+                    <p>
+                        Get understandable AI-generated insights
+                        instead of having to interpret raw information
+                        yourself.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        📄
+                    </div>
+
+                    <h3>
+                        Intelligence Reports
+                    </h3>
+
+                    <p>
+                        Keep your analysis organized into a report
+                        that can be viewed and used later.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CTA
+             ===================================================== -->
+
+        <section class="cta">
+
+            <h2>
+                Start with HomeGuardian AI.
+            </h2>
+
+
+            <p>
+                Create your account and begin exploring your
+                Home Intelligence experience.
+            </p>
+
 
             <a
                 href="/register"
-                class="primary-button"
+                class="primary-btn"
             >
-                Create Your Account →
+                Create account →
             </a>
 
+        </section>
 
-            <a
-                href="/login"
-                class="secondary-button"
-            >
-                Already Registered? Login
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         STATS
-    ===================================================== -->
-
-    <section class="stats">
-
-        <div class="stat">
-
-            <div class="stat-number">
-                8
-            </div>
-
-            <div class="stat-label">
-                Specialized Agents
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-number">
-                5 Years
-            </div>
-
-            <div class="stat-label">
-                Cost Forecast
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-number">
-                ₹ INR
-            </div>
-
-            <div class="stat-label">
-                Indian Cost Intelligence
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         PROBLEM
-    ===================================================== -->
-
-    <section class="section">
-
-        <div class="section-label">
-            The Problem
-        </div>
-
-
-        <h2>
-            One inspection can't see five years ahead.
-        </h2>
-
-
-        <p class="section-description">
-
-            A traditional property inspection is a snapshot.
-            It may identify today's visible issues, but buyers
-            still have to figure out future risks, repair costs,
-            maintenance priorities and negotiation leverage.
-
-            <br><br>
-
-            HomeGuardian AI is designed to connect those pieces
-            into one property intelligence system.
-
-        </p>
-
-
-        <div class="features">
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    📸
-                </div>
-
-                <h3>
-                    Photo Inspection
-                </h3>
-
-                <p>
-                    Analyze property images to identify
-                    visible defects and maintenance concerns.
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    ⚠️
-                </div>
-
-                <h3>
-                    Risk Intelligence
-                </h3>
-
-                <p>
-                    Convert inspection findings into
-                    understandable property risk information.
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    ₹
-                </div>
-
-                <h3>
-                    Cost Intelligence
-                </h3>
-
-                <p>
-                    Translate property issues into estimated
-                    repair and ownership costs in INR.
-                </p>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    📅
-                </div>
-
-                <h3>
-                    Maintenance Planning
-                </h3>
-
-                <p>
-                    Organize repairs by urgency and create
-                    a property maintenance roadmap.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         AGENTS
-    ===================================================== -->
-
-    <section class="section">
-
-        <div class="section-label">
-            Agent Architecture
-        </div>
-
-
-        <h2>
-            Eight agents. One property intelligence report.
-        </h2>
-
-
-        <p class="section-description">
-
-            HomeGuardian AI uses specialized agent roles so that
-            different aspects of property intelligence can be
-            processed independently and combined through an
-            orchestration layer.
-
-        </p>
-
-
-        <div class="agents">
-
-            <div class="agent">
-
-                <div class="agent-number">
-                    01
-                </div>
-
-                <div>
-
-                    <h3>
-                        Vision Inspection Agent
-                    </h3>
-
-                    <p>
-                        Identifies visible defects from
-                        uploaded property images.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="agent">
-
-                <div class="agent-number">
-                    02
-                </div>
-
-                <div>
-
-                    <h3>
-                        Structural Risk Agent
-                    </h3>
-
-                    <p>
-                        Evaluates potential structural
-                        and property risks.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="agent">
-
-                <div class="agent-number">
-                    03
-                </div>
-
-                <div>
-
-                    <h3>
-                        Cost Intelligence Agent
-                    </h3>
-
-                    <p>
-                        Estimates repair and ownership
-                        expenses.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="agent">
-
-                <div class="agent-number">
-                    04
-                </div>
-
-                <div>
-
-                    <h3>
-                        Maintenance Planner Agent
-                    </h3>
-
-                    <p>
-                        Creates a prioritized maintenance
-                        roadmap.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="agent">
-
-                <div class="agent-number">
-                    05
-                </div>
-
-                <div>
-
-                    <h3>
-                        Negotiation Advisor Agent
-                    </h3>
-
-                    <p>
-                        Converts findings into negotiation
-                        leverage points.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="agent">
-
-                <div class="agent-number">
-                    06
-                </div>
-
-                <div>
-
-                    <h3>
-                        Vendor Intelligence Agent
-                    </h3>
-
-                    <p>
-                        Organizes suitable repair and
-                        contractor options.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="agent">
-
-                <div class="agent-number">
-                    07
-                </div>
-
-                <div>
-
-                    <h3>
-                        Budget Optimization Agent
-                    </h3>
-
-                    <p>
-                        Prioritizes repairs against the
-                        user's available budget.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="agent">
-
-                <div class="agent-number">
-                    08
-                </div>
-
-                <div>
-
-                    <h3>
-                        Property Health Agent
-                    </h3>
-
-                    <p>
-                        Produces an overall property health
-                        score from system-level scores.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         HOW IT WORKS
-    ===================================================== -->
-
-    <section class="section">
-
-        <div class="section-label">
-            Simple Workflow
-        </div>
-
-
-        <h2>
-            From property photo to actionable report.
-        </h2>
-
-
-        <div class="steps">
-
-            <div class="step">
-
-                <div class="step-number">
-                    1
-                </div>
-
-                <h3>
-                    Register
-                </h3>
-
-                <p>
-                    Create your HomeGuardian AI account.
-                </p>
-
-            </div>
-
-
-            <div class="step">
-
-                <div class="step-number">
-                    2
-                </div>
-
-                <h3>
-                    Upload
-                </h3>
-
-                <p>
-                    Upload photos of the property.
-                </p>
-
-            </div>
-
-
-            <div class="step">
-
-                <div class="step-number">
-                    3
-                </div>
-
-                <h3>
-                    Analyze
-                </h3>
-
-                <p>
-                    Run the HomeGuardian AI analysis.
-                </p>
-
-            </div>
-
-
-            <div class="step">
-
-                <div class="step-number">
-                    4
-                </div>
-
-                <h3>
-                    Get Report
-                </h3>
-
-                <p>
-                    Review health, risks, costs and
-                    recommended actions.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         FINAL CTA
-    ===================================================== -->
-
-    <section class="final-cta">
-
-        <h2>
-            Ready to understand your property?
-        </h2>
-
-
-        <p>
-
-            Create your account and generate your
-            HomeGuardian intelligence report.
-
-        </p>
-
-
-        <div class="hero-actions">
-
-            <a
-                href="/register"
-                class="primary-button"
-            >
-                Register Now →
-            </a>
-
-
-            <a
-                href="/login"
-                class="secondary-button"
-            >
-                Login
-            </a>
-
-        </div>
-
-    </section>
+    </main>
 
 
     <!-- =====================================================
          FOOTER
-    ===================================================== -->
+         ===================================================== -->
 
     <footer>
 
-        <div class="footer-brand">
-            HomeGuardian AI
+        <div>
+            © 2026
+            <strong>
+                HomeGuardian AI
+            </strong>
         </div>
+
 
         <div>
-            AI-powered property intelligence
-        </div>
-
-        <div style="margin-top: 8px;">
-            © 2026 HomeGuardian AI
+            AI-powered home intelligence
         </div>
 
     </footer>
 
 
 </body>
+
 </html>
