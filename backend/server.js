@@ -1,193 +1,88 @@
 const express = require("express");
-const cors = require("cors");
 const path = require("path");
-const fs = require("fs");
+const cors = require("cors");
 
 const app = express();
 
-// ============================================================
-// PORT
-// ============================================================
+// =====================================================
+// MIDDLEWARE
+// =====================================================
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const PORT = process.env.PORT || 4000;
+// =====================================================
+// SERVE STATIC FRONTEND FILES
+// =====================================================
+app.use(express.static(path.join(__dirname, "../frontend")));
 
-// ============================================================
-// CORS
-// ============================================================
+// =====================================================
+// API ROUTES
+// =====================================================
 
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  })
-);
-
-// ============================================================
-// BODY PARSER
-// ============================================================
-
-app.use(
-  express.json({
-    limit: "20mb",
-  })
-);
-
-app.use(
-  express.urlencoded({
-    extended: true,
-    limit: "20mb",
-  })
-);
-
-// ============================================================
-// UPLOAD DIRECTORY
-// ============================================================
-
-const uploadDirectory = path.join(
-  __dirname,
-  "uploads"
-);
-
-if (!fs.existsSync(uploadDirectory)) {
-  fs.mkdirSync(uploadDirectory, {
-    recursive: true,
-  });
-}
-
-// ============================================================
-// STATIC UPLOADS
-// ============================================================
-
-app.use(
-  "/uploads",
-  express.static(uploadDirectory)
-);
-
-// ============================================================
-// ROOT
-// ============================================================
-
-app.get("/", (req, res) => {
-  res.json({
-    success: true,
-    service: "HomeGuardian AI",
-    status: "running",
-    currency: "INR",
-    message: "HomeGuardian AI backend is running.",
-  });
-});
-
-// ============================================================
-// HEALTH CHECK
-// ============================================================
-
+// Health check
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
     service: "HomeGuardian AI",
     status: "running",
-    currency: "INR",
-    timestamp: new Date().toISOString(),
+    currency: "INR (₹)",
+    timestamp: new Date().toISOString()
   });
 });
 
-// ============================================================
-// API ROUTES
-// ============================================================
-
-const propertyRoutes = require("./routes/propertyRoutes");
-
-app.use(
-  "/api",
-  propertyRoutes
-);
-
-// ============================================================
-// AUTH ROUTES
-// ============================================================
-
-try {
-  const authRoutes = require("./auth");
-
-  app.use(
-    "/api/auth",
-    authRoutes
-  );
-
-  console.log(
-    "Authentication routes loaded."
-  );
-} catch (error) {
-  console.warn(
-    "Authentication routes could not be loaded:",
-    error.message
-  );
-}
-
-// ============================================================
-// 404 HANDLER
-// ============================================================
-
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    error: "API endpoint not found.",
-    path: req.originalUrl,
+// Upload endpoint (mock)
+app.post("/api/upload", (req, res) => {
+  res.json({
+    success: true,
+    message: "File received",
+    file: req.body.file || "sample.pdf"
   });
 });
 
-// ============================================================
-// ERROR HANDLER
-// ============================================================
-
-app.use(
-  (error, req, res, next) => {
-    console.error(
-      "Server error:",
-      error
-    );
-
-    if (res.headersSent) {
-      return next(error);
+// Analyze endpoint (mock)
+app.post("/api/analyze", (req, res) => {
+  res.json({
+    success: true,
+    report: {
+      homeScore: 78,
+      issues: ["Old roof", "Foundation settling"],
+      estimatedRepairs: "₹250,000 - ₹500,000"
     }
-
-    res.status(
-      error.status || 500
-    ).json({
-      success: false,
-      error:
-        error.message ||
-        "Internal server error.",
-    });
-  }
-);
-
-// ============================================================
-// START SERVER
-// ============================================================
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(
-    "================================================"
-  );
-
-  console.log(
-    "HomeGuardian AI Backend"
-  );
-
-  console.log(
-    `Server running on port ${PORT}`
-  );
-
-  console.log(
-    `Health: http://localhost:${PORT}/api/health`
-  );
-
-  console.log(
-    "Currency: INR (₹)"
-  );
-
-  console.log(
-    "================================================"
-  );
+  });
 });
+
+// =====================================================
+// SERVE INDEX.HTML FOR ALL OTHER ROUTES
+// =====================================================
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/index.html"));
+});
+
+// =====================================================
+// ERROR HANDLER
+// =====================================================
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+  res.status(500).json({
+    success: false,
+    error: "Internal server error",
+    message: err.message
+  });
+});
+
+// =====================================================
+// START SERVER
+// =====================================================
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log("================================================");
+  console.log("HomeGuardian AI Backend");
+  console.log("Server running on port " + PORT);
+  console.log("Health: http://localhost:" + PORT + "/api/health");
+  console.log("Currency: INR (₹)");
+  console.log("================================================");
+});
+
+module.exports = app;
