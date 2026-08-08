@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeGuardian AI — Know the house before it knows you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B1620;
+  --ink-soft:#12222E;
+  --blueprint:#7C5CF0;
+  --blueprint-light:#22D3EE;
+  --paper:#F5F3FF;
+  --paper-dim:#ECE7FB;
+  --brass:#F472B6;
+  --brass-light:#FBBF24;
+  --gray:#8B9199;
+  --line:rgba(124,92,240,0.14);
+  --red:#E0705C;
+  --green:#34D399;
+  --radius:14px;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+.wrap{max-width:1140px; margin:0 auto; padding:0 32px;}
+a{color:inherit;}
+h1,h2,h3{font-family:'Fraunces',serif; font-weight:500; letter-spacing:-0.01em;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--blueprint); display:flex; align-items:center; gap:10px;
+}
+.eyebrow::before{content:''; width:20px; height:1px; background:var(--brass);}
+
+/* AMBIENT BACKGROUND */
+.ambient{
+  position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none;
+}
+.orb{
+  position:absolute; border-radius:50%; filter:blur(70px); opacity:0.35;
+  animation:drift 22s ease-in-out infinite;
+}
+.orb1{width:520px; height:520px; background:radial-gradient(circle,var(--blueprint-light),transparent 70%); top:-160px; left:-120px; animation-duration:26s;}
+.orb2{width:420px; height:420px; background:radial-gradient(circle,var(--brass-light),transparent 70%); top:200px; right:-140px; animation-duration:20s; animation-delay:-6s;}
+.orb3{width:380px; height:380px; background:radial-gradient(circle,var(--blueprint),transparent 70%); bottom:-140px; left:30%; opacity:0.2; animation-duration:30s; animation-delay:-12s;}
+@keyframes drift{
+  0%,100%{ transform:translate(0,0) scale(1); }
+  33%{ transform:translate(30px,-40px) scale(1.08); }
+  66%{ transform:translate(-25px,25px) scale(0.96); }
+}
+.grid-overlay{
+  position:absolute; inset:0;
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 60% 50% at 50% 0%, black 40%, transparent 100%);
+}
+
+/* NAV */
+header{
+  position:sticky; top:0; z-index:50;
+  background:rgba(241,243,239,0.7);
+  backdrop-filter:blur(14px) saturate(1.4);
+  border-bottom:1px solid var(--line);
+  transition:box-shadow .3s ease;
+}
+nav{ display:flex; align-items:center; justify-content:space-between; padding:18px 0; }
+.brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-size:19px; font-weight:600;}
+.brand-mark{
+  width:28px; height:28px; border-radius:8px;
+  background:linear-gradient(135deg,var(--ink) 0%, var(--blueprint) 100%);
+  position:relative; flex-shrink:0;
+  box-shadow:0 4px 14px -4px rgba(44,95,124,0.5);
+}
+.brand-mark::after{content:''; position:absolute; inset:7px; border:1.5px solid var(--brass-light); border-radius:3px;}
+nav ul{list-style:none; display:flex; gap:32px; font-size:14px;}
+nav a{text-decoration:none; opacity:0.72; transition:opacity .15s;}
+nav a:hover{opacity:1;}
+.btn{
+  font-family:'Inter',sans-serif; font-weight:600; font-size:14px;
+  padding:11px 22px; border-radius:8px; border:1.5px solid var(--ink);
+  background:var(--ink); color:var(--paper); text-decoration:none;
+  display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+  transition:transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease, background .2s ease;
+  position:relative;
+}
+.btn:hover{transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(11,22,32,0.45);}
+.btn.gold{background:var(--brass); border-color:var(--brass); color:#3A2A05;}
+.btn.gold:hover{box-shadow:0 10px 28px -8px rgba(217,164,65,0.6);}
+.btn.ghost{background:transparent; color:var(--ink);}
+.btn.ghost:hover{background:rgba(11,22,32,0.05); box-shadow:none;}
+
+/* HERO */
+.hero{padding:110px 0 90px; position:relative;}
+.hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:60px; align-items:center;}
+.reveal{transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+.js-ready .reveal{opacity:0; transform:translateY(26px);}
+.js-ready .reveal.in{opacity:1; transform:translateY(0);}
+.hero h1{font-size:56px; line-height:1.06; margin:20px 0 22px; max-width:580px;}
+.hero h1 .accent{
+  font-style:normal; position:relative; display:inline-block;
+  background:linear-gradient(90deg,var(--blueprint),var(--brass));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero p.lead{font-size:17.5px; color:#3B4A54; max-width:470px; margin-bottom:34px;}
+.hero-ctas{display:flex; gap:14px; align-items:center; margin-bottom:40px; flex-wrap:wrap;}
+.stat-row{display:flex; gap:38px; margin-top:8px; flex-wrap:wrap;}
+.stat{border-left:2px solid var(--brass); padding-left:14px;}
+.stat b{display:block; font-family:'Fraunces',serif; font-size:26px; font-weight:600;}
+.stat span{font-size:11.5px; color:var(--gray); font-family:'IBM Plex Mono',monospace; letter-spacing:0.04em;}
+
+/* SIGNATURE — glass blueprint card with parallax float */
+.blueprint-card{
+  background:linear-gradient(155deg, var(--ink) 0%, var(--ink-soft) 100%);
+  border-radius:20px; padding:30px; position:relative; overflow:hidden;
+  box-shadow:0 40px 80px -30px rgba(11,22,32,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+  animation:float 7s ease-in-out infinite;
+}
+@keyframes float{ 0%,100%{transform:translateY(0px);} 50%{transform:translateY(-12px);} }
+.blueprint-card::before{
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(circle at 80% 15%, rgba(217,164,65,0.16), transparent 55%);
+  pointer-events:none;
+}
+.blueprint-card svg{width:100%; height:auto; display:block; position:relative;}
+.pulse{ animation:pulse 2.6s ease-in-out infinite; transform-origin:center; }
+.pulse.p2{ animation-delay:0.6s; }
+.pulse.p3{ animation-delay:1.2s; }
+@keyframes pulse{ 0%,100%{ opacity:1; r:9; } 50%{ opacity:0.5; r:12; } }
+.blueprint-card .cap{
+  font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--blueprint-light);
+  letter-spacing:0.08em; text-transform:uppercase; margin-top:16px;
+  display:flex; justify-content:space-between; position:relative;
+}
+.blueprint-card .cap .score{color:var(--brass-light);}
+
+/* SECTIONS */
+section{padding:96px 0; position:relative;}
+.section-head{max-width:640px; margin-bottom:52px;}
+.section-head h2{font-size:36px; margin-top:14px;}
+.section-head p{color:#3B4A54; margin-top:14px; font-size:16.5px;}
+
+/* PROBLEM — tilt cards */
+.problem-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+.problem-card{
+  background:rgba(255,255,255,0.55); backdrop-filter:blur(10px);
+  border:1px solid var(--line); border-radius:var(--radius); padding:28px;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
+}
+.problem-card:hover{
+  transform:translateY(-8px) rotate(-0.3deg);
+  box-shadow:0 24px 44px -20px rgba(11,22,32,0.22);
+  border-color:rgba(44,95,124,0.35);
+}
+.problem-card .num{font-family:'IBM Plex Mono',monospace; color:var(--red); font-size:13px;}
+.problem-card h3{font-size:18.5px; margin:14px 0 8px;}
+.problem-card p{font-size:14.5px; color:#4A5760;}
+
+/* AGENTS — hover reveal rows */
+.agent-list{border-top:1px solid var(--line);}
+.agent-row{
+  display:grid; grid-template-columns:64px 1fr 1.3fr 210px;
+  gap:24px; align-items:center; padding:24px 4px; border-bottom:1px solid var(--line);
+  transition:background .25s ease, padding-left .25s ease;
+  border-radius:8px;
+}
+.agent-row:hover{ background:rgba(44,95,124,0.05); padding-left:14px; }
+.agent-row .idx{
+  font-family:'IBM Plex Mono',monospace; color:var(--brass); font-size:14px;
+  display:flex; align-items:center; gap:8px;
+}
+.agent-row .idx::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--blueprint-light); }
+.agent-row h3{font-size:17.5px; font-weight:600; font-family:'Inter',sans-serif;}
+.agent-row p{font-size:14.5px; color:#4A5760;}
+.agent-row .out{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--blueprint); text-align:right; justify-self:end; }
+
+/* REPORT PREVIEW */
+.report-preview{
+  background:rgba(255,255,255,0.85); backdrop-filter:blur(16px);
+  border:1px solid var(--line); border-radius:20px; padding:38px;
+  box-shadow:0 32px 64px -28px rgba(11,22,32,0.28);
+  transition:transform .4s ease;
+}
+.report-preview:hover{ transform:translateY(-6px); }
+.report-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px; flex-wrap:wrap; gap:20px;}
+.score-badge{display:flex; align-items:center; gap:16px;}
+.score-ring{
+  width:80px; height:80px; border-radius:50%;
+  background:conic-gradient(var(--blueprint) 0 74%, var(--paper-dim) 74% 100%);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.score-ring .inner{
+  width:62px; height:62px; border-radius:50%; background:#fff;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.score-ring .inner b{font-family:'Fraunces',serif; font-size:22px; line-height:1;}
+.score-ring .inner span{font-size:9px; color:var(--gray); font-family:'IBM Plex Mono',monospace;}
+.report-top .label{font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray);}
+.report-top .addr{font-family:'Fraunces',serif; font-size:20px; margin-top:2px;}
+.mini-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:26px;}
+.mini-card{
+  background:var(--paper-dim); border-radius:10px; padding:18px;
+  transition:transform .25s ease, background .25s ease;
+}
+.mini-card:hover{ transform:translateY(-3px); background:#fff; box-shadow:0 12px 24px -14px rgba(11,22,32,0.25); }
+.mini-card .k{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gray); text-transform:uppercase;}
+.mini-card .v{font-family:'Fraunces',serif; font-size:23px; margin-top:6px;}
+.bar-row{display:flex; align-items:center; gap:12px; margin-bottom:13px; font-size:13px;}
+.bar-row .lbl{width:150px; color:#3B4A54; flex-shrink:0;}
+.bar-track{flex:1; height:9px; background:var(--paper-dim); border-radius:5px; overflow:hidden;}
+.bar-fill{height:100%; background:linear-gradient(90deg,var(--blueprint),var(--blueprint-light)); border-radius:5px; width:0; transition:width 1.4s cubic-bezier(.2,.7,.2,1);}
+.bar-fill.warn{background:linear-gradient(90deg,#B9822C,var(--brass-light));}
+.bar-fill.risk{background:linear-gradient(90deg,#B14A3D,var(--red));}
+.bar-row .pct{width:36px; text-align:right; font-family:'IBM Plex Mono',monospace; color:var(--gray);}
+
+/* CTA */
+.cta-band{
+  background:linear-gradient(135deg,var(--ink) 0%, var(--ink-soft) 100%); color:var(--paper);
+  border-radius:22px; padding:64px 52px; display:flex; justify-content:space-between; align-items:center;
+  gap:32px; flex-wrap:wrap; position:relative; overflow:hidden;
+}
+.cta-band::before{
+  content:''; position:absolute; width:340px; height:340px; border-radius:50%;
+  background:radial-gradient(circle, rgba(217,164,65,0.22), transparent 70%);
+  top:-140px; right:-80px;
+}
+.cta-band h2{color:var(--paper); font-size:32px; max-width:440px; position:relative;}
+
+footer{
+  padding:36px 0 52px; border-top:1px solid var(--line);
+  display:flex; justify-content:space-between; align-items:center;
+  font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--gray); flex-wrap:wrap; gap:10px;
+}
+
+.try-card{
+  background:rgba(255,255,255,0.85); backdrop-filter:blur(16px);
+  border:1px solid var(--line); border-radius:20px; padding:36px;
+  box-shadow:0 32px 64px -28px rgba(11,22,32,0.22);
+}
+.try-card h3{font-size:22px; margin-bottom:6px;}
+.try-card .sub{font-size:14px; color:var(--gray); margin-bottom:24px;}
+.try-form{display:grid; grid-template-columns:1fr 180px auto; gap:14px; align-items:end;}
+.field{display:flex; flex-direction:column; gap:6px;}
+.field label{font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--gray);}
+.field input{
+  font-family:'Inter',sans-serif; font-size:15px; padding:12px 14px;
+  border-radius:8px; border:1px solid var(--line); background:#fff; color:var(--ink);
+}
+.field input:focus{ outline:none; border-color:var(--blueprint); box-shadow:0 0 0 3px rgba(44,95,124,0.12); }
+.try-status{ margin-top:16px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--blueprint); min-height:18px; }
+.try-status.error{ color:var(--red); }
+.dropzone{
+  margin-bottom:18px; border:2px dashed var(--line); border-radius:14px; padding:26px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+  text-align:center; cursor:pointer; transition:border-color .2s ease, background .2s ease, transform .2s ease;
+  background:rgba(111,168,201,0.04);
+}
+.dropzone:hover{ border-color:var(--blueprint-light); background:rgba(111,168,201,0.09); }
+.dropzone.dragover{ border-color:var(--brass); background:rgba(217,164,65,0.1); transform:scale(1.01); }
+.dropzone .dz-icon{ font-size:26px; }
+.dropzone .dz-main{ font-size:14.5px; font-weight:600; color:var(--ink); }
+.dropzone .dz-main span{ color:var(--blueprint); text-decoration:underline; }
+.dropzone .dz-sub{ font-size:12px; color:var(--gray); font-family:'IBM Plex Mono',monospace; }
+.thumb-grid{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+.thumb{
+  position:relative; width:74px; height:74px; border-radius:10px; overflow:hidden;
+  border:1px solid var(--line); background:var(--paper-dim); flex-shrink:0;
+  animation:thumbIn .3s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes thumbIn{ from{ opacity:0; transform:scale(0.8); } to{ opacity:1; transform:scale(1); } }
+.thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+.thumb .thumb-remove{
+  position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%;
+  background:rgba(11,22,32,0.75); color:#fff; border:none; font-size:11px; line-height:1;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.thumb .thumb-remove:hover{ background:var(--red); }
+.thumb .thumb-name{
+  position:absolute; bottom:0; left:0; right:0; padding:2px 4px; font-size:8.5px;
+  background:rgba(11,22,32,0.7); color:#fff; font-family:'IBM Plex Mono',monospace;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.upload-progress{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--blueprint); margin-bottom:10px; }
+.spinner{
+  display:inline-block; width:14px; height:14px; border-radius:50%;
+  border:2px solid rgba(44,95,124,0.25); border-top-color:var(--blueprint);
+  animation:spin .7s linear infinite; margin-right:8px; vertical-align:-2px;
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+@media (max-width:700px){ .try-form{grid-template-columns:1fr;} }
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr;}
+  .problem-grid{grid-template-columns:1fr;}
+  .agent-row{grid-template-columns:1fr; gap:6px;}
+  .agent-row .out{text-align:left; justify-self:start;}
+  .mini-grid{grid-template-columns:1fr;}
+  .hero h1{font-size:38px;}
+  nav ul{display:none;}
+  .orb{display:none;}
+}
+  .hero-grid{grid-template-columns:1fr;}
+  .problem-grid{grid-template-columns:1fr;}
+  .agent-row{grid-template-columns:1fr; gap:6px;}
+  .agent-row .out{text-align:left; justify-self:start;}
+  .mini-grid{grid-template-columns:1fr;}
+  .hero h1{font-size:38px;}
+  nav ul{display:none;}
+  .orb{display:none;}
+}
+:focus-visible{outline:2px solid var(--brass); outline-offset:2px;}
+@media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+</style>
+</head>
+<body>
+
+<div class="ambient">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="grid-overlay"></div>
+</div>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="brand"><span class="brand-mark"></span> HomeGuardian AI</div>
+      <ul>
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#agents">Agents</a></li>
+        <li><a href="#report">Report</a></li>
+        <li id="navAuthLink"><a href="login.html">Login</a></li>
+      </ul>
+      <a class="btn gold" href="dashboard.html">View sample report →</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow reveal">Home lifecycle intelligence</div>
+      <h1 class="reveal">Know the house <span class="accent">before it knows you</span>.</h1>
+      <p class="lead reveal">Eight specialized AI agents inspect, predict, price, and negotiate — turning a one-time inspection into a living intelligence report that follows the property for life.</p>
+      <div class="hero-ctas reveal">
+        <a class="btn gold" href="dashboard.html">View sample report →</a>
+        <a class="btn ghost" href="#agents">See how it works</a>
+      </div>
+      <div class="stat-row reveal">
+        <div class="stat"><b class="counter" data-target="15" data-suffix=" min" data-prefix="<">15 min</b><span>TO FIRST REPORT</span></div>
+        <div class="stat"><b class="counter" data-target="85" data-suffix="%+">85%+</b><span>DEFECT DETECTION PRECISION</span></div>
+        <div class="stat"><b>5-yr</b><span>COST FORECAST WINDOW</span></div>
+      </div>
+    </div>
+
+    <div class="blueprint-card reveal">
+      <svg viewBox="0 0 460 360" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#6FA8C9" stroke-width="1" fill="none" opacity="0.9">
+          <path d="M80 260 L80 130 L230 60 L380 130 L380 260 Z"/>
+          <line x1="80" y1="260" x2="380" y2="260"/>
+          <line x1="150" y1="260" x2="150" y2="180" />
+          <line x1="150" y1="180" x2="200" y2="180" />
+          <line x1="200" y1="180" x2="200" y2="260" />
+          <line x1="260" y1="260" x2="260" y2="150"/>
+          <line x1="260" y1="150" x2="330" y2="150"/>
+          <line x1="330" y1="150" x2="330" y2="260"/>
+        </g>
+        <circle class="pulse p1" cx="335" cy="200" r="9" fill="none" stroke="#D9A441" stroke-width="1.5"/>
+        <line x1="344" y1="200" x2="400" y2="180" stroke="#D9A441" stroke-width="1"/>
+        <text x="402" y="177" fill="#F0CE8C" font-family="IBM Plex Mono" font-size="10">ROOF · 78</text>
+
+        <circle class="pulse p2" cx="230" cy="65" r="9" fill="none" stroke="#E0705C" stroke-width="1.5"/>
+        <line x1="230" y1="56" x2="230" y2="24" stroke="#E0705C" stroke-width="1"/>
+        <text x="182" y="18" fill="#F0A798" font-family="IBM Plex Mono" font-size="10">STRUCTURE · 62</text>
+
+        <circle class="pulse p3" cx="175" cy="230" r="9" fill="none" stroke="#6FA8C9" stroke-width="1.5"/>
+        <line x1="166" y1="230" x2="110" y2="240" stroke="#6FA8C9" stroke-width="1"/>
+        <text x="24" y="253" fill="#9FC7DE" font-family="IBM Plex Mono" font-size="10">PLUMBING · 91</text>
+
+        <line x1="80" y1="260" x2="80" y2="285" stroke="#6FA8C9" stroke-width="0.75"/>
+        <line x1="380" y1="260" x2="380" y2="285" stroke="#6FA8C9" stroke-width="0.75"/>
+        <line x1="80" y1="280" x2="380" y2="280" stroke="#6FA8C9" stroke-width="0.75"/>
+        <text x="200" y="300" fill="#6FA8C9" font-family="IBM Plex Mono" font-size="10">18.2 M</text>
+      </svg>
+      <div class="cap"><span>FIG. 01 — LIVE HEALTH ANNOTATION</span><span class="score">HOME HEALTH SCORE: 74/100</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="try-it">
+  <div class="wrap">
+    <div class="try-card reveal">
+      <h3>Try it now</h3>
+      <div class="sub">Upload property photos, then enter an address and budget to run the live 8-agent analysis against the HomeGuardian API.</div>
+
+      <div class="dropzone" id="dropzone">
+        <div class="dz-icon">📷</div>
+        <div class="dz-main"><span>Click to upload</span> or drag photos here</div>
+        <div class="dz-sub">JPG, PNG, WEBP — up to 20 files</div>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" multiple hidden>
+      <div class="thumb-grid" id="thumbGrid"></div>
+
+      <form class="try-form" id="analyzeForm">
+        <div class="field">
+          <label for="addressInput">Property address</label>
+          <input type="text" id="addressInput" placeholder="1418 Alder Court, Portland, OR" required>
+        </div>
+        <div class="field">
+          <label for="budgetInput">Budget cap ($)</label>
+          <input type="number" id="budgetInput" placeholder="10000" min="0">
+        </div>
+        <button class="btn gold" type="submit" id="analyzeBtn">Run analysis →</button>
+      </form>
+      <div class="try-status" id="tryStatus"></div>
+    </div>
+  </div>
+</section>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">The problem</div>
+      <h2>One inspection can't see five years ahead.</h2>
+      <p>Buyers commit their life savings on a single, subjective walkthrough — and pay for what it missed, later, when it's more expensive to fix.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="num">01 / STATIC</div>
+        <h3>One-time snapshot</h3>
+        <p>Inspections capture a single day. Deterioration, leaks, and wear keep happening after the report is filed.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="num">02 / SUBJECTIVE</div>
+        <h3>Inspector-dependent</h3>
+        <p>Findings vary by who shows up. There's no consistent scoring or predictive model behind the checklist.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="num">03 / SILENT ON COST</div>
+        <h3>No financial translation</h3>
+        <p>A list of defects isn't a budget. Buyers are left to guess what repairs actually cost, and when.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">How it works</div>
+      <h2>Eight agents, one continuous report.</h2>
+      <p>Each agent specializes in one dimension of the property. An orchestration layer merges their findings into a single, living report.</p>
+    </div>
+    <div class="agent-list">
+      <div class="agent-row reveal"><div class="idx">01</div><h3>Vision Inspection</h3><p>Detects visible structural issues from uploaded photos and video.</p><div class="out">→ defect list, annotated media</div></div>
+      <div class="agent-row reveal"><div class="idx">02</div><h3>Structural Risk</h3><p>Predicts hidden risks and future deterioration beyond what's visible.</p><div class="out">→ risk probability scores</div></div>
+      <div class="agent-row reveal"><div class="idx">03</div><h3>Cost Intelligence</h3><p>Estimates repair costs and total 5-year ownership expense.</p><div class="out">→ 5-year cost forecast</div></div>
+      <div class="agent-row reveal"><div class="idx">04</div><h3>Maintenance Planner</h3><p>Builds a personalized, sequenced 12-month maintenance roadmap.</p><div class="out">→ maintenance calendar</div></div>
+      <div class="agent-row reveal"><div class="idx">05</div><h3>Negotiation Advisor</h3><p>Converts findings into evidence-based price negotiation points.</p><div class="out">→ negotiation brief</div></div>
+      <div class="agent-row reveal"><div class="idx">06</div><h3>Vendor Intelligence</h3><p>Recommends and compares trusted local contractors and quotes.</p><div class="out">→ ranked vendor shortlist</div></div>
+      <div class="agent-row reveal"><div class="idx">07</div><h3>Budget Optimization</h3><p>Sequences urgent versus deferrable repairs against the user's budget.</p><div class="out">→ prioritized repair plan</div></div>
+      <div class="agent-row reveal"><div class="idx">08</div><h3>Property Health</h3><p>Continuously computes a live, dynamic Home Health Score.</p><div class="out">→ live health score</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="report">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">The output</div>
+      <h2>One report. Always current.</h2>
+      <p>A preview of what the buyer sees — score, cost forecast, and repair priority at a glance.</p>
+    </div>
+
+    <div class="report-preview reveal">
+      <div class="report-top">
+        <div class="score-badge">
+          <div class="score-ring"><div class="inner"><b>74</b><span>HEALTH</span></div></div>
+          <div><div class="label">Home Health Score</div><div class="addr">1418 Alder Court</div></div>
+        </div>
+        <a class="btn gold" href="dashboard.html">Open full report →</a>
+      </div>
+      <div class="mini-grid">
+        <div class="mini-card"><div class="k">5-yr est. cost</div><div class="v">$18,200</div></div>
+        <div class="mini-card"><div class="k">Urgent repairs</div><div class="v">3</div></div>
+        <div class="mini-card"><div class="k">Negotiation leverage</div><div class="v">$6,400</div></div>
+      </div>
+      <div class="bar-row"><div class="lbl">Roof</div><div class="bar-track"><div class="bar-fill" data-w="78"></div></div><div class="pct">78</div></div>
+      <div class="bar-row"><div class="lbl">Foundation / structure</div><div class="bar-track"><div class="bar-fill risk" data-w="62"></div></div><div class="pct">62</div></div>
+      <div class="bar-row"><div class="lbl">Plumbing</div><div class="bar-track"><div class="bar-fill" data-w="91"></div></div><div class="pct">91</div></div>
+      <div class="bar-row"><div class="lbl">Electrical</div><div class="bar-track"><div class="bar-fill warn" data-w="70"></div></div><div class="pct">70</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>Upload a listing. Get the full picture in minutes.</h2>
+      <a class="btn gold" href="dashboard.html">View sample report →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap;">
+    <span>HOMEGUARDIAN AI — LIFECYCLE INTELLIGENCE AGENT</span>
+    <span>PRD v1.0 · AUG 2026</span>
+  </div>
+</footer>
+
+<script src="auth.js"></script>
+<script>
+// ---- Photo upload: dropzone, thumbnails, drag & drop ----
+let selectedFiles = [];
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+const thumbGrid = document.getElementById('thumbGrid');
+
+function renderThumbs(){
+  thumbGrid.innerHTML = '';
+  selectedFiles.forEach(function(file, idx){
+    const url = URL.createObjectURL(file);
+    const thumb = document.createElement('div');
+    thumb.className = 'thumb';
+    thumb.innerHTML = '<img src="' + url + '" alt="' + file.name + '">' +
+      '<button type="button" class="thumb-remove" data-idx="' + idx + '">×</button>' +
+      '<div class="thumb-name">' + file.name + '</div>';
+    thumbGrid.appendChild(thumb);
+  });
+  thumbGrid.querySelectorAll('.thumb-remove').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      selectedFiles.splice(Number(btn.dataset.idx), 1);
+      renderThumbs();
+    });
+  });
+}
+
+function addFiles(fileList){
+  const incoming = Array.from(fileList).filter(function(f){ return f.type.startsWith('image/'); });
+  selectedFiles = selectedFiles.concat(incoming).slice(0, 20);
+  renderThumbs();
+}
+
+dropzone.addEventListener('click', function(){ fileInput.click(); });
+fileInput.addEventListener('change', function(e){ addFiles(e.target.files); fileInput.value = ''; });
+
+['dragenter','dragover'].forEach(function(evt){
+  dropzone.addEventListener(evt, function(e){ e.preventDefault(); dropzone.classList.add('dragover'); });
+});
+['dragleave','drop'].forEach(function(evt){
+  dropzone.addEventListener(evt, function(e){ e.preventDefault(); dropzone.classList.remove('dragover'); });
+});
+dropzone.addEventListener('drop', function(e){
+  if(e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files);
+});
+
+// ---- Form submit: upload photos first, then run analysis ----
+document.getElementById('analyzeForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const address = document.getElementById('addressInput').value.trim();
+  const budgetCap = document.getElementById('budgetInput').value;
+  const status = document.getElementById('tryStatus');
+  const btn = document.getElementById('analyzeBtn');
+
+  status.className = 'try-status';
+  btn.disabled = true;
+
+  try{
+    let uploadedFileCount = 0;
+    let uploadedFileIds = [];
+
+    if (selectedFiles.length > 0){
+      status.innerHTML = '<span class="spinner"></span>Uploading ' + selectedFiles.length + ' photo' + (selectedFiles.length > 1 ? 's' : '') + '…';
+      const formData = new FormData();
+      selectedFiles.forEach(function(f){ formData.append('files', f); });
+
+      const uploadRes = await fetch(API_BASE + '/api/upload', { method: 'POST', body: formData });
+      if (!uploadRes.ok) throw new Error('Photo upload failed (server responded with ' + uploadRes.status + ')');
+      const uploadData = await uploadRes.json();
+      uploadedFileCount = uploadData.uploaded || 0;
+      uploadedFileIds = (uploadData.files || []).map(function(f){ return f.id; });
+    }
+
+    status.innerHTML = '<span class="spinner"></span>Running 8 agents against ' + address + '…';
+    const res = await fetch(API_BASE + '/api/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ address: address, budgetCap: budgetCap ? Number(budgetCap) : undefined, uploadedFileCount: uploadedFileCount, uploadedFileIds: uploadedFileIds })
+    });
+    if(!res.ok) throw new Error('Server responded with ' + res.status);
+    const report = await res.json();
+    status.textContent = 'Report ready — redirecting…';
+    window.location.href = 'dashboard.html?reportId=' + encodeURIComponent(report.reportId);
+  }catch(err){
+    status.className = 'try-status error';
+    status.textContent = err.message && err.message.indexOf('Server responded') === -1
+      ? err.message
+      : 'Could not reach the HomeGuardian API at ' + API_BASE + '. Make sure the backend is running (npm start in /backend), then try again.';
+    btn.disabled = false;
+  }
+});
+</script>
+
+<script>
+document.documentElement.classList.add('js-ready');
+setTimeout(()=>{ document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in')); }, 1200);
+try{
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  },{ threshold:0.1 });
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}catch(err){}
+
+const barIo = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(b=>{ b.style.width = b.dataset.w + '%'; });
+      barIo.unobserve(e.target);
+    }
+  });
+},{ threshold:0.3 });
+document.querySelectorAll('.report-preview').forEach(el=>barIo.observe(el));
+
+const countIo = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el = e.target;
+      const target = parseInt(el.dataset.target,10);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      let cur = 0;
+      const step = Math.max(1, Math.round(target/30));
+      const t = setInterval(()=>{
+        cur += step;
+        if(cur >= target){ cur = target; clearInterval(t); }
+        el.textContent = prefix + cur + suffix;
+      }, 30);
+      countIo.unobserve(el);
+    }
+  });
+},{ threshold:0.6 });
+document.querySelectorAll('.counter').forEach(el=>countIo.observe(el));
+</script>
+
+</body>
+</html>

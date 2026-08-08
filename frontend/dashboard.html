@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Intelligence Report — 1418 Alder Court</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B1620; --ink-soft:#12222E; --blueprint:#7C5CF0; --blueprint-light:#22D3EE;
+  --paper:#F5F3FF; --paper-dim:#ECE7FB; --brass:#F472B6; --brass-light:#FBBF24;
+  --gray:#8B9199; --line:rgba(124,92,240,0.16); --red:#E0705C; --green:#34D399;
+  --radius:12px;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{
+  background:
+    radial-gradient(900px 500px at 100% -10%, rgba(34,211,238,0.14), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(124,92,240,0.16), transparent 55%),
+    var(--paper);
+  color:var(--ink); font-family:'Inter',sans-serif; line-height:1.55; animation:fadeIn .5s ease;
+}
+@keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+.card{transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, border-color .3s ease;}
+.card:hover{ transform:translateY(-5px); box-shadow:0 24px 46px -22px rgba(124,92,240,0.35); border-color:var(--blueprint-light); }
+.kpi{transition:transform .25s ease, box-shadow .25s ease;}
+.kpi:hover{ transform:translateY(-4px) scale(1.02); box-shadow:0 16px 32px -16px rgba(124,92,240,0.4); }
+.bar-fill{ transition:width 1.2s cubic-bezier(.2,.7,.2,1); background-size:200% 100%; animation:shimmer 2.5s linear infinite; }
+@keyframes shimmer{ 0%{background-position:0% 0;} 100%{background-position:200% 0;} }
+.vendor{transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;}
+.vendor:hover{ transform:translateY(-4px); border-color:var(--blueprint-light); box-shadow:0 14px 28px -16px rgba(34,211,238,0.4); }
+.mono{font-family:'IBM Plex Mono',monospace;}
+h1,h2,h3{font-family:'Fraunces',serif; font-weight:500;}
+a{color:inherit; text-decoration:none;}
+
+header{
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(90deg, rgba(124,92,240,0.08), rgba(244,114,182,0.08), rgba(34,211,238,0.08));
+  backdrop-filter:blur(10px);
+  position:sticky; top:0; z-index:10;
+}
+.header-inner{
+  max-width:1180px; margin:0 auto; padding:16px 32px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:600; font-size:17px;}
+.brand-mark{width:22px; height:22px; border-radius:7px; position:relative;
+  background:linear-gradient(135deg,var(--blueprint),var(--brass)); box-shadow:0 4px 14px -3px rgba(124,92,240,0.6);}
+.brand-mark::after{content:''; position:absolute; inset:5px; border:1px solid rgba(255,255,255,0.6); border-radius:3px;}
+.back{font-size:13px; color:var(--blueprint); font-family:'IBM Plex Mono',monospace;}
+.export{
+  font-size:13px; font-weight:700; padding:9px 18px; border-radius:8px;
+  background:linear-gradient(90deg,var(--blueprint),var(--brass)); background-size:180% 100%;
+  color:#fff; transition:background-position .35s ease, transform .15s ease, box-shadow .2s ease;
+  box-shadow:0 8px 20px -8px rgba(124,92,240,0.55);
+}
+.export:hover{ background-position:100% 0; transform:translateY(-2px); box-shadow:0 12px 26px -8px rgba(244,114,182,0.55); }
+
+.layout{max-width:1180px; margin:0 auto; padding:36px 32px 80px; display:grid; grid-template-columns:280px 1fr; gap:32px;}
+
+/* SIDEBAR */
+.sidebar{position:sticky; top:80px; align-self:start;}
+.prop-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:22px; margin-bottom:16px;}
+.prop-card .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray);}
+.prop-card h2{font-size:20px; margin:6px 0 4px;}
+.prop-card .sub{font-size:13px; color:var(--gray);}
+.score-wrap{display:flex; align-items:center; gap:16px; margin-top:18px;}
+.score-ring{
+  width:84px; height:84px; border-radius:50%; flex-shrink:0;
+  background:conic-gradient(from 0deg, var(--blueprint), var(--brass) 40%, var(--blueprint-light) 74%, var(--paper-dim) 74% 100%);
+  box-shadow:0 8px 24px -8px rgba(124,92,240,0.5);
+  display:flex; align-items:center; justify-content:center;
+}
+.score-ring .inner{
+  width:64px; height:64px; border-radius:50%; background:#fff;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.score-ring .inner b{font-family:'Fraunces',serif; font-size:22px; line-height:1;}
+.score-ring .inner span{font-size:9px; color:var(--gray); font-family:'IBM Plex Mono',monospace;}
+.score-trend{font-size:13px; color:var(--green); font-family:'IBM Plex Mono',monospace;}
+
+.nav-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:10px;}
+.nav-card a{
+  display:flex; align-items:center; gap:10px; padding:11px 12px; border-radius:6px;
+  font-size:14px; color:#3B4A54;
+}
+.nav-card a:hover{background:var(--paper-dim);}
+.nav-card a .dot{width:6px; height:6px; border-radius:50%; background:var(--blueprint-light);}
+
+/* MAIN */
+.card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:28px; margin-bottom:24px;}
+.card h3{font-size:19px; margin-bottom:6px;}
+.card .desc{font-size:14px; color:var(--gray); margin-bottom:20px;}
+
+.kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px;}
+.kpi{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:18px;}
+.kpi .k{font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; color:var(--gray); letter-spacing:0.06em;}
+.kpi .v{font-family:'Fraunces',serif; font-size:26px; margin-top:8px;}
+.kpi .d{font-size:12px; margin-top:4px; color:var(--gray);}
+.kpi.alert .v{color:var(--red);}
+.kpi.good .v{color:var(--green);}
+
+/* System bars */
+.bar-row{display:flex; align-items:center; gap:14px; margin-bottom:16px; font-size:14px;}
+.bar-row .lbl{width:160px; flex-shrink:0; color:#3B4A54;}
+.bar-track{flex:1; height:9px; background:var(--paper-dim); border-radius:5px; overflow:hidden;}
+.bar-fill{height:100%; background:linear-gradient(90deg,var(--blueprint),var(--blueprint-light));}
+.bar-fill.warn{background:linear-gradient(90deg,#F59E0B,var(--brass-light));}
+.bar-fill.risk{background:linear-gradient(90deg,#DC2626,var(--red));}
+.bar-row .pct{width:64px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--gray);}
+
+/* Repair table */
+table{width:100%; border-collapse:collapse; font-size:14px;}
+th{
+  text-align:left; font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase;
+  color:var(--gray); font-weight:500; padding:10px 12px; border-bottom:1px solid var(--line);
+}
+td{padding:14px 12px; border-bottom:1px solid var(--line); vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+.tag{
+  display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11px;
+  padding:3px 9px; border-radius:20px; text-transform:uppercase;
+}
+.tag.urgent{background:#F5E3E0; color:var(--red);}
+.tag.soon{background:#F6EBD8; color:#8A5F1E;}
+.tag.plan{background:#E4EEF2; color:var(--blueprint);}
+
+/* Cost chart */
+.chart{display:flex; align-items:flex-end; gap:16px; height:160px; padding-top:20px;}
+.chart .col{flex:1; display:flex; flex-direction:column; align-items:center; gap:8px;}
+.chart .bar{width:100%; background:var(--blueprint); border-radius:4px 4px 0 0;}
+.chart .yr{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gray);}
+.chart .amt{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink);}
+
+/* Vendor cards */
+.vendor-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+.vendor{border:1px solid var(--line); border-radius:8px; padding:16px;}
+.vendor .name{font-weight:600; font-size:14px;}
+.vendor .meta{font-size:12px; color:var(--gray); margin-top:4px; font-family:'IBM Plex Mono',monospace;}
+.vendor .quote{margin-top:12px; font-family:'Fraunces',serif; font-size:18px;}
+
+.neg-list{list-style:none; padding:0;}
+.neg-list li{
+  display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--line); font-size:14px;
+}
+.neg-list li:last-child{border-bottom:none;}
+.neg-list .amt{font-family:'IBM Plex Mono',monospace; color:var(--red); font-weight:500;}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;}
+  .sidebar{position:static;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .vendor-grid{grid-template-columns:1fr;}
+}
+:focus-visible{outline:2px solid var(--brass); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand"><span class="brand-mark"></span> HomeGuardian AI</div>
+    <a class="back" href="index.html">← BACK TO OVERVIEW</a>
+    <a class="export">Export PDF</a>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="prop-card">
+      <div class="eyebrow">Home Intelligence Report</div>
+      <h2 id="propAddr">1418 Alder Court</h2>
+      <div class="sub" id="propMeta">Portland, OR · 3bd / 2ba · Built 1987</div>
+      <div class="score-wrap">
+        <div class="score-ring" id="scoreRing"><div class="inner"><b id="scoreVal">74</b><span>HEALTH</span></div></div>
+        <div>
+          <div class="score-trend" id="scoreTrend">↑ 3 pts since inspection</div>
+          <div class="sub">Updated live as data arrives</div>
+        </div>
+      </div>
+    </div>
+    <nav class="nav-card">
+      <a href="#overview"><span class="dot"></span> Overview</a>
+      <a href="#risk"><span class="dot"></span> System health</a>
+      <a href="#repairs"><span class="dot"></span> Repair priority</a>
+      <a href="#cost"><span class="dot"></span> 5-year cost forecast</a>
+      <a href="#negotiation"><span class="dot"></span> Negotiation brief</a>
+      <a href="#vendors"><span class="dot"></span> Vendor matches</a>
+    </nav>
+  </aside>
+
+  <main>
+    <section id="overview" class="kpi-grid">
+      <div class="kpi alert"><div class="k">Urgent repairs</div><div class="v" id="kpiUrgent">3</div><div class="d">Address within 30 days</div></div>
+      <div class="kpi"><div class="k">5-yr est. cost</div><div class="v" id="kpiCost">$18,200</div><div class="d">Repairs + maintenance</div></div>
+      <div class="kpi good"><div class="k">Negotiation leverage</div><div class="v" id="kpiLeverage">$6,400</div><div class="d">Evidence-backed ask</div></div>
+      <div class="kpi"><div class="k">Vendors matched</div><div class="v" id="kpiVendors">7</div><div class="d">Within 12 miles</div></div>
+    </section>
+
+    <section id="risk" class="card">
+      <h3>System health</h3>
+      <div class="desc">Scored by the Vision Inspection and Structural Risk agents from uploaded photos, video, and inspection documents.</div>
+      <div id="systemBars">
+      <div class="bar-row"><div class="lbl">Roof</div><div class="bar-track"><div class="bar-fill" data-w="78" style="width:0%"></div></div><div class="pct">78 / 100</div></div>
+      <div class="bar-row"><div class="lbl">Foundation / structure</div><div class="bar-track"><div class="bar-fill risk" data-w="62" style="width:0%"></div></div><div class="pct">62 / 100</div></div>
+      <div class="bar-row"><div class="lbl">Plumbing</div><div class="bar-track"><div class="bar-fill" data-w="91" style="width:0%"></div></div><div class="pct">91 / 100</div></div>
+      <div class="bar-row"><div class="lbl">Electrical</div><div class="bar-track"><div class="bar-fill warn" data-w="70" style="width:0%"></div></div><div class="pct">70 / 100</div></div>
+      <div class="bar-row"><div class="lbl">HVAC</div><div class="bar-track"><div class="bar-fill" data-w="83" style="width:0%"></div></div><div class="pct">83 / 100</div></div>
+      <div class="bar-row"><div class="lbl">Exterior / envelope</div><div class="bar-track"><div class="bar-fill warn" data-w="66" style="width:0%"></div></div><div class="pct">66 / 100</div></div>
+      </div>
+    </section>
+
+    <section id="repairs" class="card">
+      <h3>Repair priority</h3>
+      <div class="desc">Sequenced by the Budget Optimization agent against urgency and estimated cost.</div>
+      <table>
+        <tr><th>Item</th><th>System</th><th>Priority</th><th>Est. cost</th></tr>
+        <tbody id="repairRows">
+        <tr><td>Foundation hairline crack — monitor &amp; seal</td><td>Structure</td><td><span class="tag urgent">Urgent</span></td><td>$2,800</td></tr>
+        <tr><td>Panel upgrade — 100A to 200A service</td><td>Electrical</td><td><span class="tag urgent">Urgent</span></td><td>$3,400</td></tr>
+        <tr><td>Gutter resealing before wet season</td><td>Exterior</td><td><span class="tag urgent">Urgent</span></td><td>$650</td></tr>
+        <tr><td>Water heater — replace within 18 months</td><td>Plumbing</td><td><span class="tag soon">Soon</span></td><td>$1,900</td></tr>
+        <tr><td>Roof shingles — reseal south-facing slope</td><td>Roof</td><td><span class="tag soon">Soon</span></td><td>$2,200</td></tr>
+        <tr><td>Repaint exterior trim</td><td>Exterior</td><td><span class="tag plan">Plan ahead</span></td><td>$1,600</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="cost" class="card">
+      <h3>5-year cost forecast</h3>
+      <div class="desc">Modeled by the Cost Intelligence agent from repair scope, regional labor rates, and material trends.</div>
+      <div class="chart" id="costChart">
+        <div class="col"><div class="amt">$7.2k</div><div class="bar" style="height:100px;"></div><div class="yr">YEAR 1</div></div>
+        <div class="col"><div class="amt">$2.1k</div><div class="bar" style="height:32px;"></div><div class="yr">YEAR 2</div></div>
+        <div class="col"><div class="amt">$3.4k</div><div class="bar" style="height:50px;"></div><div class="yr">YEAR 3</div></div>
+        <div class="col"><div class="amt">$1.8k</div><div class="bar" style="height:26px;"></div><div class="yr">YEAR 4</div></div>
+        <div class="col"><div class="amt">$3.7k</div><div class="bar" style="height:55px;"></div><div class="yr">YEAR 5</div></div>
+      </div>
+    </section>
+
+    <section id="negotiation" class="card">
+      <h3>Negotiation brief</h3>
+      <div class="desc">Evidence-based leverage points from the Negotiation Advisor agent, ready to bring to your offer.</div>
+      <ul class="neg-list" id="negList">
+        <li><span>Foundation crack requires monitoring + sealant, unresolved by seller</span><span class="amt">−$2,800</span></li>
+        <li><span>Electrical panel under current code minimum for insurability</span><span class="amt">−$3,400</span></li>
+        <li><span>Water heater past 70% of expected service life</span><span class="amt">−$1,200 (partial credit)</span></li>
+      </ul>
+    </section>
+
+    <section id="vendors" class="card">
+      <h3>Vendor matches</h3>
+      <div class="desc">Ranked by the Vendor Intelligence agent on rating, response time, and price fit.</div>
+      <div class="vendor-grid" id="vendorGrid">
+        <div class="vendor"><div class="name">Cascade Structural Co.</div><div class="meta">4.9 ★ · Responds in 4h</div><div class="quote">$2,650</div></div>
+        <div class="vendor"><div class="name">Alder Electric</div><div class="meta">4.8 ★ · Responds in 6h</div><div class="quote">$3,150</div></div>
+        <div class="vendor"><div class="name">Portland Roof &amp; Gutter</div><div class="meta">4.7 ★ · Responds in 12h</div><div class="quote">$580</div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+window.addEventListener('load', function(){
+  setTimeout(function(){
+    document.querySelectorAll('.bar-fill').forEach(function(el){
+      var w = el.getAttribute('data-w');
+      if(w){ el.style.width = w + '%'; }
+    });
+  }, 200);
+});
+</script>
+
+<script>
+const API_BASE = window.API_BASE || 'http://localhost:4000';
+
+function fmtMoney(n){ return '$' + Math.round(n).toLocaleString(); }
+
+function renderReport(report){
+  document.getElementById('propAddr').textContent = report.property.address;
+  document.getElementById('propMeta').textContent = 'Live report · generated ' + new Date(report.generatedAt).toLocaleString();
+
+  const score = report.homeHealthScore;
+  document.getElementById('scoreVal').textContent = score;
+  document.getElementById('scoreRing').style.background = 'conic-gradient(from 0deg, var(--blueprint), var(--brass) 40%, var(--blueprint-light) ' + score + '%, var(--paper-dim) ' + score + '% 100%)';
+  document.getElementById('scoreTrend').textContent = 'Live score from ' + Object.keys(report.systemScores).length + ' systems';
+
+  const urgentCount = report.repairPriority.filter(r => r.priority === 'urgent').length;
+  document.getElementById('kpiUrgent').textContent = urgentCount;
+  document.getElementById('kpiCost').textContent = fmtMoney(report.costForecast.totalFiveYear);
+  document.getElementById('kpiLeverage').textContent = fmtMoney(report.negotiationBrief.totalLeverage);
+  document.getElementById('kpiVendors').textContent = report.vendorMatches.length;
+
+  const barClass = (v) => v < 65 ? 'risk' : v < 78 ? 'warn' : '';
+  const barsHtml = Object.entries(report.systemScores).map(([sys, val]) => {
+    const label = sys.charAt(0).toUpperCase() + sys.slice(1);
+    return '<div class="bar-row"><div class="lbl">' + label + '</div><div class="bar-track"><div class="bar-fill ' + barClass(val) + '" data-w="' + val + '" style="width:0%"></div></div><div class="pct">' + val + ' / 100</div></div>';
+  }).join('');
+  document.getElementById('systemBars').innerHTML = barsHtml;
+
+  const priorityTag = { urgent: 'urgent', soon: 'soon', plan_ahead: 'plan' };
+  const priorityLabel = { urgent: 'Urgent', soon: 'Soon', plan_ahead: 'Plan ahead' };
+  const rowsHtml = report.repairPriority.map(r => {
+    return '<tr><td>' + r.label + '</td><td>—</td><td><span class="tag ' + priorityTag[r.priority] + '">' + priorityLabel[r.priority] + '</span></td><td>' + fmtMoney(r.cost) + '</td></tr>';
+  }).join('');
+  document.getElementById('repairRows').innerHTML = rowsHtml;
+
+  const maxCost = Math.max(...report.costForecast.fiveYearForecast);
+  const chartHtml = report.costForecast.fiveYearForecast.map((amt, i) => {
+    const h = Math.max(8, Math.round((amt / maxCost) * 100));
+    return '<div class="col"><div class="amt">' + fmtMoney(amt) + '</div><div class="bar" style="height:' + h + 'px;"></div><div class="yr">YEAR ' + (i+1) + '</div></div>';
+  }).join('');
+  document.getElementById('costChart').innerHTML = chartHtml;
+
+  const negHtml = report.negotiationBrief.leveragePoints.map(p => {
+    return '<li><span>' + p.point + '</span><span class="amt">−' + fmtMoney(p.suggestedCredit) + '</span></li>';
+  }).join('');
+  document.getElementById('negList').innerHTML = negHtml || '<li><span>No major leverage points found</span></li>';
+
+  const vendorHtml = report.vendorMatches.map(v => {
+    return '<div class="vendor"><div class="name">' + v.name + '</div><div class="meta">' + v.rating + ' ★ · Responds in ' + v.responseTime + '</div><div class="quote">' + fmtMoney(v.quote) + '</div></div>';
+  }).join('');
+  document.getElementById('vendorGrid').innerHTML = vendorHtml;
+
+  setTimeout(function(){
+    document.querySelectorAll('.bar-fill').forEach(function(el){
+      var w = el.getAttribute('data-w');
+      if(w){ el.style.width = w + '%'; }
+    });
+  }, 100);
+}
+
+(async function(){
+  const params = new URLSearchParams(window.location.search);
+  const reportId = params.get('reportId');
+  if(!reportId){ return; }
+  try{
+    const res = await fetch(API_BASE + '/api/reports/' + encodeURIComponent(reportId));
+    if(!res.ok) throw new Error('Report not found');
+    const report = await res.json();
+    renderReport(report);
+  }catch(err){
+    const banner = document.createElement('div');
+    banner.style.cssText = 'max-width:1180px;margin:16px auto 0;padding:14px 20px;background:#FBEAF0;border:1px solid #F4C0D1;border-radius:8px;font-size:14px;color:#72243E;';
+    banner.textContent = 'Could not load live report (backend may not be running). Showing sample data instead.';
+    document.querySelector('.layout').before(banner);
+  }
+})();
+</script>
+
+</body>
+</html>
