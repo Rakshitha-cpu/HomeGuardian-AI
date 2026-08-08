@@ -27,12 +27,13 @@
             --pink: #F472B6;
             --cyan: #22D3EE;
 
-            --amber: #FBBF24;
             --green: #34D399;
             --red: #EF4444;
 
-            --paper: #F1F3EF;
+            --paper: #F8FAF8;
             --gray: #6B7280;
+
+            --line: rgba(18, 34, 46, 0.09);
         }
 
 
@@ -50,9 +51,7 @@
 
         body {
             font-family: "Inter", sans-serif;
-
             color: var(--ink);
-
             min-height: 100vh;
 
             background:
@@ -61,11 +60,13 @@
                     rgba(139, 92, 246, 0.18),
                     transparent 60%
                 ),
+
                 radial-gradient(
                     800px 600px at 100% 20%,
                     rgba(34, 211, 238, 0.14),
                     transparent 60%
                 ),
+
                 linear-gradient(
                     135deg,
                     #F8FAF8,
@@ -74,8 +75,13 @@
         }
 
 
+        a {
+            color: inherit;
+        }
+
+
         /* =====================================================
-           NAVIGATION
+           NAVBAR
         ===================================================== */
 
         .navbar {
@@ -88,7 +94,6 @@
             height: 68px;
 
             display: flex;
-
             align-items: center;
             justify-content: space-between;
 
@@ -109,7 +114,6 @@
 
         .logo {
             display: flex;
-
             align-items: center;
 
             gap: 10px;
@@ -123,14 +127,13 @@
                 serif;
 
             font-size: 20px;
-
             font-weight: 600;
         }
 
 
         .logo-mark {
-            width: 14px;
-            height: 14px;
+            width: 15px;
+            height: 15px;
 
             border-radius: 50%;
 
@@ -149,7 +152,6 @@
 
         .nav-actions {
             display: flex;
-
             align-items: center;
 
             gap: 10px;
@@ -164,7 +166,6 @@
             border-radius: 9px;
 
             font-size: 13px;
-
             font-weight: 600;
 
             transition:
@@ -199,9 +200,7 @@
 
 
         .nav-btn:hover {
-            transform:
-                translateY(-2px);
-
+            transform: translateY(-2px);
             opacity: 0.9;
         }
 
@@ -288,11 +287,8 @@
                     var(--cyan)
                 );
 
-            -webkit-background-clip:
-                text;
-
-            background-clip:
-                text;
+            -webkit-background-clip: text;
+            background-clip: text;
 
             color: transparent;
         }
@@ -331,7 +327,6 @@
             display: inline-flex;
 
             align-items: center;
-
             justify-content: center;
 
             padding: 14px 22px;
@@ -341,7 +336,6 @@
             color: white;
 
             font-size: 14px;
-
             font-weight: 700;
 
             background:
@@ -377,7 +371,6 @@
             display: inline-flex;
 
             align-items: center;
-
             justify-content: center;
 
             padding: 14px 22px;
@@ -393,7 +386,6 @@
                 rgba(18, 34, 46, 0.12);
 
             font-size: 14px;
-
             font-weight: 700;
 
             transition:
@@ -408,7 +400,7 @@
 
 
         /* =====================================================
-           HERO CARD
+           HERO REPORT CARD
         ===================================================== */
 
         .hero-card {
@@ -467,7 +459,8 @@
             color:
                 var(--cyan);
 
-            text-transform: uppercase;
+            text-transform:
+                uppercase;
 
             margin-bottom: 12px;
         }
@@ -570,86 +563,6 @@
                     var(--green),
                     var(--cyan)
                 );
-        }
-
-
-        /* =====================================================
-           DOWNLOAD REPORT BOX
-        ===================================================== */
-
-        .report-box {
-            position: relative;
-
-            margin-top: 15px;
-
-            padding: 16px;
-
-            border-radius: 14px;
-
-            background:
-                rgba(255,255,255,0.06);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.1);
-        }
-
-
-        .report-status {
-            color: #AEB8C2;
-
-            font-size: 12px;
-
-            line-height: 1.5;
-
-            margin-bottom: 12px;
-        }
-
-
-        .download-btn {
-            width: 100%;
-
-            border: none;
-
-            cursor: pointer;
-
-            padding: 12px 16px;
-
-            border-radius: 9px;
-
-            color: white;
-
-            font-size: 13px;
-
-            font-weight: 700;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--purple),
-                    var(--pink)
-                );
-
-            transition:
-                transform .2s ease,
-                opacity .2s ease;
-        }
-
-
-        .download-btn:hover {
-            transform:
-                translateY(-2px);
-
-            opacity: 0.92;
-        }
-
-
-        .download-btn:disabled {
-            cursor: not-allowed;
-
-            opacity: 0.55;
-
-            transform: none;
         }
 
 
@@ -775,6 +688,87 @@
 
 
         /* =====================================================
+           HOW IT WORKS
+        ===================================================== */
+
+        .how-section {
+            padding:
+                90px 7%;
+
+            background:
+                #F8FAF8;
+        }
+
+
+        .steps {
+            max-width: 1050px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .step {
+            padding: 25px;
+
+            background: white;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 16px;
+        }
+
+
+        .step-number {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: white;
+
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--purple),
+                    var(--pink)
+                );
+
+            margin-bottom: 16px;
+        }
+
+
+        .step h3 {
+            font-size: 16px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .step p {
+            color: var(--gray);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
            CTA
         ===================================================== */
 
@@ -849,46 +843,10 @@
 
 
         /* =====================================================
-           TOAST MESSAGE
-        ===================================================== */
-
-        #downloadMessage {
-            position: fixed;
-
-            bottom: 25px;
-
-            right: 25px;
-
-            max-width: 350px;
-
-            padding: 14px 18px;
-
-            border-radius: 10px;
-
-            background:
-                #111827;
-
-            color: white;
-
-            font-size: 13px;
-
-            line-height: 1.5;
-
-            box-shadow:
-                0 15px 35px
-                rgba(0,0,0,0.2);
-
-            display: none;
-
-            z-index: 10000;
-        }
-
-
-        /* =====================================================
            RESPONSIVE
         ===================================================== */
 
-        @media (max-width: 850px) {
+        @media (max-width: 900px) {
 
             .hero {
                 grid-template-columns: 1fr;
@@ -900,7 +858,7 @@
 
 
             .hero-card {
-                max-width: 600px;
+                max-width: 650px;
             }
 
 
@@ -910,8 +868,9 @@
             }
 
 
-            .hero h1 {
-                font-size: 52px;
+            .steps {
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
         }
 
@@ -954,7 +913,8 @@
 
 
             .hero-actions {
-                flex-direction: column;
+                flex-direction:
+                    column;
             }
 
 
@@ -964,7 +924,8 @@
             }
 
 
-            .features {
+            .features,
+            .how-section {
                 padding:
                     70px 20px;
             }
@@ -972,6 +933,12 @@
 
             .section-title h2 {
                 font-size: 34px;
+            }
+
+
+            .steps {
+                grid-template-columns:
+                    1fr;
             }
 
 
@@ -987,18 +954,12 @@
 
 
             footer {
-                flex-direction: column;
+                flex-direction:
+                    column;
 
                 gap: 8px;
 
                 text-align: center;
-            }
-
-
-            #downloadMessage {
-                left: 15px;
-                right: 15px;
-                bottom: 15px;
             }
         }
 
@@ -1051,10 +1012,15 @@
 
 
     <!-- =====================================================
-         HERO
+         MAIN
     ===================================================== -->
 
     <main>
+
+
+        <!-- =================================================
+             HERO
+        ================================================= -->
 
         <section class="hero">
 
@@ -1072,11 +1038,11 @@
 
 
                 <p>
-                    HomeGuardian AI analyzes your home information
-                    and turns it into a clear, practical Home
-                    Intelligence Report — helping you understand
-                    risks, recommendations, costs, and important
-                    insights.
+                    HomeGuardian AI analyzes photos, videos,
+                    documents and property information to create
+                    a clear Home Intelligence Report with risks,
+                    repair priorities, cost estimates and
+                    actionable recommendations.
                 </p>
 
 
@@ -1119,9 +1085,9 @@
 
 
                 <p>
-                    HomeGuardian AI analyzes your home data and
-                    generates understandable insights and
-                    recommendations.
+                    Upload your property information and let
+                    HomeGuardian AI generate understandable
+                    insights and recommendations.
                 </p>
 
 
@@ -1147,6 +1113,27 @@
                 <div class="score">
 
                     <div class="score-label">
+                        Estimated repair budget
+                    </div>
+
+
+                    <div
+                        style="
+                            margin-top:7px;
+                            font-size:22px;
+                            font-weight:700;
+                            color:#34D399;
+                        "
+                    >
+                        ₹18,200
+                    </div>
+
+                </div>
+
+
+                <div class="score">
+
+                    <div class="score-label">
                         Report status
                     </div>
 
@@ -1163,38 +1150,14 @@
 
                 </div>
 
-
-                <!-- =================================================
-                     DOWNLOAD REPORT
-                ================================================= -->
-
-                <div class="report-box">
-
-                    <div class="report-status" id="reportStatus">
-                        Generate a property analysis first.
-                        Your PDF report will become available here.
-                    </div>
-
-
-                    <button
-                        id="downloadReportBtn"
-                        class="download-btn"
-                        type="button"
-                        onclick="downloadReport()"
-                    >
-                        📄 Download Report PDF
-                    </button>
-
-                </div>
-
             </div>
 
         </section>
 
 
-        <!-- =====================================================
+        <!-- =================================================
              FEATURES
-        ===================================================== -->
+        ================================================= -->
 
         <section class="features">
 
@@ -1205,9 +1168,9 @@
                 </h2>
 
                 <p>
-                    Create an account to access your HomeGuardian
-                    AI experience and keep your reports associated
-                    with your account.
+                    HomeGuardian AI brings your property
+                    information, inspection files, AI analysis,
+                    repair planning and cost intelligence together.
                 </p>
 
             </div>
@@ -1219,35 +1182,17 @@
                 <div class="feature">
 
                     <div class="feature-icon">
-                        🏠
+                        📸
                     </div>
 
                     <h3>
-                        Home Analysis
+                        Photo & Video Analysis
                     </h3>
 
                     <p>
-                        Turn your home information into structured
-                        intelligence and useful recommendations.
-                    </p>
-
-                </div>
-
-
-                <div class="feature">
-
-                    <div class="feature-icon">
-                        🤖
-                    </div>
-
-                    <h3>
-                        AI Insights
-                    </h3>
-
-                    <p>
-                        Get understandable AI-generated insights
-                        instead of having to interpret raw information
-                        yourself.
+                        Upload property photos and videos so the
+                        system can inspect visible home conditions
+                        and identify potential concerns.
                     </p>
 
                 </div>
@@ -1260,25 +1205,195 @@
                     </div>
 
                     <h3>
-                        Intelligence Reports
+                        Document Intelligence
                     </h3>
 
                     <p>
-                        Keep your analysis organized into a report
-                        that can be viewed and downloaded later.
+                        Upload PDF inspection documents and combine
+                        them with your property information.
                     </p>
 
                 </div>
 
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        🤖
+                    </div>
+
+                    <h3>
+                        AI-Powered Insights
+                    </h3>
+
+                    <p>
+                        Multiple AI agents analyze property health,
+                        structural risk, repair priorities and costs.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        💰
+                    </div>
+
+                    <h3>
+                        INR Cost Intelligence
+                    </h3>
+
+                    <p>
+                        View estimated repair and maintenance costs
+                        using Indian Rupees instead of US dollars.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        🏠
+                    </div>
+
+                    <h3>
+                        Home Health Score
+                    </h3>
+
+                    <p>
+                        Get a simple overall property health score
+                        together with individual system scores.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        📥
+                    </div>
+
+                    <h3>
+                        Downloadable Report
+                    </h3>
+
+                    <p>
+                        Generate and download a professional PDF
+                        Home Intelligence Report after analysis.
+                    </p>
+
+                </div>
 
             </div>
 
         </section>
 
 
-        <!-- =====================================================
+        <!-- =================================================
+             HOW IT WORKS
+        ================================================= -->
+
+        <section class="how-section">
+
+            <div class="section-title">
+
+                <h2>
+                    How HomeGuardian AI works
+                </h2>
+
+                <p>
+                    A simple workflow from property information
+                    to an actionable AI report.
+                </p>
+
+            </div>
+
+
+            <div class="steps">
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        1
+                    </div>
+
+                    <h3>
+                        Create account
+                    </h3>
+
+                    <p>
+                        Register and securely access your
+                        HomeGuardian AI dashboard.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        2
+                    </div>
+
+                    <h3>
+                        Upload information
+                    </h3>
+
+                    <p>
+                        Upload multiple photos, videos and PDF
+                        inspection documents.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        3
+                    </div>
+
+                    <h3>
+                        Analyze your home
+                    </h3>
+
+                    <p>
+                        Enter your address and budget in ₹,
+                        then run the HomeGuardian AI analysis.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        4
+                    </div>
+
+                    <h3>
+                        Get your report
+                    </h3>
+
+                    <p>
+                        Review risks, repairs, costs, vendors
+                        and download your PDF report.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
              CTA
-        ===================================================== -->
+        ================================================= -->
 
         <section class="cta">
 
@@ -1288,8 +1403,8 @@
 
 
             <p>
-                Create your account and begin exploring your
-                Home Intelligence experience.
+                Upload your home information, analyze potential
+                risks and get a structured Home Intelligence Report.
             </p>
 
 
@@ -1320,440 +1435,11 @@
 
 
         <div>
-            AI-powered home intelligence · INR ₹
+            AI-powered home intelligence
         </div>
 
     </footer>
 
-
-    <!-- =====================================================
-         DOWNLOAD MESSAGE
-    ===================================================== -->
-
-    <div id="downloadMessage"></div>
-
-
-    <!-- =====================================================
-         JAVASCRIPT
-    ===================================================== -->
-
-    <script>
-
-        /* =====================================================
-           API CONFIGURATION
-        ===================================================== */
-
-        const API_BASE =
-            window.location.hostname === "localhost" ||
-            window.location.hostname === "127.0.0.1"
-                ? "http://localhost:4000"
-                : window.location.origin;
-
-
-        /* =====================================================
-           SHOW MESSAGE
-        ===================================================== */
-
-        function showDownloadMessage(message) {
-
-            const box =
-                document.getElementById(
-                    "downloadMessage"
-                );
-
-            if (!box) {
-                return;
-            }
-
-            box.textContent = message;
-
-            box.style.display = "block";
-
-
-            clearTimeout(
-                window.downloadMessageTimer
-            );
-
-
-            window.downloadMessageTimer =
-                setTimeout(() => {
-
-                    box.style.display =
-                        "none";
-
-                }, 5000);
-        }
-
-
-        /* =====================================================
-           GET REPORT ID
-        ===================================================== */
-
-        function getReportId() {
-
-            const possibleKeys = [
-
-                "reportId",
-
-                "homeguardian_report_id",
-
-                "homeGuardianReportId",
-
-                "latestReportId"
-
-            ];
-
-
-            for (const key of possibleKeys) {
-
-                const value =
-                    localStorage.getItem(key);
-
-                if (value) {
-                    return value;
-                }
-
-            }
-
-
-            /*
-             * Some applications save the whole
-             * analysis response.
-             */
-
-            const savedReport =
-                localStorage.getItem(
-                    "homeguardian_report"
-                );
-
-
-            if (savedReport) {
-
-                try {
-
-                    const parsed =
-                        JSON.parse(
-                            savedReport
-                        );
-
-
-                    if (parsed.reportId) {
-
-                        return parsed.reportId;
-
-                    }
-
-                } catch (error) {
-
-                    console.warn(
-                        "Could not parse saved report."
-                    );
-
-                }
-
-            }
-
-
-            return null;
-        }
-
-
-        /* =====================================================
-           UPDATE REPORT STATUS
-        ===================================================== */
-
-        function updateReportStatus() {
-
-            const status =
-                document.getElementById(
-                    "reportStatus"
-                );
-
-            const button =
-                document.getElementById(
-                    "downloadReportBtn"
-                );
-
-
-            const reportId =
-                getReportId();
-
-
-            if (reportId) {
-
-                if (status) {
-
-                    status.textContent =
-                        "Your property analysis is ready. Download the complete HomeGuardian AI PDF report.";
-
-                }
-
-
-                if (button) {
-
-                    button.disabled = false;
-
-                }
-
-            } else {
-
-                if (status) {
-
-                    status.textContent =
-                        "Generate a property analysis first. Your PDF report will become available here.";
-
-                }
-
-
-                if (button) {
-
-                    button.disabled = false;
-
-                }
-
-            }
-
-        }
-
-
-        /* =====================================================
-           DOWNLOAD REPORT PDF
-        ===================================================== */
-
-        async function downloadReport() {
-
-            const button =
-                document.getElementById(
-                    "downloadReportBtn"
-                );
-
-
-            const reportId =
-                getReportId();
-
-
-            /*
-             * Report ID is required because
-             * backend route is:
-             *
-             * GET /api/reports/:id/pdf
-             */
-
-            if (!reportId) {
-
-                showDownloadMessage(
-                    "No report found. Please generate a property analysis first."
-                );
-
-                return;
-            }
-
-
-            const originalText =
-                button
-                    ? button.textContent
-                    : "";
-
-
-            if (button) {
-
-                button.disabled = true;
-
-                button.textContent =
-                    "Generating PDF...";
-
-            }
-
-
-            try {
-
-                const url =
-                    `${API_BASE}/api/reports/${encodeURIComponent(reportId)}/pdf`;
-
-
-                console.log(
-                    "Downloading report:",
-                    url
-                );
-
-
-                const response =
-                    await fetch(url);
-
-
-                if (!response.ok) {
-
-                    let errorMessage =
-                        `Download failed (${response.status}).`;
-
-
-                    try {
-
-                        const errorData =
-                            await response.json();
-
-
-                        if (errorData.error) {
-
-                            errorMessage =
-                                errorData.error;
-
-                        }
-
-                    } catch (error) {
-
-                        /*
-                         * Server may have returned
-                         * a non-JSON error response.
-                         */
-
-                    }
-
-
-                    throw new Error(
-                        errorMessage
-                    );
-                }
-
-
-                const blob =
-                    await response.blob();
-
-
-                if (
-                    !blob ||
-                    blob.size === 0
-                ) {
-
-                    throw new Error(
-                        "The server returned an empty PDF."
-                    );
-
-                }
-
-
-                /*
-                 * Create temporary download URL.
-                 */
-
-                const downloadUrl =
-                    window.URL.createObjectURL(
-                        blob
-                    );
-
-
-                const link =
-                    document.createElement(
-                        "a"
-                    );
-
-
-                link.href =
-                    downloadUrl;
-
-
-                link.download =
-                    `HomeGuardian-AI-Report-${reportId}.pdf`;
-
-
-                document.body.appendChild(
-                    link
-                );
-
-
-                link.click();
-
-
-                link.remove();
-
-
-                /*
-                 * Release temporary URL.
-                 */
-
-                setTimeout(() => {
-
-                    window.URL.revokeObjectURL(
-                        downloadUrl
-                    );
-
-                }, 1000);
-
-
-                showDownloadMessage(
-                    "Your HomeGuardian AI PDF report has been downloaded."
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "PDF download error:",
-                    error
-                );
-
-
-                showDownloadMessage(
-                    error.message ||
-                    "Unable to download the PDF report."
-                );
-
-            } finally {
-
-                if (button) {
-
-                    button.disabled = false;
-
-                    button.textContent =
-                        originalText ||
-                        "📄 Download Report PDF";
-
-                }
-
-            }
-
-        }
-
-
-        /* =====================================================
-           MAKE FUNCTION AVAILABLE
-           ===================================================== */
-
-        window.downloadReport =
-            downloadReport;
-
-
-        /* =====================================================
-           PAGE INITIALIZATION
-        ===================================================== */
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
-
-                console.log(
-                    "HomeGuardian AI frontend loaded."
-                );
-
-
-                console.log(
-                    "API:",
-                    API_BASE
-                );
-
-
-                console.log(
-                    "Report ID:",
-                    getReportId()
-                );
-
-
-                updateReportStatus();
-
-            }
-        );
-
-    </script>
 
 </body>
 
